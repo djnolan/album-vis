@@ -1,4 +1,4 @@
-import PALETTES from '../data/palettes';
+import { PALETTES } from '../data/palettes';
 import Visualization from './Visualization';
 import { boc } from '../data/albums';
 

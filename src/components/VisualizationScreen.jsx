@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Visualization from './Visualization';
 import SongCard from './SongCard';
-import PALETTES from '../data/palettes';
+import { PALETTES } from '../data/palettes';
 
 export default function VisualizationScreen({ album, paletteId, onBack, onPaletteClick, onInfoClick, onEditClick }) {
   const palette = PALETTES.find(p => p.id === paletteId) ?? PALETTES[0];

@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import Visualization from './Visualization';
-import PALETTES from '../data/palettes';
+import { PALETTES } from '../data/palettes';
 import { PRELOADED_ALBUMS } from '../data/albums';
 
 function AlbumCard({ album, onSelect }) {

@@ -1,7 +1,7 @@
 import { useEffect, useState, useMemo } from 'react';
 import * as d3 from 'd3';
 import Flower, { seededRand, SIZE_MIN, SIZE_MAX } from './Flower';
-import PALETTES from '../data/palettes';
+import { PALETTES } from '../data/palettes';
 
 const NOTE_ORDER = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
 
