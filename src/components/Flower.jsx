@@ -43,7 +43,7 @@ export default function Flower({ song, size, color, bg, globalRotation, dimmed =
       width={size}
       height={size}
       viewBox={`0 0 ${size} ${size}`}
-      style={{ overflow: 'visible', opacity: dimmed ? 0.3 : 0.88 }}
+      style={{ overflow: 'visible', opacity: dimmed ? 0.3 : 1 }}
     >
       <g transform={`rotate(${globalRotation},${cx},${cy})`}>
         {Array.from({ length: petalCount }).map((_, i) => {
