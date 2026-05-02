@@ -85,11 +85,11 @@ colorStart: "#3A3A3A",
 colorEnd: "#8FA3B0",
 },
 {
-id: "toxic-sunset",
-name: "Toxic Sunset",
-bg: "#2A1A1A",
-colorStart: "#6B8E23",
-colorEnd: "#FF2E63",
+id: "prism-bloom",
+name: "Prism Bloom",
+bg: "#FFF6E0",
+colorStart: "#FF9F1C",
+colorEnd: "#2EC4FF",
 },
 
 ];
