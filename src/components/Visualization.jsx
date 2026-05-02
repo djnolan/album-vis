@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState, useMemo, forwardRef } from 'react';
 import * as d3 from 'd3';
 import Flower, { seededRand, SIZE_MIN, SIZE_MAX } from './Flower';
 import { PALETTES } from '../data/palettes';
@@ -47,7 +47,7 @@ function computeLayout(songs) {
   return nodes;
 }
 
-export default function Visualization({ album, palette, activeSongTrack, onFlowerClick }) {
+const Visualization = forwardRef(function Visualization({ album, palette, activeSongTrack, onFlowerClick }, ref) {
   const [nodes, setNodes] = useState([]);
 
   const colorRamp = useMemo(() => (
@@ -79,6 +79,7 @@ export default function Visualization({ album, palette, activeSongTrack, onFlowe
 
   return (
     <svg
+      ref={ref}
       width="100%"
       height="100%"
       viewBox={`${minX - pad} ${minY - pad} ${vbW} ${vbH}`}
@@ -108,4 +109,6 @@ export default function Visualization({ album, palette, activeSongTrack, onFlowe
       })}
     </svg>
   );
-}
+});
+
+export default Visualization;

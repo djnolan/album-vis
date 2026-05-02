@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import Visualization from './Visualization';
 import SongCard from './SongCard';
 import { PALETTES } from '../data/palettes';
@@ -7,6 +7,8 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
   const palette = PALETTES.find(p => p.id === paletteId) ?? PALETTES[0];
   const [activeSongTrack, setActiveSongTrack] = useState(null);
   const [cardIndex, setCardIndex] = useState(0);
+  const [isDownloading, setIsDownloading] = useState(false);
+  const vizRef = useRef(null);
 
   const sortedSongs = [...album.songs].sort((a, b) => a.track - b.track);
 
@@ -23,6 +25,56 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
 
   function handleDismiss() {
     setActiveSongTrack(null);
+  }
+
+  async function handleDownload() {
+    const svgEl = vizRef.current;
+    if (!svgEl || isDownloading) return;
+    setIsDownloading(true);
+
+    try {
+      // iPhone 14 native resolution — looks great on any modern phone
+      const W = 1170;
+      const H = 2532;
+
+      const clone = svgEl.cloneNode(true);
+      clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+      clone.setAttribute('width', W);
+      clone.setAttribute('height', H);
+
+      const svgString = new XMLSerializer().serializeToString(clone);
+      const svgBlob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
+      const svgUrl = URL.createObjectURL(svgBlob);
+
+      await new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          canvas.width = W;
+          canvas.height = H;
+          const ctx = canvas.getContext('2d');
+
+          // Fill background then draw SVG centered via meet (default preserveAspectRatio)
+          ctx.fillStyle = palette.bg;
+          ctx.fillRect(0, 0, W, H);
+          ctx.drawImage(img, 0, 0, W, H);
+          URL.revokeObjectURL(svgUrl);
+
+          canvas.toBlob(blob => {
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `${album.title.replace(/[^a-z0-9]/gi, '-').toLowerCase()}-wallpaper.png`;
+            link.click();
+            setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+            resolve();
+          }, 'image/png');
+        };
+        img.onerror = reject;
+        img.src = svgUrl;
+      });
+    } finally {
+      setIsDownloading(false);
+    }
   }
 
   return (
@@ -44,6 +96,7 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
       >
         <div style={{ width: '116%', height: '100%', marginLeft: '-8%' }}>
           <Visualization
+            ref={vizRef}
             album={album}
             palette={palette}
             activeSongTrack={activeSongTrack}
@@ -57,9 +110,10 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
         <button onClick={onBack} className="text-white/70 text-xl">←</button>
         <button onClick={onPaletteClick} className="text-white/70 text-xl">◎</button>
         <button
-          onClick={() => alert('Download coming soon!')}
-          className="text-white/70 text-xl"
-          title="Download (coming soon)"
+          onClick={handleDownload}
+          disabled={isDownloading}
+          className="text-white/70 text-xl disabled:opacity-40"
+          title="Download as wallpaper"
         >
           ↓
         </button>
