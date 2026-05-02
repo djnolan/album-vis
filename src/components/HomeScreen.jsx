@@ -25,7 +25,10 @@ function AlbumCard({ album, onSelect }) {
 }
 
 export default function HomeScreen({ userAlbums = [], paletteOverrides = {}, onSelectAlbum, onCreateClick }) {
-  const allAlbums = [...userAlbums, ...PRELOADED_ALBUMS];
+  const allAlbums = [
+    ...userAlbums,
+    ...PRELOADED_ALBUMS.map(a => paletteOverrides[a.id] ? { ...a, paletteId: paletteOverrides[a.id] } : a),
+  ];
   return (
     <div className="flex flex-col h-full bg-neutral-950">
       <div className="flex-1 overflow-y-auto">

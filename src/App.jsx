@@ -31,12 +31,15 @@ export default function App() {
   }, [userAlbums]);
 
   useEffect(() => {
-    try { localStorage.setItem('paletteOverrides', JSON.stringify(paletteOverrides)); } catch {}
-  }, [paletteOverrides]);
+    const userAlbumIds = new Set(userAlbums.map(a => a.id));
+    const toStore = Object.fromEntries(
+      Object.entries(paletteOverrides).filter(([id]) => userAlbumIds.has(id))
+    );
+    try { localStorage.setItem('paletteOverrides', JSON.stringify(toStore)); } catch {}
+  }, [paletteOverrides, userAlbums]);
 
   function handleSelectAlbum(album) {
-    const isUserAlbum = userAlbums.some(a => a.id === album.id);
-    const paletteId = isUserAlbum ? (paletteOverrides[album.id] ?? album.paletteId) : album.paletteId;
+    const paletteId = paletteOverrides[album.id] ?? album.paletteId;
     setCurrentAlbum({ ...album, paletteId });
     setCurrentPaletteId(paletteId);
     setScreen('viz');
@@ -58,9 +61,9 @@ export default function App() {
     if (currentAlbum) {
       const updated = { ...currentAlbum, paletteId };
       setCurrentAlbum(updated);
+      setPaletteOverrides(prev => ({ ...prev, [updated.id]: paletteId }));
       const isUserAlbum = userAlbums.some(a => a.id === currentAlbum.id);
       if (isUserAlbum) {
-        setPaletteOverrides(prev => ({ ...prev, [updated.id]: paletteId }));
         setUserAlbums(prev => prev.map(a => a.id === updated.id ? updated : a));
       }
     }
