@@ -41,13 +41,22 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
       const renderW = Math.round(W * 1.16);
       const offsetX = -Math.round(W * 0.08);
 
-      // Shift down 10% so content clears the phone status bar area
-      const offsetY = Math.round(H * 0.10);
+      // Read the SVG's viewBox to get exact content dimensions
+      const vbParts = svgEl.getAttribute('viewBox').split(' ').map(Number);
+      const vbW = vbParts[2];
+      const vbH = vbParts[3];
+
+      // Scale content to renderW width, compute exact content height
+      const scale = renderW / vbW;
+      const contentH = Math.round(vbH * scale);
+
+      // Place the content center at exactly 60% from the top
+      const contentOffsetY = Math.round(H * 0.60) - Math.round(contentH / 2);
 
       const clone = svgEl.cloneNode(true);
       clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
       clone.setAttribute('width', renderW);
-      clone.setAttribute('height', H);
+      clone.setAttribute('height', contentH);
 
       const svgString = new XMLSerializer().serializeToString(clone);
       const svgBlob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
@@ -63,7 +72,7 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
 
           ctx.fillStyle = palette.bg;
           ctx.fillRect(0, 0, W, H);
-          ctx.drawImage(img, offsetX, offsetY, renderW, H);
+          ctx.drawImage(img, offsetX, contentOffsetY, renderW, contentH);
           URL.revokeObjectURL(svgUrl);
 
           canvas.toBlob(blob => {
