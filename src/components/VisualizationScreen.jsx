@@ -37,9 +37,16 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
       const W = 1170;
       const H = 2532;
 
+      // Match the screen's 116% width treatment: render wider then clip sides
+      const renderW = Math.round(W * 1.16);
+      const offsetX = -Math.round(W * 0.08);
+
+      // Shift down 10% so content clears the phone status bar area
+      const offsetY = Math.round(H * 0.10);
+
       const clone = svgEl.cloneNode(true);
       clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
-      clone.setAttribute('width', W);
+      clone.setAttribute('width', renderW);
       clone.setAttribute('height', H);
 
       const svgString = new XMLSerializer().serializeToString(clone);
@@ -54,10 +61,9 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
           canvas.height = H;
           const ctx = canvas.getContext('2d');
 
-          // Fill background then draw SVG centered via meet (default preserveAspectRatio)
           ctx.fillStyle = palette.bg;
           ctx.fillRect(0, 0, W, H);
-          ctx.drawImage(img, 0, 0, W, H);
+          ctx.drawImage(img, offsetX, offsetY, renderW, H);
           URL.revokeObjectURL(svgUrl);
 
           canvas.toBlob(blob => {
