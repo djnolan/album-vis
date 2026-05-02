@@ -114,4 +114,4 @@ export const inRainbows = {
   ],
 };
 
-export const PRELOADED_ALBUMS = [boc, blonde, speakNow, pistols, inRainbows];
+export const PRELOADED_ALBUMS = [blonde, boc, speakNow, pistols, inRainbows];
