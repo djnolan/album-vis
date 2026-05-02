@@ -2,7 +2,7 @@ export const boc = {
   id: 'boc',
   title: 'Music Has the Right to Children',
   artist: 'Boards of Canada',
-  paletteId: 'deep-navy',
+  paletteId: 'terracotta-punch',
   songs: [
     { track: 1,  name: "Wildlife Analysis",         bpm: 91,  duration: 75,  key: "E", accidental: "natural", mode: "minor" },
     { track: 2,  name: "An Eagle in Your Mind",      bpm: 96,  duration: 385, key: "F", accidental: "sharp",   mode: "major" },
@@ -29,7 +29,7 @@ export const blonde = {
   id: 'blonde',
   title: 'Blonde',
   artist: 'Frank Ocean',
-  paletteId: 'crimson',
+  paletteId: 'soft-noise',
   songs: [
     { track: 1,  name: "Nikes",           bpm: 137, duration: 314, key: "G", accidental: "sharp",   mode: "major" },
     { track: 2,  name: "Ivy",             bpm: 116, duration: 249, key: "A", accidental: "natural", mode: "minor" },
@@ -55,7 +55,7 @@ export const speakNow = {
   id: 'speaknow',
   title: 'Speak Now',
   artist: 'Taylor Swift',
-  paletteId: 'gray-olive',
+  paletteId: 'ultraviolet-clash',
   songs: [
     { track: 1,  name: "Mine",                bpm: 121, duration: 230, key: "G", accidental: "natural", mode: "major" },
     { track: 2,  name: "Sparks Fly",          bpm: 115, duration: 260, key: "F", accidental: "natural", mode: "major" },
@@ -78,7 +78,7 @@ export const pistols = {
   id: 'pistols',
   title: 'Never Mind the Bollocks',
   artist: 'Sex Pistols',
-  paletteId: 'dark-teal',
+  paletteId: 'acid-bloom',
   songs: [
     { track: 1,  name: "Holidays in the Sun", bpm: 150, duration: 202, key: "A", accidental: "natural", mode: "major" },
     { track: 2,  name: "Bodies",              bpm: 159, duration: 183, key: "D", accidental: "natural", mode: "major" },
@@ -99,7 +99,7 @@ export const inRainbows = {
   id: 'inrainbows',
   title: 'In Rainbows',
   artist: 'Radiohead',
-  paletteId: 'near-black',
+  paletteId: 'prism-bloom',
   songs: [
     { track: 1,  name: "15 Step",                   bpm: 94,  duration: 237, key: "C", accidental: "sharp",   mode: "major" },
     { track: 2,  name: "Bodysnatchers",             bpm: 167, duration: 242, key: "D", accidental: "natural", mode: "major" },
