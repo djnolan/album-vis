@@ -39,7 +39,19 @@ export default function App() {
   }, [paletteOverrides, userAlbums]);
 
   useEffect(() => {
-    document.body.style.overflow = screen === 'viz' ? 'hidden' : '';
+    if (screen === 'viz') {
+      // iOS Safari ignores overflow:hidden on body — position:fixed is the reliable lock
+      const scrollY = window.scrollY;
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = '100%';
+      return () => {
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.width = '';
+        window.scrollTo(0, scrollY);
+      };
+    }
   }, [screen]);
 
   function handleSelectAlbum(album) {
