@@ -29,7 +29,7 @@ export const blonde = {
   id: 'blonde',
   title: 'Blonde',
   artist: 'Frank Ocean',
-  paletteId: 'soft-noise',
+  paletteId: 'neon-citrus',
   songs: [
     { track: 1,  name: "Nikes",           bpm: 137, duration: 314, key: "G", accidental: "sharp",   mode: "major" },
     { track: 2,  name: "Ivy",             bpm: 116, duration: 249, key: "A", accidental: "natural", mode: "minor" },
