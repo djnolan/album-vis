@@ -71,14 +71,15 @@ export default function App() {
 
   return (
     <div className="relative">
-      {screen === 'home' && (
+      {/* Always mounted so body scroll height is preserved — keeps iOS address bar hidden when entering viz screen */}
+      <div style={{ visibility: screen === 'home' ? 'visible' : 'hidden', pointerEvents: screen === 'home' ? 'auto' : 'none' }}>
         <HomeScreen
           userAlbums={userAlbums}
           paletteOverrides={paletteOverrides}
           onSelectAlbum={handleSelectAlbum}
           onCreateClick={() => setShowUpload(true)}
         />
-      )}
+      </div>
       {screen === 'viz' && currentAlbum && (
         <VisualizationScreen
           album={currentAlbum}
