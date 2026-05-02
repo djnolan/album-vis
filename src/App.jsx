@@ -35,7 +35,8 @@ export default function App() {
   }, [paletteOverrides]);
 
   function handleSelectAlbum(album) {
-    const paletteId = paletteOverrides[album.id] ?? album.paletteId;
+    const isUserAlbum = userAlbums.some(a => a.id === album.id);
+    const paletteId = isUserAlbum ? (paletteOverrides[album.id] ?? album.paletteId) : album.paletteId;
     setCurrentAlbum({ ...album, paletteId });
     setCurrentPaletteId(paletteId);
     setScreen('viz');
@@ -57,8 +58,11 @@ export default function App() {
     if (currentAlbum) {
       const updated = { ...currentAlbum, paletteId };
       setCurrentAlbum(updated);
-      setPaletteOverrides(prev => ({ ...prev, [updated.id]: paletteId }));
-      setUserAlbums(prev => prev.map(a => a.id === updated.id ? updated : a));
+      const isUserAlbum = userAlbums.some(a => a.id === currentAlbum.id);
+      if (isUserAlbum) {
+        setPaletteOverrides(prev => ({ ...prev, [updated.id]: paletteId }));
+        setUserAlbums(prev => prev.map(a => a.id === updated.id ? updated : a));
+      }
     }
   }
 
