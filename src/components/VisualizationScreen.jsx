@@ -50,8 +50,8 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
       const scale = renderW / vbW;
       const contentH = Math.round(vbH * scale);
 
-      // Place the content center at exactly 60% from the top
-      const contentOffsetY = Math.round(H * 0.60) - Math.round(contentH / 2);
+      // Place the content center at exactly 55% from the top
+      const contentOffsetY = Math.round(H * 0.55) - Math.round(contentH / 2);
 
       const clone = svgEl.cloneNode(true);
       clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
