@@ -70,7 +70,7 @@ export default function App() {
   }
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden relative">
+    <div className="relative">
       {screen === 'home' && (
         <HomeScreen
           userAlbums={userAlbums}

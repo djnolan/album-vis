@@ -30,18 +30,17 @@ export default function HomeScreen({ userAlbums = [], paletteOverrides = {}, onS
     ...PRELOADED_ALBUMS.map(a => paletteOverrides[a.id] ? { ...a, paletteId: paletteOverrides[a.id] } : a),
   ];
   return (
-    <div className="flex flex-col h-full bg-neutral-950">
-      <div className="flex-1 overflow-y-auto">
-        <div className="px-4 pt-8 pb-4">
-          <h1 className="text-white text-xl font-bold leading-tight">
-            Album Visualization<br />Experiment
-          </h1>
-        </div>
-        {allAlbums.map(album => (
-          <AlbumCard key={album.id} album={album} onSelect={onSelectAlbum} />
-        ))}
-        <div className="h-24" />
+    <div className="bg-neutral-950 min-h-screen">
+      <div className="px-4 pt-8 pb-4">
+        <h1 className="text-white text-xl font-bold leading-tight">
+          Album Visualization<br />Experiment
+        </h1>
       </div>
+      {allAlbums.map(album => (
+        <AlbumCard key={album.id} album={album} onSelect={onSelectAlbum} />
+      ))}
+      {/* Spacer so content clears the fixed bottom bar */}
+      <div className="h-24" />
 
       {/* Fixed bottom bar */}
       <div className="fixed bottom-0 left-0 right-0 flex items-center px-4 py-3 bg-neutral-950 border-t border-white/10">
