@@ -38,6 +38,10 @@ export default function App() {
     try { localStorage.setItem('paletteOverrides', JSON.stringify(toStore)); } catch {}
   }, [paletteOverrides, userAlbums]);
 
+  useEffect(() => {
+    document.body.style.overflow = screen === 'viz' ? 'hidden' : '';
+  }, [screen]);
+
   function handleSelectAlbum(album) {
     const paletteId = paletteOverrides[album.id] ?? album.paletteId;
     setCurrentAlbum({ ...album, paletteId });
