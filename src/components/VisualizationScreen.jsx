@@ -93,7 +93,7 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
   }
 
   return (
-    <div className="fixed inset-0 flex flex-col" style={{ background: palette.bg }}>
+    <div className="fixed inset-0 flex flex-col overflow-hidden" style={{ background: palette.bg }}>
       {/* Header */}
       <div className="flex items-start justify-between px-4 pt-5 pb-2">
         <button onClick={onEditClick} className="text-left">
