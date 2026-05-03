@@ -11,18 +11,25 @@ export default function LegendOverlay({ onClose }) {
   return (
     <div className="fixed inset-0 z-50 flex flex-col justify-end">
       <div className="absolute inset-0 bg-black/60" onClick={onClose} />
-      <div className="relative bg-neutral-900 rounded-t-2xl px-5 pt-5 pb-10">
-        <div className="flex items-center justify-between mb-5">
-          <h2 className="text-white text-lg font-bold">How to Read This</h2>
-          <button onClick={onClose} className="text-white/60 text-2xl leading-none">×</button>
+      <div className="relative bg-surface-1 rounded-t-lg">
+        {/* Handle pill */}
+        <div className="flex justify-center pt-3 pb-3">
+          <div className="w-10 h-1 rounded-full bg-border" />
         </div>
-        <div className="space-y-4">
-          {items.map(({ label, desc }) => (
-            <div key={label}>
-              <p className="text-white text-xs font-bold tracking-widest mb-0.5">{label}</p>
-              <p className="text-white/60 text-sm">{desc}</p>
-            </div>
-          ))}
+
+        <div className="px-6 pt-4 pb-10">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="font-serif text-title text-text-primary">How to Read This</h2>
+            <button onClick={onClose} className="text-text-secondary text-2xl leading-none">×</button>
+          </div>
+          <div className="space-y-6">
+            {items.map(({ label, desc }) => (
+              <div key={label}>
+                <p className="font-mono text-caption text-text-secondary uppercase tracking-widest mb-1">{label}</p>
+                <p className="font-sans text-body text-text-primary">{desc}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

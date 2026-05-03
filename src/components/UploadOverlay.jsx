@@ -91,56 +91,63 @@ export default function UploadOverlay({ onClose, onUpload }) {
   return (
     <div className="fixed inset-0 z-50 flex flex-col justify-end">
       <div className="absolute inset-0 bg-black/60" onClick={onClose} />
-      <div className="relative bg-neutral-900 rounded-t-2xl px-5 pt-5 pb-8 max-h-[90vh] overflow-y-auto">
-        <div className="flex items-start justify-between mb-4">
-          <h2 className="text-white text-lg font-bold leading-tight">Create Your Visualization</h2>
-          <button onClick={onClose} className="text-white/60 text-2xl leading-none ml-4">×</button>
+      <div className="relative bg-surface-1 rounded-t-lg max-h-[90vh] overflow-y-auto">
+        {/* Handle pill */}
+        <div className="flex justify-center pt-3 pb-3">
+          <div className="w-10 h-1 rounded-full bg-border" />
         </div>
 
-        <p className="text-white/60 text-sm mb-4 leading-relaxed">
-          Copy the prompt, paste it into an AI assistant with your album name, then paste the CSV result below.
-        </p>
-
-        {/* LLM prompt block */}
-        <div className="bg-neutral-800 rounded-xl p-3 mb-1">
-          <div className="flex justify-end mb-2">
-            <button
-              onClick={handleCopy}
-              className="text-xs text-white/60 flex items-center gap-1 hover:text-white transition-colors"
-            >
-              {copied ? 'Copied!' : 'COPY'}
-              <span className="text-base">⧉</span>
-            </button>
+        <div className="px-6 pt-4 pb-8">
+          <div className="flex items-start justify-between mb-5">
+            <h2 className="font-serif text-title text-text-primary leading-tight">Create Your Visualization</h2>
+            <button onClick={onClose} className="text-text-secondary text-2xl leading-none ml-4">×</button>
           </div>
-          <p className={`text-white/70 text-xs leading-relaxed whitespace-pre-wrap font-mono ${!promptExpanded ? 'line-clamp-3' : ''}`}>
-            {LLM_PROMPT}
+
+          <p className="font-sans text-body text-text-secondary mb-6 leading-relaxed">
+            Copy the prompt, paste it into an AI assistant with your album name, then paste the CSV result below.
           </p>
+
+          {/* LLM prompt block */}
+          <div className="bg-surface-2 rounded-md p-4 mb-1">
+            <div className="flex justify-end mb-2">
+              <button
+                onClick={handleCopy}
+                className="font-mono text-caption text-text-secondary flex items-center gap-1 hover:text-text-primary transition-colors"
+              >
+                {copied ? 'Copied!' : 'COPY'}
+                <span className="text-base">⧉</span>
+              </button>
+            </div>
+            <p className={`font-mono text-caption text-text-secondary leading-relaxed whitespace-pre-wrap ${!promptExpanded ? 'line-clamp-3' : ''}`}>
+              {LLM_PROMPT}
+            </p>
+          </div>
+          <button
+            onClick={() => setPromptExpanded(v => !v)}
+            className="font-mono text-caption text-text-tertiary mb-6 ml-1"
+          >
+            {promptExpanded ? '▲ collapse' : '▼ expand'}
+          </button>
+
+          <div className="border-t border-border mb-6" />
+
+          <p className="font-mono text-caption text-text-secondary uppercase mb-2">Paste CSV here</p>
+          <textarea
+            value={csvText}
+            onChange={e => setCsvText(e.target.value)}
+            placeholder={'track,name,duration,bpm,key,accidental,mode\n1,Song Name,240,120,C,natural,major\n…'}
+            className="w-full h-36 bg-surface-2 font-mono text-caption text-text-primary rounded-md p-4 resize-none outline-none placeholder-text-tertiary focus:ring-1 focus:ring-accent"
+          />
+
+          {error && <p className="text-red-400 font-mono text-caption mt-2">{error}</p>}
+
+          <button
+            onClick={handleSubmit}
+            className="mt-6 w-full py-3 bg-accent text-surface-0 font-sans text-ui rounded-sm"
+          >
+            GENERATE →
+          </button>
         </div>
-        <button
-          onClick={() => setPromptExpanded(v => !v)}
-          className="text-white/40 text-xs mb-5 ml-1"
-        >
-          {promptExpanded ? '▲ collapse' : '▼ expand'}
-        </button>
-
-        <div className="border-t border-white/10 mb-5" />
-
-        <p className="text-white/60 text-sm mb-2">Paste CSV here:</p>
-        <textarea
-          value={csvText}
-          onChange={e => setCsvText(e.target.value)}
-          placeholder={'track,name,duration,bpm,key,accidental,mode\n1,Song Name,240,120,C,natural,major\n…'}
-          className="w-full h-36 bg-neutral-800 text-white/80 text-xs font-mono rounded-xl p-3 resize-none outline-none placeholder-white/20 focus:ring-1 focus:ring-white/20"
-        />
-
-        {error && <p className="text-red-400 text-xs mt-2">{error}</p>}
-
-        <button
-          onClick={handleSubmit}
-          className="mt-4 w-full py-3 bg-white text-black text-sm font-bold rounded-full"
-        >
-          GENERATE →
-        </button>
       </div>
     </div>
   );

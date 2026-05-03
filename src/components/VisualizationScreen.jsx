@@ -5,10 +5,16 @@ import { PALETTES } from '../data/palettes';
 
 export default function VisualizationScreen({ album, paletteId, onBack, onPaletteClick, onInfoClick, onEditClick }) {
   const palette = PALETTES.find(p => p.id === paletteId) ?? PALETTES[0];
+  const lightBg = !!palette.lightBg;
   const [activeSongTrack, setActiveSongTrack] = useState(null);
   const [cardIndex, setCardIndex] = useState(0);
   const [isDownloading, setIsDownloading] = useState(false);
   const vizRef = useRef(null);
+
+  const vizTextPrimary = lightBg ? '#0E1117' : '#F0F2F5';
+  const vizTextSecondary = lightBg ? '#3A3F4A' : '#8B93A1';
+  const vizBarBg = lightBg ? 'rgba(255,255,255,0.55)' : 'rgba(0,0,0,0.30)';
+  const vizBarBorder = lightBg ? 'rgba(0,0,0,0.08)' : 'transparent';
 
   const sortedSongs = [...album.songs].sort((a, b) => a.track - b.track);
 
@@ -95,12 +101,18 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
   return (
     <div className="fixed inset-0 flex flex-col overflow-hidden" style={{ background: palette.bg }}>
       {/* Header */}
-      <div className="flex items-start justify-between px-4 pt-5 pb-2">
+      <div className="flex items-start justify-between px-6 pt-5 pb-2">
         <button onClick={onEditClick} className="text-left">
-          <p className="text-white text-sm font-semibold leading-tight">{album.title}</p>
-          <p className="text-white/60 text-xs">{album.artist}</p>
+          <p className="font-serif text-title leading-tight" style={{ color: vizTextPrimary }}>{album.title}</p>
+          <p className="font-mono text-caption mt-0.5" style={{ color: vizTextSecondary }}>{album.artist}</p>
         </button>
-        <button onClick={onInfoClick} className="text-white/60 text-xl leading-none mt-0.5">ⓘ</button>
+        <button
+          onClick={onInfoClick}
+          className="text-xl leading-none mt-0.5"
+          style={{ color: vizTextSecondary }}
+        >
+          ⓘ
+        </button>
       </div>
 
       {/* Visualization */}
@@ -121,13 +133,20 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
       </div>
 
       {/* Bottom bar */}
-      <div className="flex items-center justify-between px-8 py-4">
-        <button onClick={onBack} className="text-white/70 text-xl">←</button>
-        <button onClick={onPaletteClick} className="text-white/70 text-xl">◎</button>
+      <div
+        className="h-16 flex items-center justify-between px-8"
+        style={{
+          background: vizBarBg,
+          borderTop: `1px solid ${vizBarBorder}`,
+        }}
+      >
+        <button onClick={onBack} className="text-xl" style={{ color: vizTextPrimary }}>←</button>
+        <button onClick={onPaletteClick} className="text-xl" style={{ color: vizTextPrimary }}>◎</button>
         <button
           onClick={handleDownload}
           disabled={isDownloading}
-          className="text-white/70 text-xl disabled:opacity-40"
+          className="text-xl disabled:opacity-40"
+          style={{ color: vizTextPrimary }}
           title="Download as wallpaper"
         >
           ↓
