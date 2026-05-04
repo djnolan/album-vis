@@ -43,26 +43,21 @@ export default function HomeScreen({ userAlbums = [], paletteOverrides = {}, onS
           A music visualization experiment
         </p>
       </div>
+      <div className="px-4 mb-8">
+      <div className="flex flex-col items-center gap-3 p-4 bg-surface-1 rounded-sm">
+        <p className="font-sans text-body text-text-secondary text-center">
+          Upload your own album data
+        </p>
+        <button
+          onClick={onCreateClick}
+          className="flex items-center gap-2 px-4 py-2 bg-accent text-surface-0 font-sans text-ui font-bold rounded-sm"
+        >
+          <span>CREATE</span>
+          <span>+</span>
+        </button>
+      </div>
+      </div>
       <div className="px-6">
-        <div className="pb-6 flex flex-col items-center">
-          <div
-            className="aspect-square rounded-md overflow-hidden cursor-pointer flex flex-col items-center justify-center gap-4 bg-surface-1"
-            style={{
-              width: '16rem',
-              boxShadow: '0 2px 12px rgba(0,0,0,0.5)',
-              outline: '1px solid rgba(255,255,255,0.06)',
-            }}
-            onClick={onCreateClick}
-          >
-            <p className="font-sans text-body text-text-secondary text-center px-6">
-              Upload your own album data
-            </p>
-            <button className="flex items-center gap-2 px-4 py-2 bg-accent text-surface-0 font-sans text-ui font-bold rounded-sm">
-              <span>CREATE</span>
-              <span>+</span>
-            </button>
-          </div>
-        </div>
         {allAlbums.map(album => (
           <AlbumCard key={album.id} album={album} onSelect={onSelectAlbum} />
         ))}
