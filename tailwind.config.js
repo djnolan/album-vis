@@ -23,12 +23,12 @@ export default {
         sans: ['DM Sans', 'system-ui', 'sans-serif'],
       },
       fontSize: {
-        'display': ['1.75rem', { lineHeight: '1.2' }],
-        'title':   ['1.25rem', { lineHeight: '1.3' }],
-        'body':    ['1.0625rem', { lineHeight: '1.6' }],
-        'ui':      ['0.875rem',  { lineHeight: '1.4', fontWeight: '500' }],
-        'label':   ['0.8125rem', { lineHeight: '1.4', fontWeight: '500' }],
-        'caption': ['0.6875rem', { lineHeight: '1.4' }],
+        'display': ['2rem',      { lineHeight: '1.2' }],
+        'title':   ['1.375rem',  { lineHeight: '1.3' }],
+        'body':    ['1rem',      { lineHeight: '1.6' }],
+        'ui':      ['0.9375rem', { lineHeight: '1.4' }],
+        'label':   ['0.875rem',  { lineHeight: '1.4', fontWeight: '500' }],
+        'caption': ['0.75rem',   { lineHeight: '1.4' }],
       },
       borderRadius: {
         'sm':   '6px',

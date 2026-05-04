@@ -20,7 +20,7 @@ function AlbumCard({ album, onSelect }) {
           <Visualization album={album} palette={palette} activeSongTrack={null} />
         </div>
       </div>
-      <div className="mt-3" style={{ width: '16rem' }}>
+      <div className="mt-3 text-center" style={{ width: '16rem' }}>
         <p className="font-serif text-title text-text-primary leading-tight">{album.title}</p>
         <p className="font-mono text-caption text-text-secondary mt-1">{album.artist}</p>
       </div>
@@ -35,8 +35,8 @@ export default function HomeScreen({ userAlbums = [], paletteOverrides = {}, onS
   ];
   return (
     <div className="bg-surface-0 min-h-screen">
-      <div className="px-6 pt-8 pb-4">
-        <h1 className="font-serif text-display text-text-primary leading-tight">
+      <div className="px-6 pt-8 pb-8">
+        <h1 className="font-serif text-display text-text-primary leading-tight text-center">
           Album Burst
         </h1>
       </div>
@@ -49,15 +49,15 @@ export default function HomeScreen({ userAlbums = [], paletteOverrides = {}, onS
       <div className="h-16" />
 
       {/* Fixed bottom bar */}
-      <div className="fixed bottom-0 left-0 right-0 h-16 flex items-center px-6 bg-surface-0 border-t border-border">
+      <div className="fixed bottom-0 left-0 right-0 h-16 flex items-center px-6 bg-surface-1">
         <button
           onClick={onCreateClick}
-          className="flex items-center gap-2 px-4 py-2 bg-accent text-surface-0 font-sans text-ui rounded-sm"
+          className="flex items-center gap-2 px-4 py-2 bg-accent text-surface-0 font-sans text-ui font-bold rounded-sm"
         >
           <span>CREATE</span>
           <span>+</span>
         </button>
-        <p className="ml-3 font-sans text-body text-text-secondary leading-tight">
+        <p className="ml-3 font-sans text-ui text-text-secondary leading-tight">
           Upload your own album data
         </p>
       </div>

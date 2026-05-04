@@ -143,7 +143,7 @@ export default function UploadOverlay({ onClose, onUpload }) {
 
           <button
             onClick={handleSubmit}
-            className="mt-6 w-full py-3 bg-accent text-surface-0 font-sans text-ui rounded-sm"
+            className="mt-6 w-full py-3 bg-accent text-surface-0 font-sans text-ui font-bold rounded-sm"
           >
             GENERATE →
           </button>

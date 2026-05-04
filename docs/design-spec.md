@@ -26,14 +26,14 @@ Three fonts, all from Google Fonts — load in a single `<link>` block.
 
 ### Type Scale
 
-|Token    |Size            |Line Height|Weight|Font            |Usage                                                |
-|---------|----------------|-----------|------|----------------|-----------------------------------------------------|
-|`display`|28px / 1.75rem  |1.2        |400   |Instrument Serif|Album title, visualization screen                    |
-|`title`  |20px / 1.25rem  |1.3        |400   |Instrument Serif|Artist name, overlay titles, song card song name     |
-|`body`   |17px / 1.0625rem|1.6        |400   |DM Sans         |Instructional text, legend descriptions, overlay copy|
-|`ui`     |14px / 0.875rem |1.4        |500   |DM Sans         |Buttons, nav labels, bottom bar                      |
-|`label`  |13px / 0.8125rem|1.4        |500   |DM Mono         |Key, BPM, mode — data field values                   |
-|`caption`|11px / 0.6875rem|1.4        |400   |DM Mono         |Track number, secondary metadata                     |
+|Token    |Size          |Line Height|Weight|Font            |Usage                                                |
+|---------|--------------|-----------|------|----------------|-----------------------------------------------------|
+|`display`|32px / 2rem   |1.2        |400   |Instrument Serif|Album title, visualization screen                    |
+|`title`  |22px / 1.375rem|1.3       |400   |Instrument Serif|Artist name, overlay titles, song card song name     |
+|`body`   |16px / 1rem   |1.6        |400   |DM Sans         |Instructional text, legend descriptions, overlay copy|
+|`ui`     |15px / 0.9375rem|1.4      |700   |DM Sans         |Buttons (bold); nav labels, bottom bar               |
+|`label`  |14px / 0.875rem|1.4       |500   |DM Mono         |Key, BPM, mode — data field values                   |
+|`caption`|12px / 0.75rem |1.4       |400   |DM Mono         |Track number, secondary metadata                     |
 
 **Usage notes:**
 
@@ -183,12 +183,12 @@ module.exports = {
         sans: ['DM Sans', 'system-ui', 'sans-serif'],
       },
       fontSize: {
-        'display': ['1.75rem', { lineHeight: '1.2' }],
-        'title':   ['1.25rem', { lineHeight: '1.3' }],
-        'body':    ['1.0625rem', { lineHeight: '1.6' }],
-        'ui':      ['0.875rem',  { lineHeight: '1.4', fontWeight: '500' }],
-        'label':   ['0.8125rem', { lineHeight: '1.4', fontWeight: '500' }],
-        'caption': ['0.6875rem', { lineHeight: '1.4' }],
+        'display': ['2rem',      { lineHeight: '1.2' }],
+        'title':   ['1.375rem',  { lineHeight: '1.3' }],
+        'body':    ['1rem',      { lineHeight: '1.6' }],
+        'ui':      ['0.9375rem', { lineHeight: '1.4' }],
+        'label':   ['0.875rem',  { lineHeight: '1.4', fontWeight: '500' }],
+        'caption': ['0.75rem',   { lineHeight: '1.4' }],
       },
     },
   },

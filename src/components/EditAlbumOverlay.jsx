@@ -54,7 +54,7 @@ export default function EditAlbumOverlay({ album, onSave, onClose }) {
 
           <button
             onClick={handleSave}
-            className="w-full py-3 bg-accent text-surface-0 font-sans text-ui rounded-sm"
+            className="w-full py-3 bg-accent text-surface-0 font-sans text-ui font-bold rounded-sm"
           >
             SAVE
           </button>
