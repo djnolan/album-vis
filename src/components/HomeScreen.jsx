@@ -39,7 +39,7 @@ export default function HomeScreen({ userAlbums = [], paletteOverrides = {}, onS
         <h1 className="font-serif text-display text-text-primary leading-tight text-center">
           In Bloom
         </h1>
-        <p className="font-serif text-title text-text-secondary text-center mt-2">
+        <p className="font-sans text-title text-text-secondary text-center mt-1">
           A music visualization experiment
         </p>
       </div>
