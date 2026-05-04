@@ -43,7 +43,8 @@ export default function HomeScreen({ userAlbums = [], paletteOverrides = {}, onS
           A music visualization experiment
         </p>
       </div>
-      <div className="flex flex-col items-center gap-3 px-6 pt-3 pb-8 bg-surface-1">
+      <div className="px-4 mb-6">
+      <div className="flex flex-col items-center gap-3 p-3 bg-surface-1 rounded-sm">
         <p className="font-sans text-body text-text-secondary text-center">
           Upload your own album data
         </p>
@@ -54,6 +55,7 @@ export default function HomeScreen({ userAlbums = [], paletteOverrides = {}, onS
           <span>CREATE</span>
           <span>+</span>
         </button>
+      </div>
       </div>
       <div className="px-6">
         {allAlbums.map(album => (
