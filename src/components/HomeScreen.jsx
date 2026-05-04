@@ -43,16 +43,10 @@ export default function HomeScreen({ userAlbums = [], paletteOverrides = {}, onS
           A music visualization experiment
         </p>
       </div>
-      <div className="px-6">
-        {allAlbums.map(album => (
-          <AlbumCard key={album.id} album={album} onSelect={onSelectAlbum} />
-        ))}
-      </div>
-      {/* Spacer so content clears the fixed bottom bar */}
-      <div className="h-16" />
-
-      {/* Fixed bottom bar */}
-      <div className="fixed bottom-0 left-0 right-0 h-16 flex items-center px-6 bg-surface-1">
+      <div className="flex flex-col items-center gap-3 px-6 py-6 bg-surface-0">
+        <p className="font-sans text-body text-text-secondary text-center">
+          Upload your own album data
+        </p>
         <button
           onClick={onCreateClick}
           className="flex items-center gap-2 px-4 py-2 bg-accent text-surface-0 font-sans text-ui font-bold rounded-sm"
@@ -60,9 +54,11 @@ export default function HomeScreen({ userAlbums = [], paletteOverrides = {}, onS
           <span>CREATE</span>
           <span>+</span>
         </button>
-        <p className="ml-3 font-sans text-ui text-text-secondary leading-tight">
-          Upload your own album data
-        </p>
+      </div>
+      <div className="px-6">
+        {allAlbums.map(album => (
+          <AlbumCard key={album.id} album={album} onSelect={onSelectAlbum} />
+        ))}
       </div>
     </div>
   );
