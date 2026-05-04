@@ -43,10 +43,10 @@ export default function HomeScreen({ userAlbums = [], paletteOverrides = {}, onS
           A music visualization experiment
         </p>
       </div>
-      <div className="px-4 mb-8">
+      <div className="px-4 mb-10">
       <div className="flex flex-col items-center gap-3 p-4 bg-surface-1 rounded-sm">
         <p className="font-sans text-body text-text-secondary text-center">
-          Upload your own album data
+          Generate artwork with an album of your choice
         </p>
         <button
           onClick={onCreateClick}
