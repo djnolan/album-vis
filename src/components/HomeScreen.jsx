@@ -43,7 +43,7 @@ export default function HomeScreen({ userAlbums = [], paletteOverrides = {}, onS
           A music visualization experiment
         </p>
       </div>
-      <div className="flex flex-col items-center gap-3 px-6 py-6 bg-surface-0">
+      <div className="flex flex-col items-center gap-3 px-6 pt-3 pb-8 bg-surface-1">
         <p className="font-sans text-body text-text-secondary text-center">
           Upload your own album data
         </p>
