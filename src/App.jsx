@@ -39,6 +39,10 @@ export default function App() {
   }, [paletteOverrides, userAlbums]);
 
 
+  function handleRemoveAlbum(albumId) {
+    setUserAlbums(prev => prev.filter(a => a.id !== albumId));
+  }
+
   function handleSelectAlbum(album) {
     const paletteId = paletteOverrides[album.id] ?? album.paletteId;
     setCurrentAlbum({ ...album, paletteId });
@@ -79,6 +83,7 @@ export default function App() {
           paletteOverrides={paletteOverrides}
           onSelectAlbum={handleSelectAlbum}
           onCreateClick={() => setShowUpload(true)}
+          onRemoveAlbum={handleRemoveAlbum}
         />
       </div>
       {screen === 'viz' && currentAlbum && (

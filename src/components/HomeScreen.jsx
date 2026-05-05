@@ -1,13 +1,47 @@
+import { useState, useRef } from 'react';
 import Visualization from './Visualization';
 import { PALETTES } from '../data/palettes';
 import { PRELOADED_ALBUMS } from '../data/albums';
 import PrimaryButton from './PrimaryButton';
+import RemoveAlbumSheet from './RemoveAlbumSheet';
 
-function AlbumCard({ album, onSelect }) {
+function AlbumCard({ album, onSelect, isUserAlbum, onLongPress }) {
   const palette = PALETTES.find(p => p.id === album.paletteId) ?? PALETTES[0];
+  const pressTimer = useRef(null);
+  const didLongPress = useRef(false);
+
+  function handlePressStart() {
+    if (!isUserAlbum) return;
+    didLongPress.current = false;
+    pressTimer.current = setTimeout(() => {
+      didLongPress.current = true;
+      onLongPress(album);
+    }, 600);
+  }
+
+  function handlePressEnd() {
+    clearTimeout(pressTimer.current);
+  }
+
+  function handleClick() {
+    if (didLongPress.current) {
+      didLongPress.current = false;
+      return;
+    }
+    onSelect(album);
+  }
 
   return (
-    <div className="pb-6 flex flex-col items-center" onClick={() => onSelect(album)}>
+    <div
+      className="pb-6 flex flex-col items-center"
+      onClick={handleClick}
+      onMouseDown={handlePressStart}
+      onMouseUp={handlePressEnd}
+      onMouseLeave={handlePressEnd}
+      onTouchStart={handlePressStart}
+      onTouchEnd={handlePressEnd}
+      onTouchMove={handlePressEnd}
+    >
       <div
         className="aspect-square rounded-md overflow-hidden cursor-pointer relative"
         style={{
@@ -29,11 +63,14 @@ function AlbumCard({ album, onSelect }) {
   );
 }
 
-export default function HomeScreen({ userAlbums = [], paletteOverrides = {}, onSelectAlbum, onCreateClick }) {
+export default function HomeScreen({ userAlbums = [], paletteOverrides = {}, onSelectAlbum, onCreateClick, onRemoveAlbum }) {
+  const [albumToRemove, setAlbumToRemove] = useState(null);
+  const userAlbumIds = new Set(userAlbums.map(a => a.id));
   const allAlbums = [
     ...userAlbums,
     ...PRELOADED_ALBUMS.map(a => paletteOverrides[a.id] ? { ...a, paletteId: paletteOverrides[a.id] } : a),
   ];
+
   return (
     <div className="bg-surface-0 min-h-screen">
       <div className="px-6 pt-8 pb-8">
@@ -46,16 +83,33 @@ export default function HomeScreen({ userAlbums = [], paletteOverrides = {}, onS
       </div>
       <div className="px-6">
         {allAlbums.map(album => (
-          <AlbumCard key={album.id} album={album} onSelect={onSelectAlbum} />
+          <AlbumCard
+            key={album.id}
+            album={album}
+            onSelect={onSelectAlbum}
+            isUserAlbum={userAlbumIds.has(album.id)}
+            onLongPress={setAlbumToRemove}
+          />
         ))}
       </div>
       {/* Spacer so content clears the fixed bottom bar */}
-      <div className="h-48" />
+      <div className="h-40" />
 
       {/* Fixed bottom bar */}
       <div className="fixed bottom-0 left-0 right-0 flex items-end px-6 pt-20 pb-5 bg-gradient-to-t from-surface-0 to-transparent pointer-events-none">
         <PrimaryButton onClick={onCreateClick}>CREATE +</PrimaryButton>
       </div>
+
+      {albumToRemove && (
+        <RemoveAlbumSheet
+          album={albumToRemove}
+          onConfirm={() => {
+            onRemoveAlbum(albumToRemove.id);
+            setAlbumToRemove(null);
+          }}
+          onClose={() => setAlbumToRemove(null)}
+        />
+      )}
     </div>
   );
 }
