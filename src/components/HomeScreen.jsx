@@ -55,14 +55,10 @@ export default function HomeScreen({ userAlbums = [], paletteOverrides = {}, onS
       <div className="fixed bottom-0 left-0 right-0 h-16 flex items-center px-6 bg-surface-1">
         <button
           onClick={onCreateClick}
-          className="flex items-center gap-2 px-4 py-2 bg-accent text-surface-0 font-sans text-ui font-bold rounded-sm"
+          className="w-full py-3 bg-accent text-surface-0 font-sans text-ui font-bold rounded-sm"
         >
-          <span>CREATE</span>
-          <span>+</span>
+          CREATE
         </button>
-        <p className="ml-3 font-sans text-ui text-text-secondary leading-tight">
-          Upload your own album data
-        </p>
       </div>
     </div>
   );
