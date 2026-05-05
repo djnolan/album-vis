@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import PrimaryButton from './PrimaryButton';
 
 export default function EditAlbumOverlay({ album, onSave, onClose }) {
   const [title, setTitle] = useState(album.title);
@@ -52,12 +53,7 @@ export default function EditAlbumOverlay({ album, onSave, onClose }) {
             />
           </div>
 
-          <button
-            onClick={handleSave}
-            className="w-full py-3 bg-accent text-surface-0 font-sans text-ui font-bold rounded-sm"
-          >
-            SAVE
-          </button>
+          <PrimaryButton onClick={handleSave}>SAVE</PrimaryButton>
         </div>
       </div>
     </div>

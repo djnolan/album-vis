@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Papa from 'papaparse';
+import PrimaryButton from './PrimaryButton';
 
 const REQUIRED_COLUMNS = ['track', 'name', 'duration', 'bpm', 'key', 'accidental', 'mode'];
 const VALID_KEYS = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
@@ -141,12 +142,7 @@ export default function UploadOverlay({ onClose, onUpload }) {
 
           {error && <p className="text-red-400 font-mono text-caption mt-2">{error}</p>}
 
-          <button
-            onClick={handleSubmit}
-            className="mt-6 w-full py-3 bg-accent text-surface-0 font-sans text-ui font-bold rounded-sm"
-          >
-            GENERATE →
-          </button>
+          <PrimaryButton onClick={handleSubmit} className="mt-6">GENERATE →</PrimaryButton>
         </div>
       </div>
     </div>

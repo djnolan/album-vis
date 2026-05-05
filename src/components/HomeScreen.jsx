@@ -1,6 +1,7 @@
 import Visualization from './Visualization';
 import { PALETTES } from '../data/palettes';
 import { PRELOADED_ALBUMS } from '../data/albums';
+import PrimaryButton from './PrimaryButton';
 
 function AlbumCard({ album, onSelect }) {
   const palette = PALETTES.find(p => p.id === album.paletteId) ?? PALETTES[0];
@@ -56,12 +57,7 @@ export default function HomeScreen({ userAlbums = [], paletteOverrides = {}, onS
         className="fixed bottom-0 left-0 right-0 flex items-center px-6 py-5 bg-surface-2"
         style={{ boxShadow: '0 -4px 16px rgba(0,0,0,0.4)' }}
       >
-        <button
-          onClick={onCreateClick}
-          className="w-full py-3 bg-accent text-surface-0 font-sans text-body font-bold leading-none rounded-sm"
-        >
-          CREATE +
-        </button>
+        <PrimaryButton onClick={onCreateClick}>CREATE +</PrimaryButton>
       </div>
     </div>
   );
