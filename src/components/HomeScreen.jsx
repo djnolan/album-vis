@@ -53,12 +53,12 @@ export default function HomeScreen({ userAlbums = [], paletteOverrides = {}, onS
 
       {/* Fixed bottom bar */}
       <div
-        className="fixed bottom-0 left-0 right-0 flex items-center px-6 py-5 bg-accent"
+        className="fixed bottom-0 left-0 right-0 flex items-center px-6 py-5 bg-surface-2"
         style={{ boxShadow: '0 -4px 16px rgba(0,0,0,0.4)' }}
       >
         <button
           onClick={onCreateClick}
-          className="w-full py-3 bg-surface-0 text-accent font-sans text-body font-bold leading-none rounded-sm"
+          className="w-full py-3 bg-accent text-surface-0 font-sans text-body font-bold leading-none rounded-sm"
         >
           CREATE +
         </button>
