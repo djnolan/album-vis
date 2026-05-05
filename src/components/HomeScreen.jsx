@@ -50,13 +50,10 @@ export default function HomeScreen({ userAlbums = [], paletteOverrides = {}, onS
         ))}
       </div>
       {/* Spacer so content clears the fixed bottom bar */}
-      <div className="h-24" />
+      <div className="h-40" />
 
       {/* Fixed bottom bar */}
-      <div
-        className="fixed bottom-0 left-0 right-0 flex items-center px-6 py-5 bg-surface-2"
-        style={{ boxShadow: '0 -4px 16px rgba(0,0,0,0.4)' }}
-      >
+      <div className="fixed bottom-0 left-0 right-0 flex items-end px-6 pt-16 pb-5 bg-gradient-to-t from-surface-0 to-transparent">
         <PrimaryButton onClick={onCreateClick}>CREATE +</PrimaryButton>
       </div>
     </div>
