@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { X } from 'lucide-react';
 import PrimaryButton from './PrimaryButton';
 
 export default function EditAlbumOverlay({ album, onSave, onClose }) {
@@ -27,7 +28,7 @@ export default function EditAlbumOverlay({ album, onSave, onClose }) {
         <div className="px-6 pt-4 pb-8">
           <div className="flex items-start justify-between mb-6">
             <h2 className="font-serif text-title text-text-primary leading-tight">Edit Album Info</h2>
-            <button onClick={onClose} className="text-text-secondary text-2xl leading-none ml-4">×</button>
+            <button onClick={onClose} className="text-text-secondary ml-4"><X size={20} /></button>
           </div>
 
           <div className="mb-5">

@@ -1,3 +1,4 @@
+import { X } from 'lucide-react';
 import { PALETTES } from '../data/palettes';
 import Visualization from './Visualization';
 import { boc } from '../data/albums';
@@ -48,7 +49,7 @@ export default function PaletteOverlay({ activePaletteId, onSelect, onClose }) {
         <div className="px-6 pt-4 pb-10">
           <div className="flex items-center justify-between mb-6">
             <h2 className="font-serif text-title text-text-primary">Pick Your Palette</h2>
-            <button onClick={onClose} className="text-text-secondary text-2xl leading-none">×</button>
+            <button onClick={onClose} className="text-text-secondary"><X size={20} /></button>
           </div>
           <div className="grid grid-cols-2 gap-4">
             {PALETTES.map(p => (

@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react';
+import { ArrowLeft, Info, Palette, Download } from 'lucide-react';
 import Visualization from './Visualization';
 import SongCard from './SongCard';
 import { PALETTES } from '../data/palettes';
@@ -100,7 +101,7 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
     <div className="fixed inset-0 flex flex-col overflow-hidden" style={{ background: palette.bg }}>
       {/* Header */}
       <div className="flex items-center px-6 pt-5 pb-2">
-        <button onClick={onBack} className="text-xl shrink-0" style={{ color: vizTextPrimary }}>←</button>
+        <button onClick={onBack} className="shrink-0" style={{ color: vizTextPrimary }}><ArrowLeft size={22} /></button>
         <button onClick={onEditClick} className="flex-1 text-center px-3">
           <p className="font-serif text-title leading-tight" style={{ color: vizTextPrimary }}>{album.title}</p>
           <p className="font-mono text-caption mt-0.5" style={{ color: vizTextSecondary }}>{album.artist}</p>
@@ -127,16 +128,16 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
 
       {/* Bottom bar */}
       <div className="h-16 flex items-center justify-between px-8">
-        <button onClick={onInfoClick} className="text-xl" style={{ color: vizTextPrimary }}>ⓘ</button>
-        <button onClick={onPaletteClick} className="text-xl" style={{ color: vizTextPrimary }}>◎</button>
+        <button onClick={onInfoClick} style={{ color: vizTextPrimary }}><Info size={22} /></button>
+        <button onClick={onPaletteClick} style={{ color: vizTextPrimary }}><Palette size={22} /></button>
         <button
           onClick={handleDownload}
           disabled={isDownloading}
-          className="text-xl disabled:opacity-40"
+          className="disabled:opacity-40"
           style={{ color: vizTextPrimary }}
           title="Download as wallpaper"
         >
-          ↓
+          <Download size={22} />
         </button>
       </div>
 
