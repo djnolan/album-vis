@@ -1,5 +1,6 @@
 // TODO: visual redesign — currently a v1 placeholder with clean data list
 import { useRef, useState } from 'react';
+import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 
 function formatDuration(seconds) {
   const m = Math.floor(seconds / 60);
@@ -62,7 +63,7 @@ export default function SongCard({ songs, activeIndex, onIndexChange, onDismiss 
                 />
               ))}
             </div>
-            <button onClick={onDismiss} className="text-text-tertiary text-xl leading-none">×</button>
+            <button onClick={onDismiss} className="text-text-tertiary"><X size={20} /></button>
           </div>
 
           <p className="font-serif text-title text-text-primary mb-6">{song.name}</p>
@@ -91,7 +92,7 @@ export default function SongCard({ songs, activeIndex, onIndexChange, onDismiss 
               onClick={() => activeIndex > 0 && onIndexChange(activeIndex - 1)}
               className={`font-sans text-ui text-text-tertiary px-3 py-1 ${activeIndex === 0 ? 'invisible' : ''}`}
             >
-              ← prev
+              <ChevronLeft size={16} className="inline -mt-0.5" /> prev
             </button>
             <span className="font-mono text-caption text-text-tertiary self-center">
               {activeIndex + 1} / {songs.length}
@@ -100,7 +101,7 @@ export default function SongCard({ songs, activeIndex, onIndexChange, onDismiss 
               onClick={() => activeIndex < songs.length - 1 && onIndexChange(activeIndex + 1)}
               className={`font-sans text-ui text-text-tertiary px-3 py-1 ${activeIndex === songs.length - 1 ? 'invisible' : ''}`}
             >
-              next →
+              next <ChevronRight size={16} className="inline -mt-0.5" />
             </button>
           </div>
         </div>

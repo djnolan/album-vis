@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Papa from 'papaparse';
+import { X, Copy } from 'lucide-react';
 import PrimaryButton from './PrimaryButton';
 
 const REQUIRED_COLUMNS = ['track', 'name', 'duration', 'bpm', 'key', 'accidental', 'mode'];
@@ -101,7 +102,7 @@ export default function UploadOverlay({ onClose, onUpload }) {
         <div className="px-6 pt-4 pb-8">
           <div className="flex items-start justify-between mb-5">
             <h2 className="font-serif text-title text-text-primary leading-tight">Create Your Visualization</h2>
-            <button onClick={onClose} className="text-text-secondary text-2xl leading-none ml-4">×</button>
+            <button onClick={onClose} className="text-text-secondary ml-4"><X size={20} /></button>
           </div>
 
           <p className="font-sans text-body text-text-secondary mb-6 leading-relaxed">
@@ -116,7 +117,7 @@ export default function UploadOverlay({ onClose, onUpload }) {
                 className="font-mono text-caption text-text-secondary flex items-center gap-1 hover:text-text-primary transition-colors"
               >
                 {copied ? 'Copied!' : 'COPY'}
-                <span className="text-base">⧉</span>
+                <Copy size={14} />
               </button>
             </div>
             <p className={`font-mono text-caption text-text-secondary leading-relaxed whitespace-pre-wrap ${!promptExpanded ? 'line-clamp-3' : ''}`}>
