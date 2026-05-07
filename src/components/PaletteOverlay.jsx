@@ -74,11 +74,11 @@ function PaletteThumbnail({ palette, active, onClick, index }) {
   const cfg = FLOWER_CONFIGS[index % FLOWER_CONFIGS.length];
 
   return (
-    <button onClick={onClick} className="flex flex-col gap-2 w-full text-left">
+    <button onClick={onClick} className="flex flex-col gap-2 w-full items-center">
       <div
         className="w-full rounded-sm overflow-hidden relative"
         style={{
-          aspectRatio: '3 / 1',
+          aspectRatio: '5 / 2',
           background: palette.bg,
           boxShadow: active
             ? '0 0 0 2px #161B24, 0 0 0 4px #7B9FD4'
