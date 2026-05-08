@@ -93,17 +93,20 @@ export default function UploadOverlay({ onClose, onUpload }) {
   return (
     <div className="fixed inset-0 z-50 flex flex-col justify-end">
       <div className="absolute inset-0 bg-black/60" onClick={onClose} />
-      <div className="relative bg-surface-1 rounded-t-lg max-h-[90vh] overflow-y-auto">
-        {/* Handle pill */}
-        <div className="flex justify-center pt-3 pb-3">
-          <div className="w-10 h-1 rounded-full bg-border" />
+      <div className="relative bg-surface-1 rounded-t-lg flex flex-col max-h-[90vh]">
+
+        <div className="shrink-0 flex items-center justify-between px-5 pt-5 pb-4">
+          <h2 className="font-sans text-ui font-medium uppercase tracking-wider text-text-secondary">Create Your Visualization</h2>
+          <button
+            onClick={onClose}
+            className="w-9 h-9 rounded-full flex items-center justify-center text-text-secondary"
+            style={{ background: 'rgba(0,0,0,0.3)' }}
+          >
+            <X size={18} />
+          </button>
         </div>
 
-        <div className="px-6 pt-4 pb-8">
-          <div className="flex items-start justify-between mb-5">
-            <h2 className="font-serif text-title text-text-primary leading-tight">Create Your Visualization</h2>
-            <button onClick={onClose} className="text-text-secondary ml-4"><X size={20} /></button>
-          </div>
+        <div className="overflow-y-auto flex-1 px-6 pb-8">
 
           <p className="font-sans text-body text-text-secondary mb-6 leading-relaxed">
             Copy the prompt, paste it into an AI assistant with your album name, then paste the CSV result below.
