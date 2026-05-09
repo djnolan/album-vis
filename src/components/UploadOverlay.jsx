@@ -92,8 +92,8 @@ export default function UploadOverlay({ onClose, onUpload }) {
 
   return (
     <div className="fixed inset-0 z-50 flex flex-col justify-end">
-      <div className="absolute inset-0 bg-black/60" onClick={onClose} />
-      <div className="relative bg-surface-1 rounded-t-lg flex flex-col max-h-[90vh]">
+      <div className="absolute inset-0 bg-black/75" onClick={onClose} />
+      <div className="relative bg-surface-1 rounded-t-lg flex flex-col max-h-[90vh]" style={{ boxShadow: '0 -8px 32px rgba(0,0,0,0.5)' }}>
 
         <div className="shrink-0 flex items-center justify-between px-6 pt-5 pb-4">
           <h2 className="font-sans text-ui font-medium uppercase tracking-wider text-text-primary">Create Your Visualization</h2>

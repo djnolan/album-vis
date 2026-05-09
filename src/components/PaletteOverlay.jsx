@@ -81,7 +81,7 @@ function PaletteThumbnail({ palette, active, onClick, index }) {
           aspectRatio: '5 / 2',
           background: palette.bg,
           boxShadow: active
-            ? '0 0 0 2px #161B24, 0 0 0 4px #7B9FD4'
+            ? '0 0 0 1px #161B24, 0 0 0 2.5px #8B93A1'
             : '0 2px 8px rgba(0,0,0,0.4)',
           outline: active ? 'none' : '1px solid rgba(255,255,255,0.06)',
         }}
@@ -116,8 +116,8 @@ function PaletteThumbnail({ palette, active, onClick, index }) {
 export default function PaletteOverlay({ activePaletteId, onSelect, onClose }) {
   return (
     <div className="fixed inset-0 z-50 flex flex-col justify-end">
-      <div className="absolute inset-0 bg-black/60" onClick={onClose} />
-      <div className="relative bg-surface-1 rounded-t-lg flex flex-col" style={{ maxHeight: 'calc(100dvh - 48px)' }}>
+      <div className="absolute inset-0 bg-black/75" onClick={onClose} />
+      <div className="relative bg-surface-1 rounded-t-lg flex flex-col" style={{ maxHeight: 'calc(100dvh - 48px)', boxShadow: '0 -8px 32px rgba(0,0,0,0.5)' }}>
 
         <div className="shrink-0 flex items-center justify-between px-6 pt-5 pb-4">
           <h2 className="font-sans text-ui font-medium uppercase tracking-wider text-text-primary">Pick Your Palette</h2>
@@ -130,7 +130,7 @@ export default function PaletteOverlay({ activePaletteId, onSelect, onClose }) {
           </button>
         </div>
 
-        <div className="overflow-y-auto flex-1 px-6 pb-10">
+        <div className="overflow-y-auto flex-1 px-6 pt-2 pb-10">
           <div className="grid grid-cols-2 gap-x-8 gap-y-5">
             {PALETTES.map((p, i) => (
               <PaletteThumbnail
