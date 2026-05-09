@@ -121,7 +121,13 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
         style={{ background: palette.bg }}
         onClick={activeSongTrack != null ? handleDismiss : undefined}
       >
-        <div style={{ width: '116%', height: '100%', marginLeft: '-8%' }}>
+        <div style={{
+          width: '116%',
+          height: '100%',
+          marginLeft: '-8%',
+          transform: activeSongTrack != null ? 'translateY(-15%)' : 'translateY(0)',
+          transition: 'transform 0.35s ease',
+        }}>
           <Visualization
             ref={vizRef}
             album={album}
