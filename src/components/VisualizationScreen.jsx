@@ -100,15 +100,15 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
   return (
     <div className="fixed inset-0 flex flex-col overflow-hidden" style={{ background: palette.bg }}>
       {/* Header */}
-      <div className="flex items-center pl-4 pr-6 pt-3 pb-2">
+      <div className="flex items-start pl-3 pr-6 pt-2 pb-2">
         <button
           onClick={onBack}
-          className="w-9 h-9 flex items-center justify-center shrink-0"
+          className="w-9 h-9 flex items-center justify-center shrink-0 mt-1"
           style={{ color: vizTextPrimary }}
         >
           <ArrowLeft size={26} />
         </button>
-        <button onClick={onEditClick} className="flex-1 text-center px-3">
+        <button onClick={onEditClick} className="flex-1 text-center px-3 mt-3">
           <p className="font-serif text-title leading-tight" style={{ color: vizTextPrimary }}>{album.title}</p>
           <p className="font-mono text-caption mt-0.5" style={{ color: vizTextSecondary }}>{album.artist}</p>
         </button>
