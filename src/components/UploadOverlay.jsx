@@ -96,7 +96,7 @@ export default function UploadOverlay({ onClose, onUpload }) {
       <div className="relative bg-surface-1 rounded-t-lg flex flex-col max-h-[90vh]">
 
         <div className="shrink-0 flex items-center justify-between px-6 pt-5 pb-4">
-          <h2 className="font-sans text-ui font-medium uppercase tracking-wider text-text-secondary">Create Your Visualization</h2>
+          <h2 className="font-sans text-ui font-medium uppercase tracking-wider text-text-primary">Create Your Visualization</h2>
           <button
             onClick={onClose}
             className="w-9 h-9 rounded-full flex items-center justify-center text-text-secondary"

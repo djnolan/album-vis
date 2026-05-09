@@ -100,7 +100,7 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
   return (
     <div className="fixed inset-0 flex flex-col overflow-hidden" style={{ background: palette.bg }}>
       {/* Header */}
-      <div className="flex items-center px-6 pt-5 pb-2">
+      <div className="flex items-center pl-4 pr-6 pt-3 pb-2">
         <button
           onClick={onBack}
           className="w-9 h-9 rounded-full flex items-center justify-center shrink-0"
