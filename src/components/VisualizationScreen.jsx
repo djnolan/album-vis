@@ -103,8 +103,8 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
       <div className="flex items-center pl-4 pr-6 pt-3 pb-2">
         <button
           onClick={onBack}
-          className="w-9 h-9 rounded-full flex items-center justify-center shrink-0"
-          style={{ color: vizTextPrimary, background: 'rgba(0,0,0,0.25)' }}
+          className="w-9 h-9 flex items-center justify-center shrink-0"
+          style={{ color: vizTextPrimary }}
         >
           <ArrowLeft size={20} />
         </button>
