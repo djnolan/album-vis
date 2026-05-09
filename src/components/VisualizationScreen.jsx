@@ -98,27 +98,11 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
   }
 
   return (
-    <div className="fixed inset-0 flex flex-col overflow-hidden" style={{ background: palette.bg }}>
-      {/* Header */}
-      <div className="flex items-start pl-4 pr-6 pt-2 pb-2">
-        <button
-          onClick={onBack}
-          className="w-9 h-9 flex items-center justify-center shrink-0 mt-1"
-          style={{ color: vizTextPrimary }}
-        >
-          <ArrowLeft size={26} />
-        </button>
-        <button onClick={onEditClick} className="flex-1 text-center px-3 mt-2">
-          <p className="font-serif text-title leading-tight" style={{ color: vizTextPrimary }}>{album.title}</p>
-          <p className="font-mono text-caption mt-0.5" style={{ color: vizTextSecondary }}>{album.artist}</p>
-        </button>
-        <div className="w-7 shrink-0" />
-      </div>
+    <div className="fixed inset-0 overflow-hidden" style={{ background: palette.bg }}>
 
-      {/* Visualization */}
+      {/* Visualization — full bleed behind header */}
       <div
-        className="flex-1 overflow-hidden"
-        style={{ background: palette.bg }}
+        className="absolute inset-0"
         onClick={activeSongTrack != null ? handleDismiss : undefined}
       >
         <div style={{
@@ -138,8 +122,27 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
         </div>
       </div>
 
+      {/* Header — floats over viz with gradient fade */}
+      <div
+        className="absolute top-0 left-0 right-0 flex items-start pl-4 pr-6 pt-2 pb-12 pointer-events-none"
+        style={{ background: `linear-gradient(to bottom, ${palette.bg} 40%, transparent)` }}
+      >
+        <button
+          onClick={onBack}
+          className="w-9 h-9 flex items-center justify-center shrink-0 mt-1 pointer-events-auto"
+          style={{ color: vizTextPrimary }}
+        >
+          <ArrowLeft size={26} />
+        </button>
+        <button onClick={onEditClick} className="flex-1 text-center px-3 mt-2 pointer-events-auto">
+          <p className="font-serif text-title leading-tight" style={{ color: vizTextPrimary }}>{album.title}</p>
+          <p className="font-mono text-caption mt-0.5" style={{ color: vizTextSecondary }}>{album.artist}</p>
+        </button>
+        <div className="w-7 shrink-0" />
+      </div>
+
       {/* Bottom bar */}
-      <div className="h-16 flex items-center justify-between px-8">
+      <div className="absolute bottom-0 left-0 right-0 h-16 flex items-center justify-between px-8">
         <button onClick={onInfoClick} style={{ color: vizTextPrimary }}><Info size={22} /></button>
         <button onClick={onPaletteClick} style={{ color: vizTextPrimary }}><Palette size={22} /></button>
         <button

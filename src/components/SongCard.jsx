@@ -60,7 +60,7 @@ export default function SongCard({ songs, activeIndex, onIndexChange, onDismiss 
       <div className="px-4 pb-5">
         <div
           className="rounded-lg overflow-hidden"
-          style={{ background: CARD_BG, boxShadow: '0 8px 40px rgba(0,0,0,0.55)' }}
+          style={{ background: CARD_BG, boxShadow: '0 8px 40px rgba(0,0,0,0.55)', border: '1px solid rgba(0,0,0,0.18)' }}
         >
           {/* Header: eyebrow + title + close */}
           <div className="flex items-start justify-between px-5 pt-5 pb-3">
@@ -88,10 +88,7 @@ export default function SongCard({ songs, activeIndex, onIndexChange, onDismiss 
           </div>
 
           {/* Navigation */}
-          <div
-            className="flex items-center justify-between px-4 py-3"
-            style={{ background: 'rgba(0,0,0,0.07)' }}
-          >
+          <div className="flex items-center justify-between px-4 py-3">
             <button
               onClick={() => activeIndex > 0 && onIndexChange(activeIndex - 1)}
               className={`flex items-center gap-0.5 font-sans text-ui px-3 py-1.5 rounded-md ${activeIndex === 0 ? 'invisible' : ''}`}
