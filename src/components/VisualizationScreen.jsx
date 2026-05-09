@@ -106,7 +106,7 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
           className="w-9 h-9 flex items-center justify-center shrink-0"
           style={{ color: vizTextPrimary }}
         >
-          <ArrowLeft size={20} />
+          <ArrowLeft size={26} />
         </button>
         <button onClick={onEditClick} className="flex-1 text-center px-3">
           <p className="font-serif text-title leading-tight" style={{ color: vizTextPrimary }}>{album.title}</p>
