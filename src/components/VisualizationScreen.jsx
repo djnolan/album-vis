@@ -108,7 +108,7 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
         >
           <ArrowLeft size={26} />
         </button>
-        <button onClick={onEditClick} className="flex-1 text-center px-3 mt-3">
+        <button onClick={onEditClick} className="flex-1 text-center px-3 mt-2">
           <p className="font-serif text-title leading-tight" style={{ color: vizTextPrimary }}>{album.title}</p>
           <p className="font-mono text-caption mt-0.5" style={{ color: vizTextSecondary }}>{album.artist}</p>
         </button>
