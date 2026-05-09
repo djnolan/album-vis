@@ -117,7 +117,7 @@ export default function PaletteOverlay({ activePaletteId, onSelect, onClose }) {
   return (
     <div className="fixed inset-0 z-50 flex flex-col justify-end">
       <div className="absolute inset-0 bg-black/60" onClick={onClose} />
-      <div className="relative bg-surface-1 rounded-t-lg flex flex-col" style={{ maxHeight: 'calc(100vh - 48px)' }}>
+      <div className="relative bg-surface-1 rounded-t-lg flex flex-col" style={{ maxHeight: 'calc(100svh - 48px)' }}>
 
         <div className="shrink-0 flex items-center justify-between px-6 pt-5 pb-4">
           <h2 className="font-sans text-ui font-medium uppercase tracking-wider text-text-primary">Pick Your Palette</h2>
