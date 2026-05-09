@@ -65,7 +65,7 @@ export default function SongCard({ songs, activeIndex, onIndexChange, onDismiss 
           {/* Header: eyebrow + title + close */}
           <div className="flex items-start justify-between px-5 pt-5 pb-3">
             <div className="flex-1 pr-3">
-              <p className="font-mono text-caption uppercase tracking-widest mb-1" style={{ color: TEXT_SECONDARY }}>Song</p>
+              <p className="font-mono text-caption uppercase tracking-widest mb-0.5" style={{ color: TEXT_SECONDARY }}>Track {song.track}</p>
               <p className="font-serif text-title leading-tight" style={{ color: TEXT_PRIMARY }}>{song.name}</p>
             </div>
             <button
@@ -78,7 +78,7 @@ export default function SongCard({ songs, activeIndex, onIndexChange, onDismiss 
           </div>
 
           {/* Stats: label above, value below, horizontal columns */}
-          <div className="flex gap-6 px-5 pb-4">
+          <div className="flex gap-6 px-5 pt-3 pb-5">
             {stats.map(({ label, value }) => (
               <div key={label}>
                 <p className="font-mono text-caption uppercase tracking-widest mb-0.5" style={{ color: TEXT_SECONDARY }}>{label}</p>
@@ -88,11 +88,14 @@ export default function SongCard({ songs, activeIndex, onIndexChange, onDismiss 
           </div>
 
           {/* Navigation */}
-          <div className="flex items-center justify-between px-4 pb-5">
+          <div
+            className="flex items-center justify-between px-4 py-3"
+            style={{ background: 'rgba(0,0,0,0.07)' }}
+          >
             <button
               onClick={() => activeIndex > 0 && onIndexChange(activeIndex - 1)}
-              className={`flex items-center gap-0.5 font-sans text-ui px-2 py-1 ${activeIndex === 0 ? 'invisible' : ''}`}
-              style={{ color: TEXT_PRIMARY }}
+              className={`flex items-center gap-0.5 font-sans text-ui px-3 py-1.5 rounded-md ${activeIndex === 0 ? 'invisible' : ''}`}
+              style={{ background: 'rgba(0,0,0,0.08)', color: TEXT_PRIMARY }}
             >
               <ChevronLeft size={16} /> prev
             </button>
@@ -101,8 +104,8 @@ export default function SongCard({ songs, activeIndex, onIndexChange, onDismiss 
             </span>
             <button
               onClick={() => activeIndex < songs.length - 1 && onIndexChange(activeIndex + 1)}
-              className={`flex items-center gap-0.5 font-sans text-ui px-2 py-1 ${activeIndex === songs.length - 1 ? 'invisible' : ''}`}
-              style={{ color: TEXT_PRIMARY }}
+              className={`flex items-center gap-0.5 font-sans text-ui px-3 py-1.5 rounded-md ${activeIndex === songs.length - 1 ? 'invisible' : ''}`}
+              style={{ background: 'rgba(0,0,0,0.08)', color: TEXT_PRIMARY }}
             >
               next <ChevronRight size={16} />
             </button>
