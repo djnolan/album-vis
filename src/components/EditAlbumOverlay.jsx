@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { X } from 'lucide-react';
 import PrimaryButton from './PrimaryButton';
+import { useScrollLock } from '../hooks/useScrollLock';
 
 export default function EditAlbumOverlay({ album, onSave, onClose }) {
+  useScrollLock(true);
   const [title, setTitle] = useState(album.title);
   const [artist, setArtist] = useState(album.artist);
 

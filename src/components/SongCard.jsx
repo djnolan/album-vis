@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useScrollLock } from '../hooks/useScrollLock';
 
 const CARD_BG = '#DDE2EE';
 const TEXT_PRIMARY = '#1A2030';
@@ -19,6 +20,7 @@ function formatKeyMode(key, accidental, mode) {
 }
 
 export default function SongCard({ songs, activeIndex, onIndexChange, onDismiss }) {
+  useScrollLock(true);
   const song = songs[activeIndex];
   const startX = useRef(null);
   const [dragDelta, setDragDelta] = useState(0);

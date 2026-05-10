@@ -1,7 +1,9 @@
 import PrimaryButton from './PrimaryButton';
 import SecondaryButton from './SecondaryButton';
+import { useScrollLock } from '../hooks/useScrollLock';
 
 export default function RemoveAlbumSheet({ album, onConfirm, onClose }) {
+  useScrollLock(true);
   return (
     <div className="fixed inset-0 z-50 flex flex-col justify-end">
       <div className="absolute inset-0 bg-black/75" onClick={onClose} />
