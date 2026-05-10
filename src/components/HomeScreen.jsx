@@ -65,11 +65,9 @@ function AlbumCard({ album, onSelect, isUserAlbum, onLongPress }) {
 
 export default function HomeScreen({ userAlbums = [], paletteOverrides = {}, onSelectAlbum, onCreateClick, onRemoveAlbum }) {
   const [albumToRemove, setAlbumToRemove] = useState(null);
-  const userAlbumIds = new Set(userAlbums.map(a => a.id));
-  const allAlbums = [
-    ...userAlbums,
-    ...PRELOADED_ALBUMS.map(a => paletteOverrides[a.id] ? { ...a, paletteId: paletteOverrides[a.id] } : a),
-  ];
+  const preloadedAlbums = PRELOADED_ALBUMS.map(a =>
+    paletteOverrides[a.id] ? { ...a, paletteId: paletteOverrides[a.id] } : a
+  );
 
   return (
     <div className="bg-surface-0 min-h-screen">
@@ -78,16 +76,32 @@ export default function HomeScreen({ userAlbums = [], paletteOverrides = {}, onS
           In Bloom
         </h1>
         <p className="font-sans text-body text-text-secondary text-center mt-1">
-          A music visualization experiment
+          A music data visualization experiment.<br />Browse album artwork or create your own.
         </p>
       </div>
+
+      {userAlbums.length > 0 && (
+        <div className="mx-4 mb-6 rounded-lg px-2 pt-5 pb-1" style={{ background: '#1A1F2A', outline: '1px solid rgba(255,255,255,0.06)' }}>
+          <p className="font-sans text-ui font-medium uppercase tracking-wider text-text-secondary mb-4 px-2">Your Albums</p>
+          {userAlbums.map(album => (
+            <AlbumCard
+              key={album.id}
+              album={album}
+              onSelect={onSelectAlbum}
+              isUserAlbum={true}
+              onLongPress={setAlbumToRemove}
+            />
+          ))}
+        </div>
+      )}
+
       <div className="px-6">
-        {allAlbums.map(album => (
+        {preloadedAlbums.map(album => (
           <AlbumCard
             key={album.id}
             album={album}
             onSelect={onSelectAlbum}
-            isUserAlbum={userAlbumIds.has(album.id)}
+            isUserAlbum={false}
             onLongPress={setAlbumToRemove}
           />
         ))}
