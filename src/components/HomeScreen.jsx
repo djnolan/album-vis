@@ -65,29 +65,50 @@ function AlbumCard({ album, onSelect, isUserAlbum, onLongPress }) {
 
 export default function HomeScreen({ userAlbums = [], paletteOverrides = {}, onSelectAlbum, onCreateClick, onRemoveAlbum }) {
   const [albumToRemove, setAlbumToRemove] = useState(null);
-  const userAlbumIds = new Set(userAlbums.map(a => a.id));
-  const allAlbums = [
-    ...userAlbums,
-    ...PRELOADED_ALBUMS.map(a => paletteOverrides[a.id] ? { ...a, paletteId: paletteOverrides[a.id] } : a),
-  ];
+  const preloadedAlbums = PRELOADED_ALBUMS.map(a =>
+    paletteOverrides[a.id] ? { ...a, paletteId: paletteOverrides[a.id] } : a
+  );
 
   return (
     <div className="bg-surface-0 min-h-screen">
       <div className="px-6 pt-8 pb-8">
-        <h1 className="font-serif text-display text-text-primary leading-tight text-center">
+        <h1 className="font-serif text-text-primary leading-tight text-center" style={{ fontSize: '3rem' }}>
           In Bloom
         </h1>
         <p className="font-sans text-body text-text-secondary text-center mt-1">
-          A music visualization experiment
+          A music visualization experiment.<br />Browse album artwork or create your own.
         </p>
       </div>
+
+      {userAlbums.length > 0 && (
+        <div className="mx-4 mt-6 mb-16 rounded-lg px-2 pt-0 pb-1" style={{ border: '1px solid rgba(255,255,255,0.12)' }}>
+          <div className="flex justify-center">
+            <p
+              className="font-sans text-ui font-medium uppercase tracking-wider text-text-secondary px-3 mb-6"
+              style={{ marginTop: '-0.6em', background: '#0E1117' }}
+            >
+              Your Albums
+            </p>
+          </div>
+          {userAlbums.map(album => (
+            <AlbumCard
+              key={album.id}
+              album={album}
+              onSelect={onSelectAlbum}
+              isUserAlbum={true}
+              onLongPress={setAlbumToRemove}
+            />
+          ))}
+        </div>
+      )}
+
       <div className="px-6">
-        {allAlbums.map(album => (
+        {preloadedAlbums.map(album => (
           <AlbumCard
             key={album.id}
             album={album}
             onSelect={onSelectAlbum}
-            isUserAlbum={userAlbumIds.has(album.id)}
+            isUserAlbum={false}
             onLongPress={setAlbumToRemove}
           />
         ))}
