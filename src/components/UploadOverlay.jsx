@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Papa from 'papaparse';
-import { X, Copy } from 'lucide-react';
+import { X, Copy, ChevronDown } from 'lucide-react';
 import PrimaryButton from './PrimaryButton';
 import { useScrollLock } from '../hooks/useScrollLock';
 
@@ -42,12 +42,52 @@ function validateRows(rows) {
   return errors;
 }
 
+function AccordionStep({ number, label, isOpen, onToggle, children }) {
+  return (
+    <div className="border-b border-border">
+      <button
+        onClick={onToggle}
+        className="w-full flex items-center gap-3 py-4 text-left"
+      >
+        <span
+          className="w-6 h-6 rounded-full flex items-center justify-center shrink-0 font-mono text-caption font-medium"
+          style={{ background: 'rgba(123,159,212,0.15)', color: '#7B9FD4' }}
+        >
+          {number}
+        </span>
+        <span className="flex-1 font-sans text-ui font-medium text-text-primary">{label}</span>
+        <ChevronDown
+          size={18}
+          className="shrink-0 text-text-secondary transition-transform duration-300"
+          style={{ transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
+        />
+      </button>
+
+      {/* Grid trick for animating height: auto */}
+      <div
+        className="grid transition-all duration-300 ease-in-out"
+        style={{ gridTemplateRows: isOpen ? '1fr' : '0fr' }}
+      >
+        <div className="overflow-hidden">
+          <div className="pb-5">
+            {children}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function UploadOverlay({ onClose, onUpload }) {
   useScrollLock(true);
-  const [promptExpanded, setPromptExpanded] = useState(false);
+  const [openStep, setOpenStep] = useState(null);
   const [copied, setCopied] = useState(false);
   const [csvText, setCsvText] = useState('');
   const [error, setError] = useState(null);
+
+  function toggle(step) {
+    setOpenStep(prev => prev === step ? null : step);
+  }
 
   function handleCopy() {
     navigator.clipboard.writeText(LLM_PROMPT).then(() => {
@@ -110,45 +150,54 @@ export default function UploadOverlay({ onClose, onUpload }) {
 
         <div className="overflow-y-auto flex-1 px-6 pb-8">
 
-          <p className="font-sans text-body text-text-secondary mb-6 leading-relaxed">
-            Copy the prompt, paste it into an AI assistant with your album name, then paste the CSV result below.
-          </p>
-
-          {/* LLM prompt block */}
-          <div className="bg-surface-2 rounded-md p-4 mb-1">
-            <div className="flex justify-end mb-2">
-              <button
-                onClick={handleCopy}
-                className="font-mono text-caption text-text-secondary flex items-center gap-1 hover:text-text-primary transition-colors"
-              >
-                {copied ? 'Copied!' : 'COPY'}
-                <Copy size={14} />
-              </button>
-            </div>
-            <p className={`font-mono text-caption text-text-secondary leading-relaxed whitespace-pre-wrap ${!promptExpanded ? 'line-clamp-3' : ''}`}>
-              {LLM_PROMPT}
-            </p>
-          </div>
-          <button
-            onClick={() => setPromptExpanded(v => !v)}
-            className="font-mono text-caption text-text-tertiary mb-6 ml-1"
+          <AccordionStep
+            number="1"
+            label="Get Your Album Data"
+            isOpen={openStep === 1}
+            onToggle={() => toggle(1)}
           >
-            {promptExpanded ? '▲ collapse' : '▼ expand'}
-          </button>
+            <p className="font-sans text-body text-text-secondary mb-4 leading-relaxed">
+              Copy this prompt into Claude, ChatGPT, or any AI assistant — don't forget to add your album and artist.
+            </p>
 
-          <div className="border-t border-border mb-6" />
+            <div className="bg-surface-2 rounded-md p-4">
+              <div className="flex justify-end mb-2">
+                <button
+                  onClick={handleCopy}
+                  className="font-mono text-caption text-text-secondary flex items-center gap-1 hover:text-text-primary transition-colors"
+                >
+                  {copied ? 'Copied!' : 'COPY'}
+                  <Copy size={14} />
+                </button>
+              </div>
+              <p className="font-mono text-caption text-text-secondary leading-relaxed whitespace-pre-wrap">
+                {LLM_PROMPT}
+              </p>
+            </div>
+          </AccordionStep>
 
-          <p className="font-mono text-caption text-text-secondary uppercase mb-2">Paste CSV here</p>
-          <textarea
-            value={csvText}
-            onChange={e => setCsvText(e.target.value)}
-            placeholder={'track,name,duration,bpm,key,accidental,mode\n1,Song Name,240,120,C,natural,major\n…'}
-            className="w-full h-36 bg-surface-2 font-mono text-caption text-text-primary rounded-md p-4 resize-none outline-none placeholder-text-tertiary focus:ring-1 focus:ring-accent"
-          />
+          <AccordionStep
+            number="2"
+            label="Paste Your CSV"
+            isOpen={openStep === 2}
+            onToggle={() => toggle(2)}
+          >
+            <p className="font-sans text-body text-text-secondary mb-4 leading-relaxed">
+              Paste the CSV your AI assistant gives you into the box below.
+            </p>
 
-          {error && <p className="text-red-400 font-mono text-caption mt-2">{error}</p>}
+            <textarea
+              value={csvText}
+              onChange={e => setCsvText(e.target.value)}
+              placeholder={'track,name,duration,bpm,key,accidental,mode\n1,Song Name,240,120,C,natural,major\n…'}
+              className="w-full h-36 bg-surface-2 font-mono text-caption text-text-primary rounded-md p-4 resize-none outline-none placeholder-text-tertiary focus:ring-1 focus:ring-accent"
+            />
 
-          <PrimaryButton onClick={handleSubmit} className="mt-6">GENERATE →</PrimaryButton>
+            {error && <p className="text-red-400 font-mono text-caption mt-2">{error}</p>}
+
+            <PrimaryButton onClick={handleSubmit} className="mt-4">GENERATE →</PrimaryButton>
+          </AccordionStep>
+
         </div>
       </div>
     </div>
