@@ -76,7 +76,7 @@ export default function HomeScreen({ userAlbums = [], paletteOverrides = {}, onS
           In Bloom
         </h1>
         <p className="font-sans text-body text-text-secondary text-center mt-1">
-          A music data visualization experiment.<br />Browse album artwork or create your own.
+          A music visualization experiment.<br />Browse album artwork or create your own.
         </p>
       </div>
 
