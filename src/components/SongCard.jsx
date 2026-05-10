@@ -1,6 +1,9 @@
-// TODO: visual redesign — currently a v1 placeholder with clean data list
 import { useRef, useState } from 'react';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
+
+const CARD_BG = '#DDE2EE';
+const TEXT_PRIMARY = '#1A2030';
+const TEXT_SECONDARY = '#5A6278';
 
 function formatDuration(seconds) {
   const m = Math.floor(seconds / 60);
@@ -8,10 +11,11 @@ function formatDuration(seconds) {
   return `${m}:${String(s).padStart(2, '0')}`;
 }
 
-function formatKey(key, accidental) {
-  if (accidental === 'sharp') return key + '♯';
-  if (accidental === 'flat') return key + '♭';
-  return key;
+function formatKeyMode(key, accidental, mode) {
+  let note = key;
+  if (accidental === 'sharp') note = key + '♯';
+  else if (accidental === 'flat') note = key + '♭';
+  return `${note} ${mode === 'minor' ? 'Minor' : 'Major'}`;
 }
 
 export default function SongCard({ songs, activeIndex, onIndexChange, onDismiss }) {
@@ -36,6 +40,12 @@ export default function SongCard({ songs, activeIndex, onIndexChange, onDismiss 
     setDragDelta(0);
   }
 
+  const stats = [
+    { label: 'Duration', value: formatDuration(song.duration) },
+    { label: 'BPM',      value: song.bpm },
+    { label: 'Key',      value: formatKeyMode(song.key, song.accidental, song.mode) },
+  ];
+
   return (
     <div
       className="fixed bottom-0 left-0 right-0 z-40"
@@ -43,65 +53,64 @@ export default function SongCard({ songs, activeIndex, onIndexChange, onDismiss 
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
     >
-      {/* Tap-outside dismiss area — narrow strip above card */}
-      <div className="h-16" onClick={onDismiss} />
+      {/* Tap-outside dismiss strip */}
+      <div className="h-20" onClick={onDismiss} />
 
-      <div className="bg-surface-1 rounded-t-lg">
-        {/* Handle pill */}
-        <div className="flex justify-center pt-3 pb-3">
-          <div className="w-10 h-1 rounded-full bg-border" />
-        </div>
-
-        <div className="px-6 pt-4 pb-8">
-          <div className="flex items-center justify-between mb-5">
-            <div className="flex gap-1.5">
-              {songs.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => onIndexChange(i)}
-                  className={`w-1.5 h-1.5 rounded-full transition-colors ${i === activeIndex ? 'bg-text-primary' : 'bg-text-tertiary'}`}
-                />
-              ))}
+      {/* Floating card */}
+      <div className="px-4 pb-5">
+        <div
+          className="rounded-lg overflow-hidden"
+          style={{ background: CARD_BG, boxShadow: '0 8px 40px rgba(0,0,0,0.55)' }}
+        >
+          {/* Header: eyebrow + title + close */}
+          <div className="flex items-start justify-between px-5 pt-5 pb-3">
+            <div className="flex-1 pr-3">
+              <p className="font-mono text-caption uppercase tracking-widest mb-0.5" style={{ color: TEXT_SECONDARY }}>Track {song.track}</p>
+              <p className="font-serif text-title leading-tight" style={{ color: TEXT_PRIMARY }}>{song.name}</p>
             </div>
-            <button onClick={onDismiss} className="text-text-tertiary"><X size={20} /></button>
+            <button
+              onClick={onDismiss}
+              className="w-9 h-9 rounded-full flex items-center justify-center shrink-0"
+              style={{ background: 'rgba(0,0,0,0.1)', color: TEXT_PRIMARY }}
+            >
+              <X size={18} />
+            </button>
           </div>
 
-          <p className="font-serif text-title text-text-primary mb-6">{song.name}</p>
-
-          <div className="space-y-3">
-            <div className="flex justify-between items-baseline">
-              <span className="font-mono text-caption text-text-secondary uppercase">Duration</span>
-              <span className="font-mono text-label text-text-primary">{formatDuration(song.duration)}</span>
-            </div>
-            <div className="flex justify-between items-baseline">
-              <span className="font-mono text-caption text-text-secondary uppercase">BPM</span>
-              <span className="font-mono text-label text-text-primary">{song.bpm}</span>
-            </div>
-            <div className="flex justify-between items-baseline">
-              <span className="font-mono text-caption text-text-secondary uppercase">Key</span>
-              <span className="font-mono text-label text-text-primary">{formatKey(song.key, song.accidental)}</span>
-            </div>
-            <div className="flex justify-between items-baseline">
-              <span className="font-mono text-caption text-text-secondary uppercase">Mode</span>
-              <span className="font-mono text-label text-text-primary capitalize">{song.mode}</span>
-            </div>
+          {/* Stats: equal-width columns with dividers */}
+          <div className="flex px-5 pt-3 pb-5">
+            {stats.map(({ label, value }, i) => (
+              <div
+                key={label}
+                className="flex-1 pr-4"
+                style={i < stats.length - 1 ? { borderRight: '1px solid rgba(0,0,0,0.12)' } : {}}
+              >
+                <div style={i > 0 ? { paddingLeft: '1rem' } : {}}>
+                  <p className="font-mono text-caption uppercase tracking-widest mb-0.5" style={{ color: TEXT_SECONDARY }}>{label}</p>
+                  <p className="font-mono text-label" style={{ color: TEXT_PRIMARY }}>{value}</p>
+                </div>
+              </div>
+            ))}
           </div>
 
-          <div className="flex justify-between mt-6">
+          {/* Navigation */}
+          <div className="flex items-center justify-between px-4 py-3">
             <button
               onClick={() => activeIndex > 0 && onIndexChange(activeIndex - 1)}
-              className={`font-sans text-ui text-text-tertiary px-3 py-1 ${activeIndex === 0 ? 'invisible' : ''}`}
+              className={`flex items-center gap-0.5 font-sans text-ui px-3 py-1.5 rounded-md ${activeIndex === 0 ? 'invisible' : ''}`}
+              style={{ background: 'rgba(0,0,0,0.08)', color: TEXT_PRIMARY }}
             >
-              <ChevronLeft size={16} className="inline -mt-0.5" /> prev
+              <ChevronLeft size={16} /> prev
             </button>
-            <span className="font-mono text-caption text-text-tertiary self-center">
+            <span className="font-mono text-caption" style={{ color: TEXT_SECONDARY }}>
               {activeIndex + 1} / {songs.length}
             </span>
             <button
               onClick={() => activeIndex < songs.length - 1 && onIndexChange(activeIndex + 1)}
-              className={`font-sans text-ui text-text-tertiary px-3 py-1 ${activeIndex === songs.length - 1 ? 'invisible' : ''}`}
+              className={`flex items-center gap-0.5 font-sans text-ui px-3 py-1.5 rounded-md ${activeIndex === songs.length - 1 ? 'invisible' : ''}`}
+              style={{ background: 'rgba(0,0,0,0.08)', color: TEXT_PRIMARY }}
             >
-              next <ChevronRight size={16} className="inline -mt-0.5" />
+              next <ChevronRight size={16} />
             </button>
           </div>
         </div>
