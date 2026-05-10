@@ -81,7 +81,7 @@ export default function HomeScreen({ userAlbums = [], paletteOverrides = {}, onS
       </div>
 
       {userAlbums.length > 0 && (
-        <div className="mx-4 mb-16 rounded-lg px-2 pt-0 pb-1" style={{ border: '1px solid rgba(255,255,255,0.12)' }}>
+        <div className="mx-4 mt-6 mb-16 rounded-lg px-2 pt-0 pb-1" style={{ border: '1px solid rgba(255,255,255,0.12)' }}>
           <div className="flex justify-center">
             <p
               className="font-sans text-ui font-medium uppercase tracking-wider text-text-secondary px-3 mb-6"
