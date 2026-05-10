@@ -178,23 +178,25 @@ export default function UploadOverlay({ onClose, onUpload }) {
                 Copy this prompt into Claude, ChatGPT, or any AI assistant — don't forget to add your album and artist name.
               </p>
 
-              <div className="bg-surface-0 rounded-md p-4 mb-4 relative">
-                <button
-                  onClick={handleCopy}
-                  className="absolute top-3 right-3 font-mono text-caption flex items-center gap-1 transition-colors"
-                  style={{ color: copied ? '#7B9FD4' : '#525A68' }}
-                >
-                  {copied ? 'Copied!' : 'COPY'}
-                  <Copy size={13} />
-                </button>
-                <p className="font-mono text-caption text-text-secondary leading-relaxed whitespace-pre-wrap pr-16">
+              <div className="bg-surface-0 rounded-md p-4 mb-4">
+                <div className="flex justify-end mb-2">
+                  <button
+                    onClick={handleCopy}
+                    className="font-mono text-caption flex items-center gap-1 transition-colors"
+                    style={{ color: copied ? '#7B9FD4' : '#525A68' }}
+                  >
+                    {copied ? 'Copied!' : 'COPY'}
+                    <Copy size={13} />
+                  </button>
+                </div>
+                <p className="font-mono text-caption text-text-secondary leading-relaxed whitespace-pre-wrap">
                   {LLM_PROMPT}
                 </p>
               </div>
 
               <button
                 onClick={handleCopy}
-                className="w-full flex items-center justify-center gap-2 rounded-md py-3 font-sans text-ui font-bold leading-none transition-colors"
+                className="w-full flex items-center justify-center gap-2 rounded-md py-3 font-sans text-ui font-bold leading-none uppercase tracking-wider transition-colors"
                 style={{ border: '1px solid rgba(123,159,212,0.35)', color: '#7B9FD4', background: copied ? 'rgba(123,159,212,0.08)' : 'transparent' }}
               >
                 <Copy size={15} />
