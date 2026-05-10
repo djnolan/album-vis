@@ -60,7 +60,7 @@ export default function SongCard({ songs, activeIndex, onIndexChange, onDismiss 
       <div className="px-4 pb-5">
         <div
           className="rounded-lg overflow-hidden"
-          style={{ background: CARD_BG, boxShadow: '0 8px 40px rgba(0,0,0,0.55)', border: '1px solid rgba(0,0,0,0.18)' }}
+          style={{ background: CARD_BG, boxShadow: '0 8px 40px rgba(0,0,0,0.55)' }}
         >
           {/* Header: eyebrow + title + close */}
           <div className="flex items-start justify-between px-5 pt-5 pb-3">
@@ -77,12 +77,18 @@ export default function SongCard({ songs, activeIndex, onIndexChange, onDismiss 
             </button>
           </div>
 
-          {/* Stats: label above, value below, horizontal columns */}
-          <div className="flex gap-6 px-5 pt-3 pb-5">
-            {stats.map(({ label, value }) => (
-              <div key={label}>
-                <p className="font-mono text-caption uppercase tracking-widest mb-0.5" style={{ color: TEXT_SECONDARY }}>{label}</p>
-                <p className="font-mono text-label" style={{ color: TEXT_PRIMARY }}>{value}</p>
+          {/* Stats: equal-width columns with dividers */}
+          <div className="flex px-5 pt-3 pb-5">
+            {stats.map(({ label, value }, i) => (
+              <div
+                key={label}
+                className="flex-1 pr-4"
+                style={i < stats.length - 1 ? { borderRight: '1px solid rgba(0,0,0,0.12)' } : {}}
+              >
+                <div style={i > 0 ? { paddingLeft: '1rem' } : {}}>
+                  <p className="font-mono text-caption uppercase tracking-widest mb-0.5" style={{ color: TEXT_SECONDARY }}>{label}</p>
+                  <p className="font-mono text-label" style={{ color: TEXT_PRIMARY }}>{value}</p>
+                </div>
               </div>
             ))}
           </div>

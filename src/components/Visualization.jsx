@@ -93,7 +93,7 @@ const Visualization = forwardRef(function Visualization({ album, palette, active
           <g
             key={node.track}
             transform={`translate(${node.x - node.r}, ${node.y - node.r})`}
-            onClick={() => onFlowerClick?.(node)}
+            onClick={(e) => { e.stopPropagation(); onFlowerClick?.(node); }}
             style={{ cursor: 'pointer' }}
           >
             <Flower

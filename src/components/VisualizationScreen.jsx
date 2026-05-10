@@ -109,7 +109,7 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
           width: '116%',
           height: '100%',
           marginLeft: '-8%',
-          transform: activeSongTrack != null ? 'translateY(-15%)' : 'translateY(0)',
+          transform: activeSongTrack != null ? 'translateY(-10%)' : 'translateY(0)',
           transition: 'transform 0.35s ease',
         }}>
           <Visualization
