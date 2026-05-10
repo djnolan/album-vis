@@ -3,8 +3,10 @@ import { ArrowLeft, Info, Palette, Download } from 'lucide-react';
 import Visualization from './Visualization';
 import SongCard from './SongCard';
 import { PALETTES } from '../data/palettes';
+import { useScrollLock } from '../hooks/useScrollLock';
 
 export default function VisualizationScreen({ album, paletteId, onBack, onPaletteClick, onInfoClick, onEditClick }) {
+  useScrollLock(true);
   const palette = PALETTES.find(p => p.id === paletteId) ?? PALETTES[0];
   const lightBg = !!palette.lightBg;
   const [activeSongTrack, setActiveSongTrack] = useState(null);
