@@ -81,8 +81,15 @@ export default function HomeScreen({ userAlbums = [], paletteOverrides = {}, onS
       </div>
 
       {userAlbums.length > 0 && (
-        <div className="mx-4 mb-16 rounded-lg px-2 pt-5 pb-1" style={{ border: '1px solid rgba(255,255,255,0.12)' }}>
-          <p className="font-sans text-ui font-medium uppercase tracking-wider text-text-secondary mb-8 px-2 text-center">Your Albums</p>
+        <div className="mx-4 mb-16 rounded-lg px-2 pt-0 pb-1" style={{ border: '1px solid rgba(255,255,255,0.12)' }}>
+          <div className="flex justify-center">
+            <p
+              className="font-sans text-ui font-medium uppercase tracking-wider text-text-secondary px-3 mb-6"
+              style={{ marginTop: '-0.6em', background: '#0E1117' }}
+            >
+              Your Albums
+            </p>
+          </div>
           {userAlbums.map(album => (
             <AlbumCard
               key={album.id}
