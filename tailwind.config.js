@@ -25,7 +25,7 @@ export default {
       fontSize: {
         'display': ['2rem',      { lineHeight: '1.2' }],
         'title':   ['1.375rem',  { lineHeight: '1.3' }],
-        'body':    ['1rem',      { lineHeight: '1.3' }],
+        'body':    ['1rem',      { lineHeight: '1.4' }],
         'ui':      ['0.9375rem', { lineHeight: '1.4' }],
         'label':   ['0.875rem',  { lineHeight: '1.4', fontWeight: '500' }],
         'caption': ['0.75rem',   { lineHeight: '1.4' }],
