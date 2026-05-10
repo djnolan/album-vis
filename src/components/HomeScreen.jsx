@@ -72,7 +72,7 @@ export default function HomeScreen({ userAlbums = [], paletteOverrides = {}, onS
   return (
     <div className="bg-surface-0 min-h-screen">
       <div className="px-6 pt-8 pb-8">
-        <h1 className="font-serif text-display text-text-primary leading-tight text-center">
+        <h1 className="font-serif text-text-primary leading-tight text-center" style={{ fontSize: '3rem' }}>
           In Bloom
         </h1>
         <p className="font-sans text-body text-text-secondary text-center mt-1">
