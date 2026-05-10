@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Papa from 'papaparse';
 import { X, Copy } from 'lucide-react';
 import PrimaryButton from './PrimaryButton';
+import { useScrollLock } from '../hooks/useScrollLock';
 
 const REQUIRED_COLUMNS = ['track', 'name', 'duration', 'bpm', 'key', 'accidental', 'mode'];
 const VALID_KEYS = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
@@ -42,6 +43,7 @@ function validateRows(rows) {
 }
 
 export default function UploadOverlay({ onClose, onUpload }) {
+  useScrollLock(true);
   const [promptExpanded, setPromptExpanded] = useState(false);
   const [copied, setCopied] = useState(false);
   const [csvText, setCsvText] = useState('');

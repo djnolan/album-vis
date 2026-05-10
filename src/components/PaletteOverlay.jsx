@@ -1,6 +1,7 @@
 import { X } from 'lucide-react';
 import { PALETTES } from '../data/palettes';
 import Flower from './Flower';
+import { useScrollLock } from '../hooks/useScrollLock';
 
 // Each config: two flowers per thumbnail
 // cx/cy: % of container width/height (flower center anchor)
@@ -114,6 +115,7 @@ function PaletteThumbnail({ palette, active, onClick, index }) {
 }
 
 export default function PaletteOverlay({ activePaletteId, onSelect, onClose }) {
+  useScrollLock(true);
   return (
     <div className="fixed inset-0 z-50 flex flex-col justify-end">
       <div className="absolute inset-0 bg-black/75" onClick={onClose} />

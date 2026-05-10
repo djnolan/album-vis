@@ -1,7 +1,9 @@
 // TODO: visual redesign — currently a v1 placeholder with text-only descriptions
 import { X } from 'lucide-react';
+import { useScrollLock } from '../hooks/useScrollLock';
 
 export default function LegendOverlay({ onClose }) {
+  useScrollLock(true);
   const items = [
     { label: 'SIZE', desc: 'how long the song is' },
     { label: 'PETALS', desc: 'tempo (BPM)' },
