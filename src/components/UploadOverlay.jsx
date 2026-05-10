@@ -162,7 +162,7 @@ export default function UploadOverlay({ onClose, onUpload }) {
 
         <div className="overflow-y-auto flex-1 px-6 pb-10">
 
-          <p className="font-sans text-body text-text-secondary mb-6 leading-relaxed">
+          <p className="font-sans text-body text-text-secondary mb-6">
             Once you have an album in mind, follow this two step process to generate your artwork. It takes about 30 seconds. You'll need access to an AI chat tool like ChatGPT, Claude or Gemini.
           </p>
 
@@ -174,7 +174,7 @@ export default function UploadOverlay({ onClose, onUpload }) {
               isOpen={openStep === 1}
               onToggle={() => toggle(1)}
             >
-              <p className="font-sans text-body text-text-secondary mb-4 leading-relaxed">
+              <p className="font-sans text-body text-text-secondary mb-4">
                 Copy this prompt into Claude, ChatGPT, or any AI assistant — don't forget to add your album and artist name.
               </p>
 
@@ -189,14 +189,14 @@ export default function UploadOverlay({ onClose, onUpload }) {
                     <Copy size={13} />
                   </button>
                 </div>
-                <p className="font-mono text-caption text-text-secondary leading-relaxed whitespace-pre-wrap">
+                <p className="font-mono text-caption text-text-secondary whitespace-pre-wrap">
                   {LLM_PROMPT}
                 </p>
               </div>
 
               <button
                 onClick={handleCopy}
-                className="w-full flex items-center justify-center gap-2 rounded-md py-3 font-sans text-ui font-bold leading-none uppercase tracking-wider transition-colors"
+                className="w-full flex items-center justify-center gap-2 rounded-md py-3 font-sans text-ui font-bold transition-colors"
                 style={{ border: '1px solid rgba(123,159,212,0.35)', color: '#7B9FD4', background: copied ? 'rgba(123,159,212,0.08)' : 'transparent' }}
               >
                 <Copy size={15} />
@@ -210,7 +210,7 @@ export default function UploadOverlay({ onClose, onUpload }) {
               isOpen={openStep === 2}
               onToggle={() => toggle(2)}
             >
-              <p className="font-sans text-body text-text-secondary mb-4 leading-relaxed">
+              <p className="font-sans text-body text-text-secondary mb-4">
                 Paste the CSV your AI assistant gives you into the box below.
               </p>
 
