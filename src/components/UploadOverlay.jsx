@@ -42,34 +42,43 @@ function validateRows(rows) {
   return errors;
 }
 
-function AccordionStep({ number, label, isOpen, onToggle, children }) {
+function AccordionStep({ stepLabel, label, isOpen, onToggle, children }) {
   return (
-    <div className="border-b border-border">
+    <div
+      className="rounded-lg overflow-hidden"
+      style={{ background: isOpen ? 'rgba(31,38,51,0.8)' : '#1F2633', outline: '1px solid rgba(255,255,255,0.06)' }}
+    >
       <button
         onClick={onToggle}
-        className="w-full flex items-center gap-3 py-4 text-left"
+        className="w-full flex items-center gap-3 px-4 py-4 text-left"
       >
         <span
-          className="w-6 h-6 rounded-full flex items-center justify-center shrink-0 font-mono text-caption font-medium"
+          className="shrink-0 px-2 py-0.5 rounded font-mono text-caption font-medium"
           style={{ background: 'rgba(123,159,212,0.15)', color: '#7B9FD4' }}
         >
-          {number}
+          {stepLabel}
         </span>
-        <span className="flex-1 font-sans text-ui font-medium text-text-primary">{label}</span>
+        <span className="flex-1 font-sans font-medium text-text-primary" style={{ fontSize: '1rem' }}>{label}</span>
         <ChevronDown
           size={18}
-          className="shrink-0 text-text-secondary transition-transform duration-300"
-          style={{ transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
+          className="shrink-0 text-text-secondary"
+          style={{
+            transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+            transition: 'transform 0.3s ease',
+          }}
         />
       </button>
 
-      {/* Grid trick for animating height: auto */}
+      {/* grid-template-rows trick for smooth height:auto animation */}
       <div
-        className="grid transition-all duration-300 ease-in-out"
-        style={{ gridTemplateRows: isOpen ? '1fr' : '0fr' }}
+        className="grid"
+        style={{
+          gridTemplateRows: isOpen ? '1fr' : '0fr',
+          transition: 'grid-template-rows 0.3s ease',
+        }}
       >
         <div className="overflow-hidden">
-          <div className="pb-5">
+          <div className="px-4 pb-5 pt-1">
             {children}
           </div>
         </div>
@@ -135,7 +144,10 @@ export default function UploadOverlay({ onClose, onUpload }) {
   return (
     <div className="fixed inset-0 z-50 flex flex-col justify-end">
       <div className="absolute inset-0 bg-black/75" onClick={onClose} />
-      <div className="relative bg-surface-1 rounded-t-lg flex flex-col max-h-[90vh]" style={{ boxShadow: '0 -8px 32px rgba(0,0,0,0.5)' }}>
+      <div
+        className="relative bg-surface-1 rounded-t-lg flex flex-col"
+        style={{ height: 'calc(100dvh - 48px)', maxHeight: 'calc(100dvh - 48px)', boxShadow: '0 -8px 32px rgba(0,0,0,0.5)' }}
+      >
 
         <div className="shrink-0 flex items-center justify-between px-6 pt-5 pb-4">
           <h2 className="font-sans text-ui font-medium uppercase tracking-wider text-text-primary">Create Your Visualization</h2>
@@ -148,56 +160,66 @@ export default function UploadOverlay({ onClose, onUpload }) {
           </button>
         </div>
 
-        <div className="overflow-y-auto flex-1 px-6 pb-8">
+        <div className="overflow-y-auto flex-1 px-6 pb-10">
 
-          <AccordionStep
-            number="1"
-            label="Get Your Album Data"
-            isOpen={openStep === 1}
-            onToggle={() => toggle(1)}
-          >
-            <p className="font-sans text-body text-text-secondary mb-4 leading-relaxed">
-              Copy this prompt into Claude, ChatGPT, or any AI assistant — don't forget to add your album and artist.
-            </p>
+          <p className="font-sans text-body text-text-secondary mb-6 leading-relaxed">
+            Once you have an album in mind, follow this two step process to generate your artwork. It takes about 30 seconds. You'll need access to an AI chat tool like ChatGPT, Claude or Gemini.
+          </p>
 
-            <div className="bg-surface-2 rounded-md p-4">
-              <div className="flex justify-end mb-2">
-                <button
-                  onClick={handleCopy}
-                  className="font-mono text-caption text-text-secondary flex items-center gap-1 hover:text-text-primary transition-colors"
-                >
-                  {copied ? 'Copied!' : 'COPY'}
-                  <Copy size={14} />
-                </button>
-              </div>
-              <p className="font-mono text-caption text-text-secondary leading-relaxed whitespace-pre-wrap">
-                {LLM_PROMPT}
+          <div className="flex flex-col gap-3">
+
+            <AccordionStep
+              stepLabel="Step 1"
+              label="Get Your Album Data"
+              isOpen={openStep === 1}
+              onToggle={() => toggle(1)}
+            >
+              <p className="font-sans text-body text-text-secondary mb-4 leading-relaxed">
+                Copy this prompt into Claude, ChatGPT, or any AI assistant — don't forget to add your album and artist name.
               </p>
-            </div>
-          </AccordionStep>
 
-          <AccordionStep
-            number="2"
-            label="Paste Your CSV"
-            isOpen={openStep === 2}
-            onToggle={() => toggle(2)}
-          >
-            <p className="font-sans text-body text-text-secondary mb-4 leading-relaxed">
-              Paste the CSV your AI assistant gives you into the box below.
-            </p>
+              <div className="bg-surface-0 rounded-md p-4 mb-4">
+                <p className="font-mono text-caption text-text-secondary leading-relaxed whitespace-pre-wrap">
+                  {LLM_PROMPT}
+                </p>
+              </div>
 
-            <textarea
-              value={csvText}
-              onChange={e => setCsvText(e.target.value)}
-              placeholder={'track,name,duration,bpm,key,accidental,mode\n1,Song Name,240,120,C,natural,major\n…'}
-              className="w-full h-36 bg-surface-2 font-mono text-caption text-text-primary rounded-md p-4 resize-none outline-none placeholder-text-tertiary focus:ring-1 focus:ring-accent"
-            />
+              <button
+                onClick={handleCopy}
+                className="w-full flex items-center justify-center gap-2 rounded-md py-3 font-mono text-caption font-medium transition-colors"
+                style={{
+                  background: copied ? 'rgba(123,159,212,0.25)' : 'rgba(123,159,212,0.15)',
+                  color: '#7B9FD4',
+                }}
+              >
+                <Copy size={15} />
+                {copied ? 'Copied!' : 'Copy Prompt'}
+              </button>
+            </AccordionStep>
 
-            {error && <p className="text-red-400 font-mono text-caption mt-2">{error}</p>}
+            <AccordionStep
+              stepLabel="Step 2"
+              label="Paste Your CSV"
+              isOpen={openStep === 2}
+              onToggle={() => toggle(2)}
+            >
+              <p className="font-sans text-body text-text-secondary mb-4 leading-relaxed">
+                Paste the CSV your AI assistant gives you into the box below.
+              </p>
 
-            <PrimaryButton onClick={handleSubmit} className="mt-4">GENERATE →</PrimaryButton>
-          </AccordionStep>
+              <textarea
+                value={csvText}
+                onChange={e => setCsvText(e.target.value)}
+                placeholder={'track,name,duration,bpm,key,accidental,mode\n1,Song Name,240,120,C,natural,major\n…'}
+                className="w-full h-36 bg-surface-0 font-mono text-caption text-text-primary rounded-md p-4 resize-none outline-none placeholder-text-tertiary focus:ring-1 focus:ring-accent"
+              />
 
+              {error && <p className="text-red-400 font-mono text-caption mt-2">{error}</p>}
+
+              <PrimaryButton onClick={handleSubmit} className="mt-4">GENERATE →</PrimaryButton>
+            </AccordionStep>
+
+          </div>
         </div>
       </div>
     </div>
