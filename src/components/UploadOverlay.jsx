@@ -217,7 +217,7 @@ export default function UploadOverlay({ onClose, onUpload }) {
               <textarea
                 value={csvText}
                 onChange={e => setCsvText(e.target.value)}
-                placeholder={'track,name,duration,bpm,key,accidental,mode\n1,Song Name,240,120,C,natural,major\n…'}
+                placeholder="Paste your data here."
                 className="w-full h-36 bg-surface-0 font-mono text-caption text-text-primary rounded-md p-4 resize-none outline-none placeholder-text-tertiary focus:ring-1 focus:ring-accent"
               />
 
