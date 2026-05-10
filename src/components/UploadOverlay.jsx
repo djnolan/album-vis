@@ -175,7 +175,7 @@ export default function UploadOverlay({ onClose, onUpload }) {
               onToggle={() => toggle(1)}
             >
               <p className="font-sans text-body text-text-secondary mb-4">
-                Copy this prompt into Claude, ChatGPT, or any AI assistant — don't forget to add your album and artist name.
+                Copy this prompt into an AI chat tool like ChatGPT. Make sure you add your album and artist name into the prompt.
               </p>
 
               <div className="bg-surface-0 rounded-md p-4 mb-4">
@@ -206,12 +206,12 @@ export default function UploadOverlay({ onClose, onUpload }) {
 
             <AccordionStep
               stepLabel="Step 2"
-              label="Paste Your CSV"
+              label="Paste In Your Data"
               isOpen={openStep === 2}
               onToggle={() => toggle(2)}
             >
               <p className="font-sans text-body text-text-secondary mb-4">
-                Paste the CSV your AI assistant gives you into the box below.
+                Paste the CSV text your AI tool gives you into the box below.
               </p>
 
               <textarea
