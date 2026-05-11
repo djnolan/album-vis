@@ -7,9 +7,6 @@ import RemoveAlbumSheet from './RemoveAlbumSheet';
 
 function AlbumCard({ album, onSelect, isUserAlbum, onLongPress }) {
   const palette = PALETTES.find(p => p.id === album.paletteId) ?? PALETTES[0];
-  const lightBg = !!palette.lightBg;
-  const textPrimary = lightBg ? '#0E1117' : '#ffffff';
-  const textSecondary = lightBg ? 'rgba(0,0,0,0.7)' : 'rgba(255,255,255,0.7)';
   const pressTimer = useRef(null);
   const didLongPress = useRef(false);
 
@@ -59,8 +56,8 @@ function AlbumCard({ album, onSelect, isUserAlbum, onLongPress }) {
         </div>
       </div>
       <div className="mt-3 text-center" style={{ width: '16rem' }}>
-        <p className="font-serif text-title leading-tight" style={{ color: textPrimary }}>{album.title}</p>
-        <p className="font-mono text-caption mt-1" style={{ color: textPrimary }}>{album.artist}</p>
+        <p className="font-serif text-title leading-tight" style={{ color: '#F0F2F5' }}>{album.title}</p>
+        <p className="font-mono text-caption mt-1" style={{ color: 'rgba(255,255,255,0.7)' }}>{album.artist}</p>
       </div>
     </div>
   );
