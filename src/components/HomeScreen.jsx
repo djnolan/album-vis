@@ -9,7 +9,7 @@ function AlbumCard({ album, onSelect, isUserAlbum, onLongPress }) {
   const palette = PALETTES.find(p => p.id === album.paletteId) ?? PALETTES[0];
   const lightBg = !!palette.lightBg;
   const textPrimary = lightBg ? '#0E1117' : '#ffffff';
-  const textSecondary = lightBg ? 'rgba(0,0,0,0.5)' : 'rgba(255,255,255,0.5)';
+  const textSecondary = lightBg ? 'rgba(0,0,0,0.7)' : 'rgba(255,255,255,0.7)';
   const pressTimer = useRef(null);
   const didLongPress = useRef(false);
 
