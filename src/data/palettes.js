@@ -74,11 +74,11 @@ export const PALETTES = [
   },
 
   {
-    id: "fruit-leather",
-    name: "Fruit Leather",
-    bg: "#2B1B17",
-    colorStart: "#C8553D",
-    colorEnd: "#F4D35E",
+    id: "midnight-transit",
+    name: "Midnight Transit",
+    bg: "#1A2238",
+    colorStart: "#4EA5D9",
+    colorEnd: "#FF6B8A",
   },
 
   {
