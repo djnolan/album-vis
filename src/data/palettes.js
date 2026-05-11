@@ -74,11 +74,11 @@ export const PALETTES = [
   },
 
   {
-    id: "midnight-transit",
-    name: "Midnight Transit",
-    bg: "#1A2238",
-    colorStart: "#4EA5D9",
-    colorEnd: "#FF6B8A",
+    id: "signal-decay",
+    name: "Signal Decay",
+    bg: "#1E2430",
+    colorStart: "#5B8CFF",
+    colorEnd: "#FF8A5B",
   },
 
   {
