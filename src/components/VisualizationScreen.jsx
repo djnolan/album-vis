@@ -4,10 +4,12 @@ import Visualization from './Visualization';
 import SongCard from './SongCard';
 import { PALETTES } from '../data/palettes';
 import { useScrollLock } from '../hooks/useScrollLock';
+import { useThemeColor } from '../hooks/useThemeColor';
 
 export default function VisualizationScreen({ album, paletteId, onBack, onPaletteClick, onInfoClick, onEditClick }) {
   useScrollLock(true);
   const palette = PALETTES.find(p => p.id === paletteId) ?? PALETTES[0];
+  useThemeColor(palette.bg);
   const lightBg = !!palette.lightBg;
   const [activeSongTrack, setActiveSongTrack] = useState(null);
   const [cardIndex, setCardIndex] = useState(0);
