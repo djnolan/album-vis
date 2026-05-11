@@ -33,53 +33,11 @@ export const PALETTES = [
   },
 
   {
-    id: "chrome-lagoon",
-    name: "Chrome Lagoon",
-    bg: "#E8EDF2",
-    colorStart: "#7AD7F0",
-    colorEnd: "#5B3DF5",
-    lightBg: true,
-  },
-
-  {
-    id: "signal-decay",
-    name: "Signal Decay",
-    bg: "#241E2B",
-    colorStart: "#7868A6",
-    colorEnd: "#FF6B35",
-  },
-
-  {
-    id: "burnt-hologram",
-    name: "Burnt Hologram",
-    bg: "#2B1F1A",
-    colorStart: "#FF7A00",
-    colorEnd: "#FFD9F7",
-  },
-
-  {
     id: "ultraviolet-clash",
     name: "Ultraviolet Clash",
     bg: "#140F2D",
     colorStart: "#2E0F7A",
     colorEnd: "#F72585",
-  },
-
-  {
-    id: "laser-velvet",
-    name: "Laser Velvet",
-    bg: "#160B22",
-    colorStart: "#7B2CBF",
-    colorEnd: "#FF2E63",
-  },
-
-  {
-    id: "digital-koi",
-    name: "Digital Koi",
-    bg: "#F7F4EE",
-    colorStart: "#FF7F50",
-    colorEnd: "#00B8D9",
-    lightBg: true,
   },
 
   {
@@ -91,20 +49,62 @@ export const PALETTES = [
   },
 
   {
-    id: "cassette-heat",
-    name: "Cassette Heat",
-    bg: "#1E1A17",
-    colorStart: "#A14A28",
-    colorEnd: "#FFB703",
-  },
-
-  {
     id: "prism-bloom",
     name: "Prism Bloom",
     bg: "#FFF6E0",
     colorStart: "#FF9F1C",
     colorEnd: "#2EC4FF",
     lightBg: true,
+  },
+
+  {
+    id: "burnt-hologram",
+    name: "Burnt Hologram",
+    bg: "#2B1F1A",
+    colorStart: "#FF7A00",
+    colorEnd: "#FFD9F7",
+  },
+
+  {
+    id: "xerox-dream",
+    name: "Xerox Dream",
+    bg: "#F3F0E8",
+    colorStart: "#5E5E5E",
+    colorEnd: "#FF1744",
+    lightBg: true,
+  },
+
+  {
+    id: "deep-sea-tape",
+    name: "Deep Sea Tape",
+    bg: "#06141F",
+    colorStart: "#006D77",
+    colorEnd: "#83C5BE",
+  },
+
+  {
+    id: "mercury-flash",
+    name: "Mercury Flash",
+    bg: "#111111",
+    colorStart: "#C0C0C0",
+    colorEnd: "#00FFD1",
+  },
+
+  {
+    id: "sunset-fm",
+    name: "Sunset FM",
+    bg: "#FFF1E6",
+    colorStart: "#FF7B54",
+    colorEnd: "#7B2CBF",
+    lightBg: true,
+  },
+
+  {
+    id: "fruit-leather",
+    name: "Fruit Leather",
+    bg: "#2B1B17",
+    colorStart: "#C8553D",
+    colorEnd: "#F4D35E",
   },
 
 ];
