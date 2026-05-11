@@ -60,7 +60,7 @@ function AlbumCard({ album, onSelect, isUserAlbum, onLongPress }) {
       </div>
       <div className="mt-3 text-center" style={{ width: '16rem' }}>
         <p className="font-serif text-title leading-tight" style={{ color: textPrimary }}>{album.title}</p>
-        <p className="font-mono text-caption mt-1" style={{ color: textSecondary }}>{album.artist}</p>
+        <p className="font-mono text-caption mt-1" style={{ color: textPrimary }}>{album.artist}</p>
       </div>
     </div>
   );
