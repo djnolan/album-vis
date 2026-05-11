@@ -8,8 +8,8 @@ import RemoveAlbumSheet from './RemoveAlbumSheet';
 function AlbumCard({ album, onSelect, isUserAlbum, onLongPress }) {
   const palette = PALETTES.find(p => p.id === album.paletteId) ?? PALETTES[0];
   const lightBg = !!palette.lightBg;
-  const textPrimary = lightBg ? '#0E1117' : '#F0F2F5';
-  const textSecondary = lightBg ? 'rgba(14,17,23,0.55)' : 'rgba(240,242,245,0.55)';
+  const textPrimary = lightBg ? '#0E1117' : '#ffffff';
+  const textSecondary = lightBg ? 'rgba(0,0,0,0.5)' : 'rgba(255,255,255,0.5)';
   const pressTimer = useRef(null);
   const didLongPress = useRef(false);
 
