@@ -14,6 +14,7 @@ export const PALETTES = [
     colorStart: "#2A6F6A",
     colorEnd: "#F2FF4D",
   },
+
   {
     id: "terracotta-punch",
     name: "Terracotta Punch",
@@ -22,6 +23,7 @@ export const PALETTES = [
     colorEnd: "#3A6FF2",
     lightBg: true,
   },
+
   {
     id: "acid-bloom",
     name: "Acid Bloom",
@@ -29,6 +31,32 @@ export const PALETTES = [
     colorStart: "#3A8F2A",
     colorEnd: "#FF00C8",
   },
+
+  {
+    id: "chrome-lagoon",
+    name: "Chrome Lagoon",
+    bg: "#E8EDF2",
+    colorStart: "#7AD7F0",
+    colorEnd: "#5B3DF5",
+    lightBg: true,
+  },
+
+  {
+    id: "signal-decay",
+    name: "Signal Decay",
+    bg: "#241E2B",
+    colorStart: "#7868A6",
+    colorEnd: "#FF6B35",
+  },
+
+  {
+    id: "burnt-hologram",
+    name: "Burnt Hologram",
+    bg: "#2B1F1A",
+    colorStart: "#FF7A00",
+    colorEnd: "#FFD9F7",
+  },
+
   {
     id: "ultraviolet-clash",
     name: "Ultraviolet Clash",
@@ -36,6 +64,24 @@ export const PALETTES = [
     colorStart: "#2E0F7A",
     colorEnd: "#F72585",
   },
+
+  {
+    id: "laser-velvet",
+    name: "Laser Velvet",
+    bg: "#160B22",
+    colorStart: "#7B2CBF",
+    colorEnd: "#FF2E63",
+  },
+
+  {
+    id: "digital-koi",
+    name: "Digital Koi",
+    bg: "#F7F4EE",
+    colorStart: "#FF7F50",
+    colorEnd: "#00B8D9",
+    lightBg: true,
+  },
+
   {
     id: "electric-orchid",
     name: "Electric Orchid",
@@ -43,6 +89,15 @@ export const PALETTES = [
     colorStart: "#3F2A6B",
     colorEnd: "#00E5FF",
   },
+
+  {
+    id: "cassette-heat",
+    name: "Cassette Heat",
+    bg: "#1E1A17",
+    colorStart: "#A14A28",
+    colorEnd: "#FFB703",
+  },
+
   {
     id: "prism-bloom",
     name: "Prism Bloom",
@@ -50,56 +105,6 @@ export const PALETTES = [
     colorStart: "#FF9F1C",
     colorEnd: "#2EC4FF",
     lightBg: true,
-  },
-  {
-    id: "infrared-night",
-    name: "Infrared Night",
-    bg: "#140A0A",
-    colorStart: "#7A0000",
-    colorEnd: "#FF6B35",
-  },
-  {
-    id: "hot-canary",
-    name: "Hot Canary",
-    bg: "#F5E500",
-    colorStart: "#C17B00",
-    colorEnd: "#FF2D6B",
-    lightBg: true,
-  },
-  {
-    id: "bubblegum-noir",
-    name: "Bubblegum Noir",
-    bg: "#FF2D78",
-    colorStart: "#8B0050",
-    colorEnd: "#FFE847",
-  },
-  {
-    id: "toxic-jungle",
-    name: "Toxic Jungle",
-    bg: "#1A3A00",
-    colorStart: "#2D6B00",
-    colorEnd: "#CCFF00",
-  },
-  {
-    id: "void-signal",
-    name: "Void Signal",
-    bg: "#0A0A0A",
-    colorStart: "#1A006B",
-    colorEnd: "#00FFD1",
-  },
-  {
-    id: "copper-burn",
-    name: "Copper Burn",
-    bg: "#FF6B1A",
-    colorStart: "#7A2800",
-    colorEnd: "#FFE14D",
-  },
-  {
-    id: "deep-fuchsia",
-    name: "Deep Fuchsia",
-    bg: "#2D0030",
-    colorStart: "#6B006B",
-    colorEnd: "#FF9EF5",
   },
 
 ];
