@@ -66,15 +66,6 @@ export const PALETTES = [
   },
 
   {
-    id: "xerox-dream",
-    name: "Xerox Dream",
-    bg: "#F3F0E8",
-    colorStart: "#5E5E5E",
-    colorEnd: "#FF1744",
-    lightBg: true,
-  },
-
-  {
     id: "deep-sea-tape",
     name: "Deep Sea Tape",
     bg: "#06141F",
@@ -83,28 +74,35 @@ export const PALETTES = [
   },
 
   {
-    id: "mercury-flash",
-    name: "Mercury Flash",
-    bg: "#111111",
-    colorStart: "#C0C0C0",
-    colorEnd: "#00FFD1",
-  },
-
-  {
-    id: "sunset-fm",
-    name: "Sunset FM",
-    bg: "#FFF1E6",
-    colorStart: "#FF7B54",
-    colorEnd: "#7B2CBF",
-    lightBg: true,
-  },
-
-  {
     id: "fruit-leather",
     name: "Fruit Leather",
     bg: "#2B1B17",
     colorStart: "#C8553D",
     colorEnd: "#F4D35E",
+  },
+
+  {
+    id: "blue-screen-life",
+    name: "Blue Screen Life",
+    bg: "#2146C7",
+    colorStart: "#A7C7FF",
+    colorEnd: "#FFE66D",
+  },
+
+  {
+    id: "lava-lamp",
+    name: "Lava Lamp",
+    bg: "#A63A50",
+    colorStart: "#FFD166",
+    colorEnd: "#7BFFB7",
+  },
+
+  {
+    id: "green-room",
+    name: "Green Room",
+    bg: "#0B6E4F",
+    colorStart: "#C2F970",
+    colorEnd: "#FF6B6B",
   },
 
 ];
