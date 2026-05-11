@@ -4,12 +4,10 @@ import Visualization from './Visualization';
 import SongCard from './SongCard';
 import { PALETTES } from '../data/palettes';
 import { useScrollLock } from '../hooks/useScrollLock';
-import { useThemeColor } from '../hooks/useThemeColor';
 
 export default function VisualizationScreen({ album, paletteId, onBack, onPaletteClick, onInfoClick, onEditClick }) {
   useScrollLock(true);
   const palette = PALETTES.find(p => p.id === paletteId) ?? PALETTES[0];
-  useThemeColor(palette.bg);
   const lightBg = !!palette.lightBg;
   const [activeSongTrack, setActiveSongTrack] = useState(null);
   const [cardIndex, setCardIndex] = useState(0);
@@ -102,11 +100,12 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
   }
 
   return (
-    <div className="fixed inset-0 overflow-hidden" style={{ background: palette.bg }}>
+    <div className="fixed inset-0 overflow-hidden bg-surface-0">
 
       {/* Visualization — full bleed behind header */}
       <div
         className="absolute inset-0"
+        style={{ background: palette.bg }}
         onClick={activeSongTrack != null ? handleDismiss : undefined}
       >
         <div style={{
