@@ -70,8 +70,9 @@ const SongCard = forwardRef(function SongCard({ songs, activeIndex, onIndexChang
       {/* Tap-outside dismiss strip */}
       <div className="h-20" onClick={handleClose} />
 
-      {/* Floating card — animated */}
-      <div className="px-4 pb-5" style={sheetStyle}>
+      {/* Floating card — animated. bg-surface-0 fills the gap below the card so
+          Safari doesn't sample the palette color for the bottom chrome bar. */}
+      <div className="px-4 pb-5 bg-surface-0" style={sheetStyle}>
         <div
           className="rounded-lg overflow-hidden"
           style={{ background: CARD_BG, boxShadow: '0 8px 40px rgba(0,0,0,0.55)' }}
