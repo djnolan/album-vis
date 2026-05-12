@@ -103,8 +103,8 @@ const Visualization = forwardRef(function Visualization({ album, palette, active
           >
             <g style={animate ? {
               transformOrigin: `${node.r}px ${node.r}px`,
-              animation: `growFlower 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) both`,
-              animationDelay: `${trackOrder * 70}ms`,
+              animation: `growFlower 0.6s cubic-bezier(0.34, 1.2, 0.64, 1) both`,
+              animationDelay: `${trackOrder * 50}ms`,
             } : undefined}>
               <Flower
                 song={node}
