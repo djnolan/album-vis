@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { ArrowLeft, Info, Palette, Download } from 'lucide-react';
 import Visualization from './Visualization';
 import SongCard from './SongCard';
@@ -13,18 +13,13 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
   const [songCardMounted, setSongCardMounted] = useState(false);
   const [cardIndex, setCardIndex] = useState(0);
   const [isDownloading, setIsDownloading] = useState(false);
-  const [opacity, setOpacity] = useState(0);
+  const [isExiting, setIsExiting] = useState(false);
   const vizRef = useRef(null);
   const songCardRef = useRef(null);
 
-  useEffect(() => {
-    const id = requestAnimationFrame(() => setOpacity(1));
-    return () => cancelAnimationFrame(id);
-  }, []);
-
   function handleBack() {
-    setOpacity(0);
-    setTimeout(onBack, 180);
+    setIsExiting(true);
+    setTimeout(onBack, 200);
   }
 
   const vizTextPrimary = lightBg ? '#0E1117' : '#F0F2F5';
@@ -127,7 +122,7 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
   }
 
   return (
-    <div className="fixed inset-0 overflow-hidden bg-surface-0" style={{ opacity, transition: 'opacity 0.18s ease' }}>
+    <div className="fixed inset-0 overflow-hidden bg-surface-0" style={isExiting ? { opacity: 0, transition: 'opacity 0.2s ease' } : { animation: 'vizFadeIn 0.25s ease both' }}>
 
       {/* Visualization — full bleed behind header */}
       <div
