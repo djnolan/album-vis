@@ -22,3 +22,8 @@ html, body {
 #root {
   min-height: 100%;
 }
+
+@keyframes growFlower {
+  from { transform: scale(0); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
