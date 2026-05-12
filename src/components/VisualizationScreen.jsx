@@ -137,6 +137,7 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
             palette={palette}
             activeSongTrack={activeSongTrack}
             onFlowerClick={handleFlowerClick}
+            animate
           />
         </div>
       </div>
