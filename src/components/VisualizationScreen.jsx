@@ -10,9 +10,11 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
   const palette = PALETTES.find(p => p.id === paletteId) ?? PALETTES[0];
   const lightBg = !!palette.lightBg;
   const [activeSongTrack, setActiveSongTrack] = useState(null);
+  const [songCardMounted, setSongCardMounted] = useState(false);
   const [cardIndex, setCardIndex] = useState(0);
   const [isDownloading, setIsDownloading] = useState(false);
   const vizRef = useRef(null);
+  const songCardRef = useRef(null);
 
   const vizTextPrimary = lightBg ? '#0E1117' : '#F0F2F5';
   const vizTextSecondary = lightBg ? '#3A3F4A' : '#8B93A1';
@@ -23,6 +25,7 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
     const idx = sortedSongs.findIndex(s => s.track === node.track);
     setCardIndex(idx >= 0 ? idx : 0);
     setActiveSongTrack(node.track);
+    setSongCardMounted(true);
   }
 
   function handleCardIndexChange(i) {
@@ -30,8 +33,21 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
     setActiveSongTrack(sortedSongs[i].track);
   }
 
-  function handleDismiss() {
+  // Called by SongCard's internal close — shifts viz back immediately
+  function handleCardDismiss() {
     setActiveSongTrack(null);
+  }
+
+  // Called after SongCard exit animation completes
+  function handleCardExited() {
+    setSongCardMounted(false);
+  }
+
+  // Tapping the viz backdrop — shift viz + animate card out simultaneously
+  function handleVizClick() {
+    if (activeSongTrack == null) return;
+    setActiveSongTrack(null);
+    songCardRef.current?.close();
   }
 
   async function handleDownload() {
@@ -106,7 +122,7 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
       <div
         className="absolute inset-0"
         style={{ background: palette.bg }}
-        onClick={activeSongTrack != null ? handleDismiss : undefined}
+        onClick={handleVizClick}
       >
         <div style={{
           width: '116%',
@@ -160,12 +176,14 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
       </div>
 
       {/* Song card */}
-      {activeSongTrack != null && (
+      {songCardMounted && (
         <SongCard
+          ref={songCardRef}
           songs={sortedSongs}
           activeIndex={cardIndex}
           onIndexChange={handleCardIndexChange}
-          onDismiss={handleDismiss}
+          onDismiss={handleCardDismiss}
+          onExited={handleCardExited}
         />
       )}
     </div>

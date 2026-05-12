@@ -1,6 +1,7 @@
-import { useRef, useState } from 'react';
+import { forwardRef, useImperativeHandle, useRef, useState } from 'react';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useScrollLock } from '../hooks/useScrollLock';
+import { useSheetAnimation } from '../hooks/useSheetAnimation';
 
 const CARD_BG = '#DDE2EE';
 const TEXT_PRIMARY = '#1A2030';
@@ -19,11 +20,22 @@ function formatKeyMode(key, accidental, mode) {
   return `${note} ${mode === 'minor' ? 'Minor' : 'Major'}`;
 }
 
-export default function SongCard({ songs, activeIndex, onIndexChange, onDismiss }) {
+const SongCard = forwardRef(function SongCard({ songs, activeIndex, onIndexChange, onDismiss, onExited }, ref) {
   useScrollLock(true);
+  // close() starts exit animation then calls onExited (which unmounts the card)
+  const { close, sheetStyle } = useSheetAnimation(onExited);
   const song = songs[activeIndex];
   const startX = useRef(null);
   const [dragDelta, setDragDelta] = useState(0);
+
+  // Expose close() so VisualizationScreen can trigger animated dismiss externally
+  useImperativeHandle(ref, () => ({ close }));
+
+  // Internal dismiss: immediately notify parent (viz shifts back), then animate out
+  function handleClose() {
+    onDismiss();
+    close();
+  }
 
   function onTouchStart(e) {
     startX.current = e.touches[0].clientX;
@@ -56,10 +68,10 @@ export default function SongCard({ songs, activeIndex, onIndexChange, onDismiss 
       onTouchEnd={onTouchEnd}
     >
       {/* Tap-outside dismiss strip */}
-      <div className="h-20" onClick={onDismiss} />
+      <div className="h-20" onClick={handleClose} />
 
-      {/* Floating card */}
-      <div className="px-4 pb-5">
+      {/* Floating card — animated */}
+      <div className="px-4 pb-5" style={sheetStyle}>
         <div
           className="rounded-lg overflow-hidden"
           style={{ background: CARD_BG, boxShadow: '0 8px 40px rgba(0,0,0,0.55)' }}
@@ -71,7 +83,7 @@ export default function SongCard({ songs, activeIndex, onIndexChange, onDismiss 
               <p className="font-serif text-title leading-tight" style={{ color: TEXT_PRIMARY }}>{song.name}</p>
             </div>
             <button
-              onClick={onDismiss}
+              onClick={handleClose}
               className="w-9 h-9 rounded-full flex items-center justify-center shrink-0"
               style={{ background: 'rgba(0,0,0,0.1)', color: TEXT_PRIMARY }}
             >
@@ -119,4 +131,6 @@ export default function SongCard({ songs, activeIndex, onIndexChange, onDismiss 
       </div>
     </div>
   );
-}
+});
+
+export default SongCard;

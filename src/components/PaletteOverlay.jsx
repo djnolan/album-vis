@@ -2,6 +2,7 @@ import { X } from 'lucide-react';
 import { PALETTES } from '../data/palettes';
 import Flower from './Flower';
 import { useScrollLock } from '../hooks/useScrollLock';
+import { useSheetAnimation } from '../hooks/useSheetAnimation';
 
 // Each config: two flowers per thumbnail
 // cx/cy: % of container width/height (flower center anchor)
@@ -116,15 +117,16 @@ function PaletteThumbnail({ palette, active, onClick, index }) {
 
 export default function PaletteOverlay({ activePaletteId, onSelect, onClose }) {
   useScrollLock(true);
+  const { close, backdropStyle, sheetStyle } = useSheetAnimation(onClose);
   return (
     <div className="fixed inset-0 z-50 flex flex-col justify-end">
-      <div className="absolute inset-0 bg-black/75" onClick={onClose} />
-      <div className="relative bg-surface-1 rounded-t-lg flex flex-col" style={{ maxHeight: 'calc(100dvh - 48px)', boxShadow: '0 -8px 32px rgba(0,0,0,0.5)' }}>
+      <div className="absolute inset-0 bg-black/75" style={backdropStyle} onClick={close} />
+      <div className="relative bg-surface-1 rounded-t-lg flex flex-col" style={{ maxHeight: 'calc(100dvh - 48px)', boxShadow: '0 -8px 32px rgba(0,0,0,0.5)', ...sheetStyle }}>
 
         <div className="shrink-0 flex items-center justify-between px-6 pt-5 pb-4">
           <h2 className="font-sans text-ui font-medium uppercase tracking-wider text-text-primary">Pick Your Palette</h2>
           <button
-            onClick={onClose}
+            onClick={close}
             className="w-9 h-9 rounded-full flex items-center justify-center text-text-secondary"
             style={{ background: 'rgba(0,0,0,0.3)' }}
           >
@@ -139,7 +141,7 @@ export default function PaletteOverlay({ activePaletteId, onSelect, onClose }) {
                 key={p.id}
                 palette={p}
                 active={p.id === activePaletteId}
-                onClick={() => { onSelect(p.id); onClose(); }}
+                onClick={() => { onSelect(p.id); close(); }}
                 index={i}
               />
             ))}

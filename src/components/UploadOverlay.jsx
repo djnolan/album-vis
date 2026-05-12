@@ -3,6 +3,7 @@ import Papa from 'papaparse';
 import { X, Copy, ChevronDown } from 'lucide-react';
 import PrimaryButton from './PrimaryButton';
 import { useScrollLock } from '../hooks/useScrollLock';
+import { useSheetAnimation } from '../hooks/useSheetAnimation';
 
 const REQUIRED_COLUMNS = ['track', 'name', 'duration', 'bpm', 'key', 'accidental', 'mode'];
 const VALID_KEYS = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
@@ -89,6 +90,7 @@ function AccordionStep({ stepLabel, label, isOpen, onToggle, children }) {
 
 export default function UploadOverlay({ onClose, onUpload }) {
   useScrollLock(true);
+  const { close, backdropStyle, sheetStyle } = useSheetAnimation(onClose);
   const [openStep, setOpenStep] = useState(null);
   const [copied, setCopied] = useState(false);
   const [csvText, setCsvText] = useState('');
@@ -143,16 +145,16 @@ export default function UploadOverlay({ onClose, onUpload }) {
 
   return (
     <div className="fixed inset-0 z-50 flex flex-col justify-end">
-      <div className="absolute inset-0 bg-black/75" onClick={onClose} />
+      <div className="absolute inset-0 bg-black/75" style={backdropStyle} onClick={close} />
       <div
         className="relative bg-surface-1 rounded-t-lg flex flex-col"
-        style={{ height: 'calc(100dvh - 48px)', maxHeight: 'calc(100dvh - 48px)', boxShadow: '0 -8px 32px rgba(0,0,0,0.5)' }}
+        style={{ height: 'calc(100dvh - 48px)', maxHeight: 'calc(100dvh - 48px)', boxShadow: '0 -8px 32px rgba(0,0,0,0.5)', ...sheetStyle }}
       >
 
         <div className="shrink-0 flex items-center justify-between px-6 pt-5 pb-4">
           <h2 className="font-sans text-ui font-medium uppercase tracking-wider text-text-primary">Create Your Visualization</h2>
           <button
-            onClick={onClose}
+            onClick={close}
             className="w-9 h-9 rounded-full flex items-center justify-center text-text-secondary"
             style={{ background: 'rgba(0,0,0,0.3)' }}
           >
