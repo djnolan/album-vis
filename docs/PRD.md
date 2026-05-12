@@ -1,6 +1,6 @@
 # Album Burst — Product Requirements
 
-**Version 1.2 · Design & Build Reference**
+**Version 1.3 · Design & Build Reference**
 
 ---
 
@@ -77,20 +77,22 @@ The color ramp uses `d3.scaleSequential` with `d3.interpolateHcl`. The 12 chroma
 
 ### Current Palette Set (12 palettes)
 
-| ID | Name | bg | colorStart | colorEnd |
-|---|---|---|---|---|
-| `neon-citrus` | Neon Citrus | `#1F1F1F` | `#2A6F6A` | `#F2FF4D` |
-| `terracotta-punch` | Terracotta Punch | `#DAD2C3` | `#C49A7A` | `#3A6FF2` |
-| `acid-bloom` | Acid Bloom | `#222222` | `#3A8F2A` | `#FF00C8` |
-| `glacier-punch` | Glacier Punch | `#EEF6FF` | `#A9D3E5` | `#4361EE` |
-| `magnetic-field` | Magnetic Field | `#3A3F58` | `#2F7F7F` | `#FF4D6D` |
-| `golden-static` | Golden Static | `#4A3A2A` | `#9A6B3F` | `#FFE66D` |
-| `ultraviolet-clash` | Ultraviolet Clash | `#140F2D` | `#2E0F7A` | `#F72585` |
-| `infrared-night` | Infrared Night | `#140A0A` | `#5A2A2A` | `#FF3B1F` |
-| `mint-condition` | Mint Condition | `#EAFBF5` | `#C7E8DB` | `#00C896` |
-| `electric-orchid` | Electric Orchid | `#2A1F3D` | `#3F2A6B` | `#00E5FF` |
-| `soft-noise` | Soft Noise | `#2E2E2E` | `#3A3A3A` | `#8FA3B0` |
-| `prism-bloom` | Prism Bloom | `#FFF6E0` | `#FF9F1C` | `#2EC4FF` |
+Light-background palettes (those with `lightBg: true`) trigger dark UI overrides on the Visualization Screen — see design-spec.md §3.
+
+| ID | Name | bg | colorStart | colorEnd | lightBg |
+|---|---|---|---|---|---|
+| `neon-citrus` | Neon Citrus | `#1F1F1F` | `#2A6F6A` | `#F2FF4D` | — |
+| `terracotta-punch` | Terracotta Punch | `#DAD2C3` | `#C49A7A` | `#3A6FF2` | ✓ |
+| `acid-bloom` | Acid Bloom | `#222222` | `#3A8F2A` | `#FF00C8` | — |
+| `ultraviolet-clash` | Ultraviolet Clash | `#140F2D` | `#2E0F7A` | `#F72585` | — |
+| `electric-orchid` | Electric Orchid | `#2A1F3D` | `#3F2A6B` | `#00E5FF` | — |
+| `prism-bloom` | Prism Bloom | `#FFF6E0` | `#FF9F1C` | `#2EC4FF` | ✓ |
+| `burnt-hologram` | Burnt Hologram | `#2B1F1A` | `#FF7A00` | `#FFD9F7` | — |
+| `deep-sea-tape` | Deep Sea Tape | `#06141F` | `#006D77` | `#83C5BE` | — |
+| `signal-decay` | Signal Decay | `#1E2430` | `#5B8CFF` | `#FF8A5B` | — |
+| `blue-screen-life` | Blue Screen Life | `#2146C7` | `#A7C7FF` | `#FFE66D` | — |
+| `lava-lamp` | Lava Lamp | `#A63A50` | `#FFD166` | `#7BFFB7` | — |
+| `green-room` | Green Room | `#0B6E4F` | `#C2F970` | `#FF6B6B` | — |
 
 ---
 
@@ -98,33 +100,34 @@ The color ramp uses `d3.scaleSequential` with `d3.interpolateHcl`. The 12 chroma
 
 ### 5.1 Home Screen
 
-A vertically scrolling feed of preloaded album visualizations (5 albums). Each item shows the square visualization, album title, and artist name. Tapping navigates to the Visualization Screen.
+A vertically scrolling feed of album visualizations. The page title **"In Bloom"** appears at the top in display serif, with a short tagline below.
 
 - Body scrolls natively (not an inner container) so the iOS address bar minimizes on scroll.
-- Fixed bottom bar: **CREATE** button (left, prominent) opens the Upload Data overlay. Short explanatory text to the right.
-- Palette changes made during a session are reflected on home screen album cards, but reset to defaults on page refresh (preloaded albums only; user-created albums persist palette choice via localStorage).
+- **Your Albums** section: if the user has created any albums, they appear in a bordered box above the preloaded albums. Long-pressing a user album opens a removal confirmation sheet.
+- **Preloaded albums**: 5 albums displayed below the Your Albums section (or at the top if no user albums exist). Each shows a square thumbnail, album title (`text-text-primary`), and artist name (`text-text-secondary`).
+- Fixed bottom bar: full-width **CREATE +** button (opens Upload Data overlay), anchored over a gradient fade from `surface-0`.
+- Palette changes made during a session are reflected on home screen album thumbnails, but reset to defaults on page refresh (preloaded albums only; user-created albums persist palette choice via localStorage).
 
 ### 5.2 Upload Data Overlay
 
-Bottom sheet over dimmed home screen. Contains:
+Full-height bottom sheet (minus a 48px top margin). Contains:
 
-- Title 'Upload Your Album Data' + X close button.
-- Short instructional text.
-- Copyable LLM prompt block with COPY button. Expand/collapse toggle — collapsed by default.
-- Horizontal divider.
-- UPLOAD CSV button with spreadsheet icon.
+- Title **"Create Your Visualization"** + X close button.
+- Two accordion steps, one open at a time:
+  - **Step 1 — Get Your Data**: Copyable LLM prompt with a COPY button. Collapsed by default; expand to reveal the full prompt.
+  - **Step 2 — Paste In Your Data**: Multiline textarea with placeholder "Paste your data here." and a **UPLOAD CSV** submit button.
 
-On successful upload: overlay closes, navigates to Visualization Screen. CSV is validated for required columns and value ranges before navigating.
+On successful upload: overlay closes, navigates to Visualization Screen. CSV text is validated for required columns and value ranges before navigating.
 
 ### 5.3 Visualization Screen
 
 Main view after selecting a preloaded album or uploading data.
 
-- **Top left**: Album name + artist name (tappable, opens Edit Album overlay).
-- **Top right**: ⓘ Info button — opens Key/Legend overlay.
-- **Center**: Visualization filling available height between header and bottom bar. Container is 116% of screen width (slightly overflowing) to give a fuller visual feel.
-- **Bottom bar**: Back arrow (left), Palette icon (center), Download icon (right).
-- Screen uses `position: fixed; inset: 0` so it fills the true visual viewport on mobile (not `100vh`), ensuring bottom buttons are never hidden by the browser address bar.
+- **Top bar**: Back arrow (left) · Album title + artist name centered (tappable, opens Edit Album overlay) · blank spacer (right). Floats over the visualization with a top-to-transparent gradient using the active palette's bg color.
+- **Center**: Visualization filling the full screen. Container is 116% of screen width (slightly overflowing) to give a fuller visual feel. Shifts up 10% when a song card is active.
+- **Bottom bar**: ⓘ Info icon (left, opens Key/Legend overlay) · Palette icon (center, opens Palette overlay) · Download icon (right).
+- Screen uses `position: fixed; inset: 0` so it fills the true visual viewport on mobile (not `100vh`), preventing bottom buttons from being hidden by the browser address bar.
+- Body scroll is locked while the screen is visible via `useScrollLock` (iOS: `position:fixed` body trick; others: `overflow:hidden`). All overlays that appear on top of the viz screen also apply scroll lock.
 
 **Song Card Carousel:**
 
@@ -248,7 +251,7 @@ Display order on Home Screen:
 | 1 | Frank Ocean | Blonde | 17 | Neon Citrus |
 | 2 | Boards of Canada | Music Has the Right to Children | 18 | Terracotta Punch |
 | 3 | Taylor Swift | Speak Now | 14 | Ultraviolet Clash |
-| 4 | Sex Pistols | Never Mind the Bollocks, Here's the Sex Pistols | 12 | Acid Bloom |
+| 4 | Sex Pistols | Never Mind the Bollocks | 12 | Acid Bloom |
 | 5 | Radiohead | In Rainbows | 10 | Prism Bloom |
 
 ---
@@ -258,9 +261,8 @@ Display order on Home Screen:
 | Item | Status | Notes |
 |---|---|---|
 | Key/Legend overlay visual design | Open | Placeholder text in place; full visual design TBD |
-| Song card visual design | Open | Placeholder layout in place; full visual design TBD |
 | Download — additional format options | Open | Current: wallpaper only. Future: square poster, title on/off, etc. |
-| iOS address bar behavior on viz screen | Open | Partial fix in place; body scroll lock on viz screen still imperfect on iOS |
+| iOS address bar behavior on viz screen | Resolved | `useScrollLock` hook implemented; iOS uses `position:fixed` body trick, others use `overflow:hidden` |
 | LLM prompt inline-editable fields | Open | `[ALBUM NAME]` / `[ARTIST NAME]` should be editable in the UI before copy |
 | Cut-paper edge effect on petals | Open | Low priority for v1 |
 | Spotify API integration | Blocked | Blocked by endpoint deprecation (post Nov 2024); revisit if access restored |
@@ -280,10 +282,15 @@ src/
     VisualizationScreen.jsx — Full viz screen with download handler
     HomeScreen.jsx          — Album feed, body-scroll layout
     PaletteOverlay.jsx      — Palette picker bottom sheet
-    LegendOverlay.jsx       — Key/legend bottom sheet
+    LegendOverlay.jsx       — Key/legend bottom sheet (v1 text-only placeholder)
     SongCard.jsx            — Song detail card carousel
-    UploadOverlay.jsx       — CSV upload bottom sheet
-    EditAlbumOverlay.jsx    — Edit album metadata
+    UploadOverlay.jsx       — Two-step accordion CSV upload sheet
+    EditAlbumOverlay.jsx    — Edit album title/artist
+    RemoveAlbumSheet.jsx    — Long-press delete confirmation sheet
+    PrimaryButton.jsx       — Full-width primary action button
+    SecondaryButton.jsx     — Ghost/secondary action button
+  hooks/
+    useScrollLock.js        — Prevents body scroll while overlays are open (iOS-safe)
   data/
     albums.js               — Preloaded album data + PRELOADED_ALBUMS export
     palettes.js             — PALETTES array + DEFAULT_PALETTE_ID

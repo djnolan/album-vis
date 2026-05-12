@@ -11,7 +11,7 @@ Version 1.0 · For implementation reference
 Three fonts, all from Google Fonts — load in a single `<link>` block.
 
 ```html
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 ```
 
 |Role               |Font            |Fallback                |
@@ -30,7 +30,7 @@ Three fonts, all from Google Fonts — load in a single `<link>` block.
 |---------|--------------|-----------|------|----------------|-----------------------------------------------------|
 |`display`|32px / 2rem   |1.2        |400   |Instrument Serif|Album title, visualization screen                    |
 |`title`  |22px / 1.375rem|1.3       |400   |Instrument Serif|Artist name, overlay titles, song card song name     |
-|`body`   |16px / 1rem   |1.6        |400   |DM Sans         |Instructional text, legend descriptions, overlay copy|
+|`body`   |16px / 1rem   |1.4        |400   |DM Sans         |Instructional text, legend descriptions, overlay copy|
 |`ui`     |15px / 0.9375rem|1.4      |700   |DM Sans         |Buttons (bold); nav labels, bottom bar               |
 |`label`  |14px / 0.875rem|1.4       |500   |DM Mono         |Key, BPM, mode — data field values                   |
 |`caption`|12px / 0.75rem |1.4       |400   |DM Mono         |Track number, secondary metadata                     |
@@ -77,13 +77,11 @@ Some palettes use light backgrounds (`bg` values that are near-white or light-co
 
 ### Light Background Palettes (current set)
 
-These four palettes trigger the override:
+These two palettes trigger the override:
 
 |Palette         |bg       |
 |----------------|---------|
 |Terracotta Punch|`#DAD2C3`|
-|Glacier Punch   |`#EEF6FF`|
-|Mint Condition  |`#EAFBF5`|
 |Prism Bloom     |`#FFF6E0`|
 
 ### Implementation
@@ -92,11 +90,11 @@ Add a `lightBg: true` flag to each light palette object in `palettes.js`:
 
 ```js
 {
-  id: "glacier-punch",
-  name: "Glacier Punch",
-  bg: "#EEF6FF",
-  colorStart: "#A9D3E5",
-  colorEnd: "#4361EE",
+  id: "prism-bloom",
+  name: "Prism Bloom",
+  bg: "#FFF6E0",
+  colorStart: "#FF9F1C",
+  colorEnd: "#2EC4FF",
   lightBg: true,  // triggers dark UI override on Visualization Screen
 },
 ```
@@ -115,15 +113,12 @@ function isLightBg(hex) {
 
 ### Override Tokens (Visualization Screen only)
 
-|Token               |Dark bg (default) |Light bg override       |
-|--------------------|------------------|------------------------|
-|`viz-text-primary`  |`#F0F2F5`         |`#0E1117`               |
-|`viz-text-secondary`|`#8B93A1`         |`#3A3F4A`               |
-|`viz-icon`          |`#F0F2F5`         |`#0E1117`               |
-|`viz-bar-bg`        |`rgba(0,0,0,0.30)`|`rgba(255,255,255,0.55)`|
-|`viz-bar-border`    |`transparent`     |`rgba(0,0,0,0.08)`      |
+|Token              |Dark bg (default)|Light bg override|
+|-------------------|-----------------|-----------------|
+|`viz-text-primary` |`#F0F2F5`        |`#0E1117`        |
+|`viz-icon`         |`#F0F2F5`        |`#0E1117`        |
 
-**Affected elements:** top-left album/artist label, top-right ⓘ button, bottom bar (back arrow, palette icon, download icon). Everything else is inside an overlay and unaffected.
+**Affected elements:** top bar album title, artist name, back arrow; bottom bar (info, palette, download icons). Both title and artist use `viz-text-primary` at full opacity. Everything else is inside an overlay and unaffected.
 
 -----
 
@@ -185,7 +180,7 @@ module.exports = {
       fontSize: {
         'display': ['2rem',      { lineHeight: '1.2' }],
         'title':   ['1.375rem',  { lineHeight: '1.3' }],
-        'body':    ['1rem',      { lineHeight: '1.6' }],
+        'body':    ['1rem',      { lineHeight: '1.4' }],
         'ui':      ['0.9375rem', { lineHeight: '1.4' }],
         'label':   ['0.875rem',  { lineHeight: '1.4', fontWeight: '500' }],
         'caption': ['0.75rem',   { lineHeight: '1.4' }],
