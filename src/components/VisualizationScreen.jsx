@@ -106,7 +106,6 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
       <div
         className="absolute inset-0"
         style={{ background: palette.bg }}
-        onClick={activeSongTrack != null ? handleDismiss : undefined}
       >
         <div style={{
           width: '116%',

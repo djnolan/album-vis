@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useScrollLock } from '../hooks/useScrollLock';
+import { useSheetAnimation } from '../hooks/useSheetAnimation';
 
 const CARD_BG = '#DDE2EE';
 const TEXT_PRIMARY = '#1A2030';
@@ -21,6 +22,7 @@ function formatKeyMode(key, accidental, mode) {
 
 export default function SongCard({ songs, activeIndex, onIndexChange, onDismiss }) {
   useScrollLock(true);
+  const { close, sheetStyle } = useSheetAnimation(onDismiss);
   const song = songs[activeIndex];
   const startX = useRef(null);
   const [dragDelta, setDragDelta] = useState(0);
@@ -50,16 +52,16 @@ export default function SongCard({ songs, activeIndex, onIndexChange, onDismiss 
 
   return (
     <div
-      className="fixed bottom-0 left-0 right-0 z-40"
+      className="fixed inset-0 z-40 flex flex-col justify-end"
       onTouchStart={onTouchStart}
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
     >
-      {/* Tap-outside dismiss strip */}
-      <div className="h-20" onClick={onDismiss} />
+      {/* Tap-outside dismiss area */}
+      <div className="flex-1" onClick={close} />
 
-      {/* Floating card */}
-      <div className="px-4 pb-5">
+      {/* Floating card — animated */}
+      <div className="px-4 pb-5" style={sheetStyle}>
         <div
           className="rounded-lg overflow-hidden"
           style={{ background: CARD_BG, boxShadow: '0 8px 40px rgba(0,0,0,0.55)' }}
@@ -71,7 +73,7 @@ export default function SongCard({ songs, activeIndex, onIndexChange, onDismiss 
               <p className="font-serif text-title leading-tight" style={{ color: TEXT_PRIMARY }}>{song.name}</p>
             </div>
             <button
-              onClick={onDismiss}
+              onClick={close}
               className="w-9 h-9 rounded-full flex items-center justify-center shrink-0"
               style={{ background: 'rgba(0,0,0,0.1)', color: TEXT_PRIMARY }}
             >

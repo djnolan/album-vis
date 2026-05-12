@@ -124,10 +124,7 @@ export default function HomeScreen({ userAlbums = [], paletteOverrides = {}, onS
       {albumToRemove && (
         <RemoveAlbumSheet
           album={albumToRemove}
-          onConfirm={() => {
-            onRemoveAlbum(albumToRemove.id);
-            setAlbumToRemove(null);
-          }}
+          onConfirm={() => onRemoveAlbum(albumToRemove.id)}
           onClose={() => setAlbumToRemove(null)}
         />
       )}
