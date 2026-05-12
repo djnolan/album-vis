@@ -23,7 +23,7 @@ function formatKeyMode(key, accidental, mode) {
 const SongCard = forwardRef(function SongCard({ songs, activeIndex, onIndexChange, onDismiss, onExited }, ref) {
   useScrollLock(true);
   // close() starts exit animation then calls onExited (which unmounts the card)
-  const { close, sheetStyle, backdropStyle } = useSheetAnimation(onExited);
+  const { close, sheetStyle } = useSheetAnimation(onExited);
   const song = songs[activeIndex];
   const startX = useRef(null);
   const [dragDelta, setDragDelta] = useState(0);
@@ -69,12 +69,6 @@ const SongCard = forwardRef(function SongCard({ songs, activeIndex, onIndexChang
     >
       {/* Tap-outside dismiss strip */}
       <div className="h-20" onClick={handleClose} />
-
-      {/* Dark gradient behind the card */}
-      <div
-        className="absolute left-0 right-0 bottom-0 h-64 pointer-events-none"
-        style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.65) 0%, transparent 100%)', ...backdropStyle }}
-      />
 
       {/* Floating card — animated */}
       <div className="px-4 pb-5" style={sheetStyle}>

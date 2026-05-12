@@ -118,10 +118,11 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
   return (
     <div className="fixed inset-0 overflow-hidden bg-surface-0">
 
-      {/* Visualization — full bleed behind header */}
+      {/* Visualization — full bleed behind header.
+          When card is mounted, bottom is clipped so the outer bg-surface-0 container
+          shows at the viewport bottom edge — same trick as the top bar fix. */}
       <div
-        className="absolute inset-0"
-        style={{ background: palette.bg }}
+        style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: songCardMounted ? 20 : 0, background: palette.bg }}
         onClick={handleVizClick}
       >
         <div style={{
