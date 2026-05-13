@@ -22,3 +22,18 @@ html, body {
 #root {
   min-height: 100%;
 }
+
+@keyframes growFlower {
+  from { transform: scale(0); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+@keyframes vizFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes vizFadeOut {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}

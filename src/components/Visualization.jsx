@@ -47,7 +47,7 @@ function computeLayout(songs) {
   return nodes;
 }
 
-const Visualization = forwardRef(function Visualization({ album, palette, activeSongTrack, onFlowerClick }, ref) {
+const Visualization = forwardRef(function Visualization({ album, palette, activeSongTrack, onFlowerClick, animate = false }, ref) {
   const [nodes, setNodes] = useState([]);
 
   const colorRamp = useMemo(() => (
@@ -77,6 +77,10 @@ const Visualization = forwardRef(function Visualization({ album, palette, active
   const vbW = maxX - minX + pad * 2;
   const vbH = maxY - minY + pad * 2;
 
+  const trackOrderMap = new Map(
+    [...nodes].sort((a, b) => a.track - b.track).map((n, i) => [n.track, i])
+  );
+
   return (
     <svg
       ref={ref}
@@ -89,21 +93,28 @@ const Visualization = forwardRef(function Visualization({ album, palette, active
       {nodes.map(node => {
         const isActive = activeSongTrack === node.track;
         const dimmed = activeSongTrack != null && !isActive;
+        const trackOrder = trackOrderMap.get(node.track) ?? 0;
         return (
           <g
-            key={node.track}
+            key={`${album.id}-${node.track}`}
             transform={`translate(${node.x - node.r}, ${node.y - node.r})`}
             onClick={(e) => { if (onFlowerClick) e.stopPropagation(); onFlowerClick?.(node); }}
             style={{ cursor: 'pointer' }}
           >
-            <Flower
-              song={node}
-              size={node.r * 2}
-              color={keyColor(node.key, node.accidental)}
-              bg={palette.bg}
-              globalRotation={node.globalRotation}
-              dimmed={dimmed}
-            />
+            <g style={animate ? {
+              transformOrigin: `${node.r}px ${node.r}px`,
+              animation: `growFlower 0.75s cubic-bezier(0.34, 1.2, 0.64, 1) both`,
+              animationDelay: `${trackOrder * 50}ms`,
+            } : undefined}>
+              <Flower
+                song={node}
+                size={node.r * 2}
+                color={keyColor(node.key, node.accidental)}
+                bg={palette.bg}
+                globalRotation={node.globalRotation}
+                dimmed={dimmed}
+              />
+            </g>
           </g>
         );
       })}

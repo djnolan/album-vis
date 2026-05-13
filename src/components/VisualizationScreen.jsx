@@ -13,8 +13,14 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
   const [songCardMounted, setSongCardMounted] = useState(false);
   const [cardIndex, setCardIndex] = useState(0);
   const [isDownloading, setIsDownloading] = useState(false);
+  const [isExiting, setIsExiting] = useState(false);
   const vizRef = useRef(null);
   const songCardRef = useRef(null);
+
+  function handleBack() {
+    setIsExiting(true);
+    setTimeout(onBack, 200);
+  }
 
   const vizTextPrimary = lightBg ? '#0E1117' : '#F0F2F5';
   const vizTextSecondary = lightBg ? '#3A3F4A' : '#8B93A1';
@@ -116,7 +122,7 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
   }
 
   return (
-    <div className="fixed inset-0 overflow-hidden bg-surface-0">
+    <div className="fixed inset-0 overflow-hidden bg-surface-0" style={{ animation: `${isExiting ? 'vizFadeOut' : 'vizFadeIn'} 0.2s ease both` }}>
 
       {/* Visualization — full bleed behind header */}
       <div
@@ -137,6 +143,7 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
             palette={palette}
             activeSongTrack={activeSongTrack}
             onFlowerClick={handleFlowerClick}
+            animate
           />
         </div>
       </div>
@@ -147,7 +154,7 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
         style={{ background: `linear-gradient(to bottom, ${palette.bg} 40%, transparent)` }}
       >
         <button
-          onClick={onBack}
+          onClick={handleBack}
           className="w-9 h-9 flex items-center justify-center shrink-0 mt-1 pointer-events-auto"
           style={{ color: vizTextPrimary }}
         >
