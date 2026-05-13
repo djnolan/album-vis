@@ -122,7 +122,7 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
   }
 
   return (
-    <div className="fixed inset-0 overflow-hidden bg-surface-0" style={{ animation: `${isExiting ? 'vizFadeOut' : 'vizFadeIn'} 0.25s ease both` }}>
+    <div className="fixed inset-0 overflow-hidden bg-surface-0" /* style={{ animation: `${isExiting ? 'vizFadeOut' : 'vizFadeIn'} 0.25s ease both` }} */>
 
       {/* Visualization — full bleed behind header */}
       <div
