@@ -160,7 +160,7 @@ export default function LegendOverlay({ onClose, colorStart, colorEnd, bgColor =
 
             <div style={{ padding: "0 24px 16px" }}>
               <ItemLabel
-                title="Song Duration"
+                title="Size = duration"
                 description="The size of the flower is based on the song's length."
               />
               <div style={{ display: "flex", alignItems: "flex-end", gap: 4 }}>
@@ -176,7 +176,7 @@ export default function LegendOverlay({ onClose, colorStart, colorEnd, bgColor =
 
             <div style={{ padding: "16px 24px" }}>
               <ItemLabel
-                title="Tempo"
+                title="Petals = tempo"
                 description="The number of petals reflects the song's beats per minute."
               />
               <div style={{ display: "flex", alignItems: "flex-end", gap: 4 }}>
@@ -197,7 +197,7 @@ export default function LegendOverlay({ onClose, colorStart, colorEnd, bgColor =
 
             <div style={{ padding: "16px 24px" }}>
               <ItemLabel
-                title="Base Note"
+                title="Color = base note"
                 description="The color of the flower shows the root note of the song's key."
               />
               <div style={{ display: "flex", alignItems: "flex-end", gap: 0 }}>
@@ -214,7 +214,7 @@ export default function LegendOverlay({ onClose, colorStart, colorEnd, bgColor =
 
             <div style={{ padding: "16px 24px" }}>
               <ItemLabel
-                title="Note Change"
+                title="Shape = note change"
                 description="The shape of the petals shows whether the key is natural, sharp, or flat."
               />
               <div style={{ display: "flex", gap: 6, alignItems: "flex-start" }}>
@@ -231,7 +231,7 @@ export default function LegendOverlay({ onClose, colorStart, colorEnd, bgColor =
 
             <div style={{ padding: "16px 24px 28px" }}>
               <ItemLabel
-                title="Key Type"
+                title="Center shape = key type"
                 description="The center cutout shows whether the song is in a major or minor key."
               />
               <div style={{ display: "flex", gap: 6, alignItems: "flex-start" }}>
