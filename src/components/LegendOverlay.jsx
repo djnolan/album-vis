@@ -155,6 +155,10 @@ export default function LegendOverlay({ onClose, colorStart, colorEnd, bgColor =
 
         <div className="overflow-y-auto flex-1 pb-10">
 
+          <div style={{ padding: "16px 24px 20px", fontFamily: sans, fontSize: 14, color: "#8B93A1", lineHeight: 1.4 }}>
+            Each flower represents a song
+          </div>
+
           {/* ── Section 1: Size & Tempo ── */}
           <div style={{ display: "flex", flexDirection: "column" }}>
 
