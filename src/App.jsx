@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { PALETTES } from './data/palettes';
 import HomeScreen from './components/HomeScreen';
 import VisualizationScreen from './components/VisualizationScreen';
 import UploadOverlay from './components/UploadOverlay';
@@ -110,9 +111,17 @@ export default function App() {
           onClose={() => setShowPalette(false)}
         />
       )}
-      {showLegend && (
-        <LegendOverlay onClose={() => setShowLegend(false)} />
-      )}
+      {showLegend && (() => {
+        const activePalette = PALETTES.find(p => p.id === currentPaletteId) ?? PALETTES[0];
+        return (
+          <LegendOverlay
+            onClose={() => setShowLegend(false)}
+            colorStart={activePalette.colorStart}
+            colorEnd={activePalette.colorEnd}
+            bgColor={activePalette.bg}
+          />
+        );
+      })()}
       {showEdit && currentAlbum && (
         <EditAlbumOverlay
           album={currentAlbum}
