@@ -114,10 +114,10 @@ Full-height bottom sheet (minus a 48px top margin). Contains:
 
 - Title **"Create Your Visualization"** + X close button.
 - Two accordion steps, one open at a time:
-  - **Step 1 — Get Your Data**: Copyable LLM prompt with a COPY button. Collapsed by default; expand to reveal the full prompt.
-  - **Step 2 — Paste In Your Data**: Multiline textarea with placeholder "Paste your data here." and a **UPLOAD CSV** submit button.
+  - **Step 1 — Get Your Album Data**: Album and Artist text inputs at the top of the accordion content. As the user types, `[ALBUM NAME]` and `[ARTIST NAME]` in the LLM prompt below update live (debounced 150ms). Copy button always works regardless of field state.
+  - **Step 2 — Paste In Your Data**: Multiline textarea with placeholder "Paste your data here." and a **GENERATE →** submit button.
 
-On successful upload: overlay closes, navigates to Visualization Screen. CSV text is validated for required columns and value ranges before navigating.
+On submit: if Album or Artist is empty, Step 1 expands (if collapsed), the first empty field receives focus, and an inline message appears ("Add an album name to continue" / "Add an artist name to continue"). CSV validation errors are shown inline in Step 2. On successful upload: overlay closes, navigates to Visualization Screen with the correct title and artist set immediately.
 
 ### 5.3 Visualization Screen
 
@@ -224,7 +224,7 @@ specified). Output only the CSV data with no explanation, just the header row fo
 row per track.
 ```
 
-> **Note**: `[ALBUM NAME]` and `[ARTIST NAME]` should be inline-editable in the UI before copying (open item).
+> **Note**: `[ALBUM NAME]` and `[ARTIST NAME]` are replaced live in the prompt as the user types in the Step 1 Album/Artist fields.
 
 ---
 
@@ -263,7 +263,7 @@ Display order on Home Screen:
 | Key/Legend overlay visual design | Open | Placeholder text in place; full visual design TBD |
 | Download — additional format options | Open | Current: wallpaper only. Future: square poster, title on/off, etc. |
 | iOS address bar behavior on viz screen | Resolved | `useScrollLock` hook implemented; iOS uses `position:fixed` body trick, others use `overflow:hidden` |
-| LLM prompt inline-editable fields | Open | `[ALBUM NAME]` / `[ARTIST NAME]` should be editable in the UI before copy |
+| LLM prompt inline-editable fields | Resolved | Album and Artist inputs in Step 1 replace placeholders live (debounced 150ms); fields required before submit |
 | Cut-paper edge effect on petals | Open | Low priority for v1 |
 | Spotify API integration | Blocked | Blocked by endpoint deprecation (post Nov 2024); revisit if access restored |
 | Desktop layout | Open | Currently mobile-first; desktop layout TBD |
