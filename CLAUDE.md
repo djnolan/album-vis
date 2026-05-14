@@ -17,7 +17,9 @@ GitHub Pages (`gh-pages` branch) is used as a **staging site** for mobile review
 
 Deploy command (run from repo root after changes are committed):
 ```bash
-npm run build && git subtree push --prefix dist origin gh-pages
+npm run build && cd dist && git init && git add -A && git commit -m "Deploy to gh-pages" && git push -f $(git -C .. remote get-url origin) HEAD:gh-pages && cd ..
 ```
 
-No additional packages needed — pure git subtree push of the `dist/` folder.
+Note: `dist/` is gitignored, so `git subtree push` does not work. Instead, init a throwaway repo
+inside dist and force-push directly to the gh-pages branch. This is the same thing the
+`gh-pages` npm package does internally.
