@@ -94,6 +94,8 @@ export default function UploadOverlay({ onClose, onUpload }) {
   const [openStep, setOpenStep] = useState(null);
   const [copied, setCopied] = useState(false);
   const [csvText, setCsvText] = useState('');
+  const [albumTitle, setAlbumTitle] = useState('');
+  const [artistName, setArtistName] = useState('');
   const [error, setError] = useState(null);
 
   function toggle(step) {
@@ -109,6 +111,8 @@ export default function UploadOverlay({ onClose, onUpload }) {
 
   function handleSubmit() {
     setError(null);
+    if (!albumTitle.trim()) { setError('Please enter an album title.'); return; }
+    if (!artistName.trim()) { setError('Please enter an artist name.'); return; }
     const text = csvText.trim();
     if (!text) { setError('Paste your CSV data above first.'); return; }
 
@@ -136,8 +140,8 @@ export default function UploadOverlay({ onClose, onUpload }) {
 
     onUpload({
       id: 'custom-' + Date.now(),
-      title: 'My Album',
-      artist: 'Your Artist',
+      title: albumTitle.trim(),
+      artist: artistName.trim(),
       paletteId: 'deep-navy',
       songs: rows,
     });
@@ -167,6 +171,27 @@ export default function UploadOverlay({ onClose, onUpload }) {
           <p className="font-sans text-body text-text-secondary mb-6">
             Once you have an album in mind, follow this two step process to generate your artwork. It takes about 30 seconds. You'll need access to an AI chat tool like ChatGPT, Claude or Gemini.
           </p>
+
+          <div className="flex flex-col gap-3 mb-4">
+            <div>
+              <label className="font-mono text-caption text-text-secondary uppercase block mb-2">Album Title</label>
+              <input
+                value={albumTitle}
+                onChange={e => setAlbumTitle(e.target.value)}
+                className="w-full bg-surface-2 text-text-primary font-sans text-body rounded-md px-4 py-3 outline-none border border-border focus:ring-1 focus:ring-accent"
+                placeholder="e.g. Kind of Blue"
+              />
+            </div>
+            <div>
+              <label className="font-mono text-caption text-text-secondary uppercase block mb-2">Artist</label>
+              <input
+                value={artistName}
+                onChange={e => setArtistName(e.target.value)}
+                className="w-full bg-surface-2 text-text-primary font-sans text-body rounded-md px-4 py-3 outline-none border border-border focus:ring-1 focus:ring-accent"
+                placeholder="e.g. Miles Davis"
+              />
+            </div>
+          </div>
 
           <div className="flex flex-col gap-3">
 
