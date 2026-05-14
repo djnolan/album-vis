@@ -232,7 +232,7 @@ export default function UploadOverlay({ onClose, onUpload }) {
                     ref={albumInputRef}
                     value={albumTitle}
                     onChange={e => { setAlbumTitle(e.target.value); if (e.target.value.trim()) setTitleError(''); }}
-                    className="w-full bg-surface-2 text-text-primary font-sans text-body rounded-md px-4 py-3 outline-none border border-border focus:ring-1 focus:ring-accent"
+                    className="w-full bg-surface-1 text-text-primary font-sans text-body rounded-md px-4 py-3 outline-none border border-border focus:ring-1 focus:ring-accent"
                     placeholder="Album name"
                   />
                   {titleError && <p className="text-red-400 font-mono text-caption mt-1.5">{titleError}</p>}
@@ -243,7 +243,7 @@ export default function UploadOverlay({ onClose, onUpload }) {
                     ref={artistInputRef}
                     value={artistName}
                     onChange={e => { setArtistName(e.target.value); if (e.target.value.trim()) setArtistError(''); }}
-                    className="w-full bg-surface-2 text-text-primary font-sans text-body rounded-md px-4 py-3 outline-none border border-border focus:ring-1 focus:ring-accent"
+                    className="w-full bg-surface-1 text-text-primary font-sans text-body rounded-md px-4 py-3 outline-none border border-border focus:ring-1 focus:ring-accent"
                     placeholder="Artist name"
                   />
                   {artistError && <p className="text-red-400 font-mono text-caption mt-1.5">{artistError}</p>}
