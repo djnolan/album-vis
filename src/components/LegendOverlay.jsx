@@ -143,7 +143,7 @@ export default function LegendOverlay({ onClose, colorStart, colorEnd, bgColor =
       <div className="relative bg-surface-1 rounded-t-lg flex flex-col" style={{ maxHeight: 'calc(100dvh - 48px)', boxShadow: '0 -8px 32px rgba(0,0,0,0.5)', ...sheetStyle }}>
 
         <div className="shrink-0 flex items-center justify-between px-6 pt-5 pb-4">
-          <h2 className="font-sans text-ui font-medium uppercase tracking-wider text-text-primary">How to Read the Artwork</h2>
+          <h2 className="font-sans text-ui font-medium uppercase tracking-wider text-text-primary">Each flower represents a song</h2>
           <button
             onClick={close}
             className="w-9 h-9 rounded-full flex items-center justify-center text-text-secondary"
@@ -154,10 +154,6 @@ export default function LegendOverlay({ onClose, colorStart, colorEnd, bgColor =
         </div>
 
         <div className="overflow-y-auto flex-1 pb-10">
-
-          <div style={{ padding: "16px 24px 20px", fontFamily: sans, fontSize: 14, color: "#8B93A1", lineHeight: 1.4 }}>
-            Each flower represents a song
-          </div>
 
           {/* ── Section 1: Size & Tempo ── */}
           <div style={{ display: "flex", flexDirection: "column" }}>
