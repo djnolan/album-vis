@@ -203,7 +203,7 @@ export default function LegendOverlay({ onClose, colorStart, colorEnd, bgColor =
               <div style={{ display: "flex", alignItems: "flex-end", gap: 0 }}>
                 {NATURAL_NOTES.map((note, i) => (
                   <div key={note} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
-                    <MiniFlower size={28} petalCount={6} accidental="natural" mode="major" color={noteColors[i]} bgColor={SHEET_BG} seed={i * 3 + 1} globalRotation={i * 17} />
+                    <MiniFlower size={36} petalCount={6} accidental="natural" mode="major" color={noteColors[i]} bgColor={SHEET_BG} seed={i * 3 + 1} globalRotation={i * 17} />
                     <span style={{ fontFamily: mono, fontSize: 10, color: "#8B93A1", fontWeight: 500 }}>{note}</span>
                   </div>
                 ))}
