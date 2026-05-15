@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Papa from 'papaparse';
 import { X, Copy, ChevronDown } from 'lucide-react';
 import PrimaryButton from './PrimaryButton';
@@ -10,7 +10,7 @@ const VALID_KEYS = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
 const VALID_ACCIDENTALS = ['natural', 'sharp', 'flat'];
 const VALID_MODES = ['major', 'minor'];
 
-const LLM_PROMPT = `I need you to look up music data for an album and format it as a CSV.
+const LLM_PROMPT_TEMPLATE = `I need you to look up music data for an album and format it as a CSV.
 
 Album: [ALBUM NAME] by [ARTIST NAME]
 
@@ -28,6 +28,12 @@ Rules for each field:
 • mode — one of: major or minor
 
 Include every track on the standard album. Output only the CSV data with no explanation.`;
+
+function buildPrompt(album, artist) {
+  return LLM_PROMPT_TEMPLATE
+    .replace('[ALBUM NAME]', album || '[ALBUM NAME]')
+    .replace('[ARTIST NAME]', artist || '[ARTIST NAME]');
+}
 
 function validateRows(rows) {
   const errors = [];
@@ -94,23 +100,66 @@ export default function UploadOverlay({ onClose, onUpload }) {
   const [openStep, setOpenStep] = useState(null);
   const [copied, setCopied] = useState(false);
   const [csvText, setCsvText] = useState('');
-  const [error, setError] = useState(null);
+  const [albumTitle, setAlbumTitle] = useState('');
+  const [artistName, setArtistName] = useState('');
+  const [titleError, setTitleError] = useState('');
+  const [artistError, setArtistError] = useState('');
+  const [csvError, setCsvError] = useState(null);
+
+  // Debounced values for live prompt substitution
+  const [promptAlbum, setPromptAlbum] = useState('');
+  const [promptArtist, setPromptArtist] = useState('');
+
+  const albumInputRef = useRef(null);
+  const artistInputRef = useRef(null);
+
+  useEffect(() => {
+    const t = setTimeout(() => setPromptAlbum(albumTitle), 150);
+    return () => clearTimeout(t);
+  }, [albumTitle]);
+
+  useEffect(() => {
+    const t = setTimeout(() => setPromptArtist(artistName), 150);
+    return () => clearTimeout(t);
+  }, [artistName]);
+
+  const displayPrompt = buildPrompt(promptAlbum, promptArtist);
 
   function toggle(step) {
     setOpenStep(prev => prev === step ? null : step);
   }
 
   function handleCopy() {
-    navigator.clipboard.writeText(LLM_PROMPT).then(() => {
+    navigator.clipboard.writeText(buildPrompt(albumTitle, artistName)).then(() => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     });
   }
 
   function handleSubmit() {
-    setError(null);
+    setCsvError(null);
+
+    let fieldError = false;
+    if (!albumTitle.trim()) {
+      setTitleError('Add an album name to continue');
+      fieldError = true;
+    }
+    if (!artistName.trim()) {
+      setArtistError('Add an artist name to continue');
+      fieldError = true;
+    }
+
+    if (fieldError) {
+      setOpenStep(1);
+      setTimeout(() => {
+        if (!albumTitle.trim()) albumInputRef.current?.focus();
+        else artistInputRef.current?.focus();
+      }, 50);
+      return;
+    }
+
     const text = csvText.trim();
-    if (!text) { setError('Paste your CSV data above first.'); return; }
+    if (!text) { setCsvError('Paste your CSV data above first.'); return; }
 
     const result = Papa.parse(text, {
       header: true,
@@ -119,7 +168,7 @@ export default function UploadOverlay({ onClose, onUpload }) {
     });
 
     const missing = REQUIRED_COLUMNS.filter(c => !result.meta.fields?.includes(c));
-    if (missing.length) { setError(`Missing columns: ${missing.join(', ')}`); return; }
+    if (missing.length) { setCsvError(`Missing columns: ${missing.join(', ')}`); return; }
 
     const rows = result.data.map(r => ({
       track: parseInt(r.track),
@@ -132,12 +181,12 @@ export default function UploadOverlay({ onClose, onUpload }) {
     }));
 
     const errs = validateRows(rows);
-    if (errs.length) { setError(errs[0]); return; }
+    if (errs.length) { setCsvError(errs[0]); return; }
 
     onUpload({
       id: 'custom-' + Date.now(),
-      title: 'My Album',
-      artist: 'Your Artist',
+      title: albumTitle.trim(),
+      artist: artistName.trim(),
       paletteId: 'deep-navy',
       songs: rows,
     });
@@ -176,8 +225,33 @@ export default function UploadOverlay({ onClose, onUpload }) {
               isOpen={openStep === 1}
               onToggle={() => toggle(1)}
             >
+              <div className="flex flex-col gap-3 mb-5">
+                <div>
+                  <label className="font-mono text-caption text-text-secondary uppercase block mb-2">Album</label>
+                  <input
+                    ref={albumInputRef}
+                    value={albumTitle}
+                    onChange={e => { setAlbumTitle(e.target.value); if (e.target.value.trim()) setTitleError(''); }}
+                    className="w-full bg-surface-1 text-text-primary font-sans text-body rounded-md px-4 py-3 outline-none border border-border focus:ring-1 focus:ring-accent"
+                    placeholder="Album name"
+                  />
+                  {titleError && <p className="text-red-400 font-mono text-caption mt-1.5">{titleError}</p>}
+                </div>
+                <div>
+                  <label className="font-mono text-caption text-text-secondary uppercase block mb-2">Artist</label>
+                  <input
+                    ref={artistInputRef}
+                    value={artistName}
+                    onChange={e => { setArtistName(e.target.value); if (e.target.value.trim()) setArtistError(''); }}
+                    className="w-full bg-surface-1 text-text-primary font-sans text-body rounded-md px-4 py-3 outline-none border border-border focus:ring-1 focus:ring-accent"
+                    placeholder="Artist name"
+                  />
+                  {artistError && <p className="text-red-400 font-mono text-caption mt-1.5">{artistError}</p>}
+                </div>
+              </div>
+
               <p className="font-sans text-body text-text-secondary mb-4">
-                Copy this prompt into an AI chat tool like ChatGPT. Make sure you add your album and artist name into the prompt.
+                Copy this prompt into an AI chat tool like ChatGPT.
               </p>
 
               <div className="bg-surface-0 rounded-md p-4 mb-4">
@@ -192,7 +266,7 @@ export default function UploadOverlay({ onClose, onUpload }) {
                   </button>
                 </div>
                 <p className="font-mono text-caption text-text-secondary whitespace-pre-wrap">
-                  {LLM_PROMPT}
+                  {displayPrompt}
                 </p>
               </div>
 
@@ -223,7 +297,7 @@ export default function UploadOverlay({ onClose, onUpload }) {
                 className="w-full h-36 bg-surface-0 font-mono text-caption text-text-primary rounded-md p-4 resize-none outline-none placeholder-text-tertiary focus:ring-1 focus:ring-accent"
               />
 
-              {error && <p className="text-red-400 font-mono text-caption mt-2">{error}</p>}
+              {csvError && <p className="text-red-400 font-mono text-caption mt-2">{csvError}</p>}
 
               <PrimaryButton onClick={handleSubmit} className="mt-4">GENERATE →</PrimaryButton>
             </AccordionStep>
