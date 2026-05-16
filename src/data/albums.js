@@ -114,4 +114,124 @@ export const inRainbows = {
   ],
 };
 
+export const timeOut = {
+  id: 'timeout',
+  title: 'Time Out',
+  artist: 'The Dave Brubeck Quartet',
+  paletteId: 'deep-sea-tape',
+  songs: [],
+};
+
+export const hurryUpWereDreaming = {
+  id: 'hurryupweredreaming',
+  title: 'Hurry Up, We\'re Dreaming',
+  artist: 'M83',
+  paletteId: 'electric-orchid',
+  songs: [],
+};
+
+export const mbdtf = {
+  id: 'mbdtf',
+  title: 'My Beautiful Dark Twisted Fantasy',
+  artist: 'Kanye West',
+  paletteId: 'ultraviolet-clash',
+  songs: [],
+};
+
+export const carrieAndLowell = {
+  id: 'carrieandlowell',
+  title: 'Carrie & Lowell',
+  artist: 'Sufjan Stevens',
+  paletteId: 'terracotta-punch',
+  songs: [],
+};
+
+export const syro = {
+  id: 'syro',
+  title: 'Syro',
+  artist: 'Aphex Twin',
+  paletteId: 'signal-decay',
+  songs: [],
+};
+
+export const songsInTheKeyOfLife = {
+  id: 'songsinthekeyoflife',
+  title: 'Songs in the Key of Life',
+  artist: 'Stevie Wonder',
+  paletteId: 'lava-lamp',
+  songs: [],
+};
+
+export const billyBreathes = {
+  id: 'billybreathes',
+  title: 'Billy Breathes',
+  artist: 'Phish',
+  paletteId: 'green-room',
+  songs: [],
+};
+
+export const americanBeauty = {
+  id: 'americanbeauty',
+  title: 'American Beauty',
+  artist: 'Grateful Dead',
+  paletteId: 'prism-bloom',
+  songs: [],
+};
+
+export const momentOfTruth = {
+  id: 'momentoftruth',
+  title: 'Moment of Truth',
+  artist: 'Gang Starr',
+  paletteId: 'burnt-hologram',
+  songs: [],
+};
+
+export const sometimesIMightBeIntrovert = {
+  id: 'simbi',
+  title: 'Sometimes I Might Be Introvert',
+  artist: 'Little Simz',
+  paletteId: 'acid-bloom',
+  songs: [],
+};
+
+export const normanFuckingRockwell = {
+  id: 'normanfuckingrockwell',
+  title: 'Norman Fucking Rockwell!',
+  artist: 'Lana Del Rey',
+  paletteId: 'blue-screen-life',
+  songs: [],
+};
+
+export const rumours = {
+  id: 'rumours',
+  title: 'Rumours',
+  artist: 'Fleetwood Mac',
+  paletteId: 'neon-citrus',
+  songs: [],
+};
+
+export const ctrl = {
+  id: 'ctrl',
+  title: 'Ctrl',
+  artist: 'SZA',
+  paletteId: 'electric-orchid',
+  songs: [],
+};
+
+export const theMiseducationOfLaurynHill = {
+  id: 'miseducation',
+  title: 'The Miseducation of Lauryn Hill',
+  artist: 'Lauryn Hill',
+  paletteId: 'lava-lamp',
+  songs: [],
+};
+
+export const brilliantCorners = {
+  id: 'brilliantcorners',
+  title: 'Brilliant Corners',
+  artist: 'Thelonious Monk',
+  paletteId: 'burnt-hologram',
+  songs: [],
+};
+
 export const PRELOADED_ALBUMS = [blonde, boc, speakNow, pistols, inRainbows];
