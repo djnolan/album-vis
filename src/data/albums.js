@@ -336,7 +336,22 @@ export const normanFuckingRockwell = {
   title: 'Norman Fucking Rockwell!',
   artist: 'Lana Del Rey',
   paletteId: 'blue-screen-life',
-  songs: [],
+  songs: [
+    { track: 1,  name: "Norman Fucking Rockwell",                                                        duration: 248, bpm: 78,  key: "F", accidental: "natural", mode: "major" },
+    { track: 2,  name: "Mariners Apartment Complex",                                                     duration: 247, bpm: 76,  key: "A", accidental: "natural", mode: "major" },
+    { track: 3,  name: "Venice Bitch",                                                                   duration: 577, bpm: 78,  key: "A", accidental: "natural", mode: "minor" },
+    { track: 4,  name: "Fuck It I Love You",                                                             duration: 218, bpm: 130, key: "A", accidental: "natural", mode: "minor" },
+    { track: 5,  name: "Doin' Time",                                                                     duration: 202, bpm: 145, key: "G", accidental: "natural", mode: "minor" },
+    { track: 6,  name: "Love Song",                                                                      duration: 229, bpm: 63,  key: "A", accidental: "natural", mode: "major" },
+    { track: 7,  name: "Cinnamon Girl",                                                                  duration: 300, bpm: 92,  key: "F", accidental: "sharp",   mode: "minor" },
+    { track: 8,  name: "How to Disappear",                                                               duration: 228, bpm: 79,  key: "A", accidental: "natural", mode: "major" },
+    { track: 9,  name: "California",                                                                     duration: 305, bpm: 124, key: "A", accidental: "natural", mode: "minor" },
+    { track: 10, name: "The Next Best American Record",                                                  duration: 349, bpm: 108, key: "D", accidental: "natural", mode: "major" },
+    { track: 11, name: "The Greatest",                                                                   duration: 300, bpm: 79,  key: "D", accidental: "natural", mode: "minor" },
+    { track: 12, name: "Bartender",                                                                      duration: 263, bpm: 132, key: "A", accidental: "natural", mode: "minor" },
+    { track: 13, name: "Happiness Is a Butterfly",                                                       duration: 272, bpm: 70,  key: "D", accidental: "natural", mode: "major" },
+    { track: 14, name: "hope is a dangerous thing for a woman like me to have - but I have it",          duration: 324, bpm: 87,  key: "E", accidental: "natural", mode: "minor" },
+  ],
 };
 
 export const rumours = {
