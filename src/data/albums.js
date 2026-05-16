@@ -259,7 +259,21 @@ export const billyBreathes = {
   title: 'Billy Breathes',
   artist: 'Phish',
   paletteId: 'green-room',
-  songs: [],
+  songs: [
+    { track: 1,  name: "Free",                duration: 229, bpm: 86,  key: "G", accidental: "sharp",   mode: "major" },
+    { track: 2,  name: "Character Zero",      duration: 240, bpm: 166, key: "D", accidental: "natural", mode: "major" },
+    { track: 3,  name: "Waste",               duration: 290, bpm: 144, key: "F", accidental: "natural", mode: "major" },
+    { track: 4,  name: "Taste",               duration: 247, bpm: 150, key: "D", accidental: "natural", mode: "major" },
+    { track: 5,  name: "Cars Trucks Buses",   duration: 145, bpm: 111, key: "D", accidental: "natural", mode: "major" },
+    { track: 6,  name: "Talk",                duration: 189, bpm: 168, key: "C", accidental: "natural", mode: "major" },
+    { track: 7,  name: "Theme From The Bottom", duration: 382, bpm: 80, key: "D", accidental: "natural", mode: "major" },
+    { track: 8,  name: "Train Song",          duration: 153, bpm: 178, key: "G", accidental: "natural", mode: "major" },
+    { track: 9,  name: "Bliss",               duration: 123, bpm: 149, key: "F", accidental: "natural", mode: "major" },
+    { track: 10, name: "Billy Breathes",      duration: 331, bpm: 140, key: "F", accidental: "natural", mode: "major" },
+    { track: 11, name: "Swept Away",          duration: 76,  bpm: 132, key: "D", accidental: "natural", mode: "major" },
+    { track: 12, name: "Steep",               duration: 97,  bpm: 136, key: "D", accidental: "natural", mode: "major" },
+    { track: 13, name: "Prince Caspian",      duration: 319, bpm: 158, key: "G", accidental: "natural", mode: "major" },
+  ],
 };
 
 export const americanBeauty = {
