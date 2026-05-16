@@ -281,7 +281,18 @@ export const americanBeauty = {
   title: 'American Beauty',
   artist: 'Grateful Dead',
   paletteId: 'prism-bloom',
-  songs: [],
+  songs: [
+    { track: 1,  name: "Box of Rain",          duration: 316, bpm: 118, key: "D", accidental: "natural", mode: "major" },
+    { track: 2,  name: "Friend of the Devil",  duration: 200, bpm: 153, key: "G", accidental: "natural", mode: "major" },
+    { track: 3,  name: "Sugar Magnolia",       duration: 195, bpm: 155, key: "C", accidental: "sharp",   mode: "minor" },
+    { track: 4,  name: "Operator",             duration: 141, bpm: 80,  key: "F", accidental: "natural", mode: "major" },
+    { track: 5,  name: "Candyman",             duration: 372, bpm: 118, key: "C", accidental: "natural", mode: "major" },
+    { track: 6,  name: "Ripple",               duration: 250, bpm: 127, key: "G", accidental: "natural", mode: "major" },
+    { track: 7,  name: "Brokedown Palace",     duration: 258, bpm: 115, key: "F", accidental: "natural", mode: "major" },
+    { track: 8,  name: "Till the Morning Comes", duration: 193, bpm: 136, key: "E", accidental: "natural", mode: "major" },
+    { track: 9,  name: "Attics of My Life",    duration: 309, bpm: 95,  key: "A", accidental: "natural", mode: "major" },
+    { track: 10, name: "Truckin'",             duration: 309, bpm: 127, key: "E", accidental: "natural", mode: "major" },
+  ],
 };
 
 export const momentOfTruth = {
