@@ -308,7 +308,27 @@ export const sometimesIMightBeIntrovert = {
   title: 'Sometimes I Might Be Introvert',
   artist: 'Little Simz',
   paletteId: 'acid-bloom',
-  songs: [],
+  songs: [
+    { track: 1,  name: "Introvert",                                duration: 362, bpm: 93,  key: "C", accidental: "sharp",   mode: "minor" },
+    { track: 2,  name: "Woman",                                    duration: 269, bpm: 87,  key: "C", accidental: "sharp",   mode: "major" },
+    { track: 3,  name: "Two Worlds Apart",                         duration: 178, bpm: 141, key: "D", accidental: "natural", mode: "major" },
+    { track: 4,  name: "I Love You I Hate You",                    duration: 255, bpm: 120, key: "C", accidental: "sharp",   mode: "minor" },
+    { track: 5,  name: "Little Q Pt. 1 - Interlude",               duration: 68,  bpm: 108, key: "F", accidental: "natural", mode: "major" },
+    { track: 6,  name: "Little Q Pt. 2",                           duration: 226, bpm: 170, key: "A", accidental: "sharp",   mode: "minor" },
+    { track: 7,  name: "Gems - Interlude",                         duration: 177, bpm: 90,  key: "D", accidental: "natural", mode: "major" },
+    { track: 8,  name: "Speed",                                    duration: 160, bpm: 98,  key: "B", accidental: "natural", mode: "minor" },
+    { track: 9,  name: "Standing Ovation",                         duration: 248, bpm: 106, key: "G", accidental: "natural", mode: "minor" },
+    { track: 10, name: "I See You",                                duration: 238, bpm: 77,  key: "F", accidental: "sharp",   mode: "minor" },
+    { track: 11, name: "The Rapper That Came To Tea - Interlude",  duration: 165, bpm: 152, key: "A", accidental: "natural", mode: "major" },
+    { track: 12, name: "Rollin Stone",                             duration: 219, bpm: 131, key: "C", accidental: "natural", mode: "major" },
+    { track: 13, name: "Protect My Energy",                        duration: 188, bpm: 115, key: "C", accidental: "sharp",   mode: "major" },
+    { track: 14, name: "Never Make Promises - Interlude",          duration: 62,  bpm: 81,  key: "F", accidental: "sharp",   mode: "minor" },
+    { track: 15, name: "Point and Kill",                           duration: 185, bpm: 98,  key: "G", accidental: "natural", mode: "major" },
+    { track: 16, name: "Fear No Man",                              duration: 243, bpm: 99,  key: "G", accidental: "sharp",   mode: "minor" },
+    { track: 17, name: "The Garden - Interlude",                   duration: 158, bpm: 124, key: "F", accidental: "natural", mode: "major" },
+    { track: 18, name: "How Did You Get Here",                     duration: 296, bpm: 147, key: "B", accidental: "natural", mode: "minor" },
+    { track: 19, name: "Miss Understood",                          duration: 208, bpm: 96,  key: "C", accidental: "natural", mode: "major" },
+  ],
 };
 
 export const normanFuckingRockwell = {
