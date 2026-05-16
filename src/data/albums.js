@@ -119,7 +119,15 @@ export const timeOut = {
   title: 'Time Out',
   artist: 'The Dave Brubeck Quartet',
   paletteId: 'deep-sea-tape',
-  songs: [],
+  songs: [
+    { track: 1, name: "Blue Rondo à la Turk", duration: 403, bpm: 113, key: "E", accidental: "flat",    mode: "minor" },
+    { track: 2, name: "Strange Meadow Lark",  duration: 442, bpm: 125, key: "E", accidental: "natural", mode: "minor" },
+    { track: 3, name: "Take Five",            duration: 324, bpm: 174, key: "G", accidental: "sharp",   mode: "minor" },
+    { track: 4, name: "Three to Get Ready",   duration: 323, bpm: 178, key: "F", accidental: "natural", mode: "major" },
+    { track: 5, name: "Kathy's Waltz",        duration: 287, bpm: 94,  key: "C", accidental: "natural", mode: "minor" },
+    { track: 6, name: "Everybody's Jumpin'",  duration: 262, bpm: 149, key: "F", accidental: "natural", mode: "minor" },
+    { track: 7, name: "Pick Up Sticks",       duration: 256, bpm: 138, key: "F", accidental: "natural", mode: "minor" },
+  ],
 };
 
 export const hurryUpWereDreaming = {
