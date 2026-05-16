@@ -188,7 +188,19 @@ export const carrieAndLowell = {
   title: 'Carrie & Lowell',
   artist: 'Sufjan Stevens',
   paletteId: 'terracotta-punch',
-  songs: [],
+  songs: [
+    { track: 1,  name: "Death with Dignity",                        duration: 240, bpm: 128, key: "E", accidental: "natural", mode: "major" },
+    { track: 2,  name: "Should Have Known Better",                  duration: 309, bpm: 140, key: "G", accidental: "natural", mode: "major" },
+    { track: 3,  name: "All of Me Wants All of You",                duration: 221, bpm: 82,  key: "D", accidental: "natural", mode: "major" },
+    { track: 4,  name: "Drawn to the Blood",                        duration: 197, bpm: 80,  key: "A", accidental: "natural", mode: "minor" },
+    { track: 5,  name: "Eugene",                                    duration: 146, bpm: 115, key: "C", accidental: "natural", mode: "major" },
+    { track: 6,  name: "Fourth of July",                            duration: 279, bpm: 92,  key: "G", accidental: "natural", mode: "major" },
+    { track: 7,  name: "The Only Thing",                            duration: 284, bpm: 116, key: "E", accidental: "natural", mode: "major" },
+    { track: 8,  name: "Carrie & Lowell",                           duration: 186, bpm: 112, key: "D", accidental: "natural", mode: "major" },
+    { track: 9,  name: "John My Beloved",                           duration: 245, bpm: 95,  key: "G", accidental: "natural", mode: "major" },
+    { track: 10, name: "No Shade in the Shadow of the Cross",       duration: 160, bpm: 84,  key: "F", accidental: "natural", mode: "major" },
+    { track: 11, name: "Blue Bucket of Gold",                       duration: 284, bpm: 174, key: "B", accidental: "natural", mode: "major" },
+  ],
 };
 
 export const syro = {
