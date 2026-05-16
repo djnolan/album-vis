@@ -143,7 +143,21 @@ export const mbdtf = {
   title: 'My Beautiful Dark Twisted Fantasy',
   artist: 'Kanye West',
   paletteId: 'ultraviolet-clash',
-  songs: [],
+  songs: [
+    { track: 1,  name: "Dark Fantasy",              duration: 281, bpm: 125, key: "C", accidental: "sharp",   mode: "major" },
+    { track: 2,  name: "Gorgeous",                  duration: 358, bpm: 124, key: "F", accidental: "sharp",   mode: "minor" },
+    { track: 3,  name: "POWER",                     duration: 292, bpm: 154, key: "F", accidental: "natural", mode: "minor" },
+    { track: 4,  name: "All Of The Lights (Interlude)", duration: 62,  bpm: 118, key: "B", accidental: "natural", mode: "major" },
+    { track: 5,  name: "All Of The Lights",         duration: 300, bpm: 142, key: "F", accidental: "sharp",   mode: "major" },
+    { track: 6,  name: "Monster",                   duration: 378, bpm: 125, key: "E", accidental: "natural", mode: "minor" },
+    { track: 7,  name: "So Appalled",               duration: 397, bpm: 83,  key: "D", accidental: "sharp",   mode: "minor" },
+    { track: 8,  name: "Devil In A New Dress",      duration: 352, bpm: 82,  key: "F", accidental: "natural", mode: "minor" },
+    { track: 9,  name: "Runaway",                   duration: 548, bpm: 80,  key: "E", accidental: "natural", mode: "major" },
+    { track: 10, name: "Hell Of A Life",            duration: 327, bpm: 93,  key: "A", accidental: "natural", mode: "minor" },
+    { track: 11, name: "Blame Game",                duration: 469, bpm: 74,  key: "D", accidental: "natural", mode: "minor" },
+    { track: 12, name: "Lost In The World",         duration: 256, bpm: 86,  key: "B", accidental: "natural", mode: "major" },
+    { track: 13, name: "Who Will Survive In America", duration: 98,  bpm: 83,  key: "E", accidental: "natural", mode: "minor" },
+  ],
 };
 
 export const carrieAndLowell = {
