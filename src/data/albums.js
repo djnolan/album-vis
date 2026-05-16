@@ -367,7 +367,24 @@ export const theMiseducationOfLaurynHill = {
   title: 'The Miseducation of Lauryn Hill',
   artist: 'Lauryn Hill',
   paletteId: 'lava-lamp',
-  songs: [],
+  songs: [
+    { track: 1,  name: "Intro",                                    duration: 47,  bpm: 80,  key: "D", accidental: "natural", mode: "major" },
+    { track: 2,  name: "Lost Ones",                                duration: 334, bpm: 95,  key: "D", accidental: "natural", mode: "major" },
+    { track: 3,  name: "Ex-Factor",                                duration: 327, bpm: 80,  key: "D", accidental: "sharp",   mode: "minor" },
+    { track: 4,  name: "To Zion",                                  duration: 369, bpm: 173, key: "G", accidental: "natural", mode: "major" },
+    { track: 5,  name: "Doo Wop (That Thing)",                     duration: 320, bpm: 100, key: "D", accidental: "natural", mode: "minor" },
+    { track: 6,  name: "Superstar",                                duration: 297, bpm: 82,  key: "G", accidental: "natural", mode: "major" },
+    { track: 7,  name: "Final Hour",                               duration: 256, bpm: 92,  key: "C", accidental: "sharp",   mode: "major" },
+    { track: 8,  name: "When It Hurts So Bad",                     duration: 342, bpm: 160, key: "B", accidental: "natural", mode: "minor" },
+    { track: 9,  name: "I Used to Love Him",                       duration: 340, bpm: 87,  key: "A", accidental: "natural", mode: "minor" },
+    { track: 10, name: "Forgive Them Father",                      duration: 315, bpm: 98,  key: "E", accidental: "natural", mode: "minor" },
+    { track: 11, name: "Every Ghetto Every City",                  duration: 315, bpm: 95,  key: "F", accidental: "natural", mode: "major" },
+    { track: 12, name: "Nothing Even Matters",                     duration: 351, bpm: 136, key: "A", accidental: "sharp",   mode: "minor" },
+    { track: 13, name: "Everything Is Everything",                 duration: 293, bpm: 95,  key: "A", accidental: "natural", mode: "major" },
+    { track: 14, name: "The Miseducation of Lauryn Hill",          duration: 235, bpm: 69,  key: "D", accidental: "sharp",   mode: "minor" },
+    { track: 15, name: "Can't Take My Eyes Off of You",            duration: 222, bpm: 89,  key: "C", accidental: "sharp",   mode: "minor" },
+    { track: 16, name: "Tell Him",                                 duration: 280, bpm: 80,  key: "C", accidental: "sharp",   mode: "major" },
+  ],
 };
 
 export const brilliantCorners = {
