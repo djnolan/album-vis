@@ -324,7 +324,19 @@ export const rumours = {
   title: 'Rumours',
   artist: 'Fleetwood Mac',
   paletteId: 'neon-citrus',
-  songs: [],
+  songs: [
+    { track: 1,  name: "Second Hand News",     duration: 176, bpm: 118, key: "A", accidental: "natural", mode: "major" },
+    { track: 2,  name: "Dreams",               duration: 257, bpm: 120, key: "C", accidental: "natural", mode: "major" },
+    { track: 3,  name: "Never Going Back Again", duration: 134, bpm: 176, key: "F", accidental: "sharp",   mode: "major" },
+    { track: 4,  name: "Don't Stop",           duration: 193, bpm: 119, key: "A", accidental: "natural", mode: "major" },
+    { track: 5,  name: "Go Your Own Way",      duration: 223, bpm: 135, key: "F", accidental: "natural", mode: "major" },
+    { track: 6,  name: "Songbird",             duration: 200, bpm: 92,  key: "F", accidental: "natural", mode: "major" },
+    { track: 7,  name: "The Chain",            duration: 269, bpm: 152, key: "A", accidental: "natural", mode: "major" },
+    { track: 8,  name: "You Make Loving Fun",  duration: 213, bpm: 127, key: "G", accidental: "natural", mode: "minor" },
+    { track: 9,  name: "I Don't Want to Know", duration: 196, bpm: 139, key: "B", accidental: "natural", mode: "major" },
+    { track: 10, name: "Oh Daddy",             duration: 236, bpm: 138, key: "D", accidental: "natural", mode: "minor" },
+    { track: 11, name: "Gold Dust Woman",      duration: 291, bpm: 123, key: "G", accidental: "natural", mode: "major" },
+  ],
 };
 
 export const ctrl = {
