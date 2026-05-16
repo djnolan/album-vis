@@ -208,7 +208,20 @@ export const syro = {
   title: 'Syro',
   artist: 'Aphex Twin',
   paletteId: 'signal-decay',
-  songs: [],
+  songs: [
+    { track: 1,  name: "minipops 67 [120.2][source field mix]",              duration: 287, bpm: 120, key: "C", accidental: "sharp", mode: "minor" },
+    { track: 2,  name: "XMAS_EVET10 [120][thanaton3 mix]",                   duration: 631, bpm: 120, key: "F", accidental: "natural", mode: "minor" },
+    { track: 3,  name: "produk 29 [101]",                                    duration: 303, bpm: 101, key: "D", accidental: "sharp",   mode: "minor" },
+    { track: 4,  name: "4 bit 9d api+e+6 [126.26]",                         duration: 268, bpm: 126, key: "B", accidental: "flat",    mode: "minor" },
+    { track: 5,  name: "180db_ [130]",                                       duration: 191, bpm: 130, key: "D", accidental: "flat",    mode: "minor" },
+    { track: 6,  name: "CIRCLONT6A [141.98][syrobonkus mix]",                duration: 360, bpm: 141, key: "F", accidental: "sharp",   mode: "minor" },
+    { track: 7,  name: "fz pseudotimestretch+e+3 [138.85]",                  duration: 58,  bpm: 139, key: "A", accidental: "natural", mode: "minor" },
+    { track: 8,  name: "CIRCLONT14 [152.97][shrymoming mix]",                duration: 441, bpm: 152, key: "C", accidental: "natural", mode: "minor" },
+    { track: 9,  name: "syro u473t8+e [141.98][piezoluminescence mix]",      duration: 392, bpm: 142, key: "A", accidental: "flat",    mode: "major" },
+    { track: 10, name: "PAPAT4 [155][Pineal mix]",                           duration: 258, bpm: 155, key: "E", accidental: "natural", mode: "minor" },
+    { track: 11, name: "s950tx16wasr10 [163.97][earth portal mix]",          duration: 361, bpm: 163, key: "G", accidental: "natural", mode: "minor" },
+    { track: 12, name: "aisatsana [102]",                                     duration: 321, bpm: 102, key: "C", accidental: "natural", mode: "major" },
+  ],
 };
 
 export const songsInTheKeyOfLife = {
