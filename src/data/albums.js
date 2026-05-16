@@ -332,7 +332,22 @@ export const ctrl = {
   title: 'Ctrl',
   artist: 'SZA',
   paletteId: 'electric-orchid',
-  songs: [],
+  songs: [
+    { track: 1,  name: "Supermodel",               duration: 181, bpm: 120, key: "F", accidental: "sharp",   mode: "major" },
+    { track: 2,  name: "Love Galore",              duration: 275, bpm: 135, key: "C", accidental: "natural", mode: "major" },
+    { track: 3,  name: "Doves In The Wind",        duration: 266, bpm: 137, key: "A", accidental: "sharp",   mode: "minor" },
+    { track: 4,  name: "Drew Barrymore",           duration: 231, bpm: 135, key: "C", accidental: "natural", mode: "minor" },
+    { track: 5,  name: "Prom",                     duration: 196, bpm: 120, key: "C", accidental: "sharp",   mode: "major" },
+    { track: 6,  name: "The Weekend",              duration: 272, bpm: 73,  key: "G", accidental: "sharp",   mode: "minor" },
+    { track: 7,  name: "Go Gina",                  duration: 161, bpm: 80,  key: "A", accidental: "natural", mode: "major" },
+    { track: 8,  name: "Garden (Say It Like Dat)", duration: 208, bpm: 111, key: "A", accidental: "natural", mode: "major" },
+    { track: 9,  name: "Broken Clocks",            duration: 231, bpm: 113, key: "F", accidental: "sharp",   mode: "major" },
+    { track: 10, name: "Anything",                 duration: 149, bpm: 152, key: "C", accidental: "natural", mode: "minor" },
+    { track: 11, name: "Wavy (Interlude)",         duration: 75,  bpm: 79,  key: "C", accidental: "natural", mode: "minor" },
+    { track: 12, name: "Normal Girl",              duration: 253, bpm: 76,  key: "C", accidental: "natural", mode: "major" },
+    { track: 13, name: "Pretty Little Birds",      duration: 245, bpm: 90,  key: "C", accidental: "sharp",   mode: "major" },
+    { track: 14, name: "20 Something",             duration: 198, bpm: 81,  key: "B", accidental: "natural", mode: "major" },
+  ],
 };
 
 export const theMiseducationOfLaurynHill = {
