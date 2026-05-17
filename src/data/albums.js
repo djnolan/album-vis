@@ -448,7 +448,13 @@ export const brilliantCorners = {
   title: 'Brilliant Corners',
   artist: 'Thelonious Monk',
   paletteId: 'burnt-hologram',
-  songs: [],
+  songs: [
+    { track: 1, name: "Brilliant Corners",        duration: 462, bpm: 150, key: "B", accidental: "flat",    mode: "major" },
+    { track: 2, name: "Ba-Lue Bolivar Ba-Lues-Are", duration: 804, bpm: 130, key: "B", accidental: "flat",    mode: "major" },
+    { track: 3, name: "Pannonica",                duration: 530, bpm: 85,  key: "F", accidental: "natural", mode: "minor" },
+    { track: 4, name: "I Surrender Dear",         duration: 325, bpm: 65,  key: "G", accidental: "natural", mode: "major" },
+    { track: 5, name: "Bemsha Swing",             duration: 462, bpm: 170, key: "C", accidental: "natural", mode: "major" },
+  ],
 };
 
 export const PRELOADED_ALBUMS = [blonde, boc, speakNow, pistols, inRainbows];
