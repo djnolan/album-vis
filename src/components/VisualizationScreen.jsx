@@ -4,9 +4,75 @@ import Visualization from './Visualization';
 import SongCard from './SongCard';
 import { PALETTES } from '../data/palettes';
 import { useScrollLock } from '../hooks/useScrollLock';
+import { useIsDesktop } from '../hooks/useIsDesktop';
+
+const CARD_BG = '#DDE2EE';
+const TOOLTIP_TEXT_PRIMARY = '#1A2030';
+const TOOLTIP_TEXT_SECONDARY = '#5A6278';
+const TOOLTIP_W = 230;
+
+function formatDuration(seconds) {
+  const m = Math.floor(seconds / 60);
+  const s = seconds % 60;
+  return `${m}:${String(s).padStart(2, '0')}`;
+}
+
+function formatKeyMode(key, accidental, mode) {
+  let note = key;
+  if (accidental === 'sharp') note = key + '♯';
+  else if (accidental === 'flat') note = key + '♭';
+  return `${note} ${mode === 'minor' ? 'Minor' : 'Major'}`;
+}
+
+function SongTooltip({ song, x, y }) {
+  if (!song) return null;
+
+  const tooltipLeft = Math.min(x + 20, window.innerWidth - TOOLTIP_W - 16);
+  const tooltipTop = Math.max(y - 60, 16);
+
+  const stats = [
+    { label: 'Duration', value: formatDuration(song.duration) },
+    { label: 'BPM',      value: song.bpm },
+    { label: 'Key',      value: formatKeyMode(song.key, song.accidental, song.mode) },
+  ];
+
+  return (
+    <div
+      className="fixed z-50 pointer-events-none"
+      style={{ left: tooltipLeft, top: tooltipTop, width: TOOLTIP_W }}
+    >
+      <div
+        className="rounded-lg overflow-hidden"
+        style={{ background: CARD_BG, boxShadow: '0 8px 40px rgba(0,0,0,0.55)' }}
+      >
+        <div className="px-4 pt-4 pb-3">
+          <p className="font-mono text-caption uppercase tracking-widest mb-0.5" style={{ color: TOOLTIP_TEXT_SECONDARY }}>
+            Track {song.track}
+          </p>
+          <p className="font-serif text-title leading-tight" style={{ color: TOOLTIP_TEXT_PRIMARY }}>
+            {song.name}
+          </p>
+        </div>
+        <div className="px-4 pb-4 flex flex-col gap-1.5" style={{ borderTop: '1px solid rgba(0,0,0,0.08)' }}>
+          {stats.map(({ label, value }) => (
+            <div key={label} className="flex items-baseline justify-between pt-1.5">
+              <span className="font-mono text-caption uppercase tracking-widest" style={{ color: TOOLTIP_TEXT_SECONDARY }}>
+                {label}
+              </span>
+              <span className="font-mono text-label" style={{ color: TOOLTIP_TEXT_PRIMARY }}>
+                {value}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function VisualizationScreen({ album, paletteId, onBack, onPaletteClick, onInfoClick, onEditClick }) {
   useScrollLock(true);
+  const isDesktop = useIsDesktop();
   const palette = PALETTES.find(p => p.id === paletteId) ?? PALETTES[0];
   const lightBg = !!palette.lightBg;
   const [activeSongTrack, setActiveSongTrack] = useState(null);
@@ -14,6 +80,8 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
   const [cardIndex, setCardIndex] = useState(0);
   const [isDownloading, setIsDownloading] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
+  const [hoveredSong, setHoveredSong] = useState(null);
+  const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
   const vizRef = useRef(null);
   const songCardRef = useRef(null);
 
@@ -34,22 +102,28 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
     setSongCardMounted(true);
   }
 
+  function handleFlowerHover(node, x, y) {
+    if (node) {
+      setHoveredSong(node);
+      setTooltipPos({ x, y });
+    } else {
+      setHoveredSong(null);
+    }
+  }
+
   function handleCardIndexChange(i) {
     setCardIndex(i);
     setActiveSongTrack(sortedSongs[i].track);
   }
 
-  // Called by SongCard's internal close — shifts viz back immediately
   function handleCardDismiss() {
     setActiveSongTrack(null);
   }
 
-  // Called after SongCard exit animation completes
   function handleCardExited() {
     setSongCardMounted(false);
   }
 
-  // Tapping the viz backdrop — shift viz + animate card out simultaneously
   function handleVizClick() {
     if (activeSongTrack == null) return;
     setActiveSongTrack(null);
@@ -62,24 +136,17 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
     setIsDownloading(true);
 
     try {
-      // iPhone 14 native resolution — looks great on any modern phone
       const W = 1170;
       const H = 2532;
-
-      // Match the screen's 116% width treatment: render wider then clip sides
       const renderW = Math.round(W * 1.16);
       const offsetX = -Math.round(W * 0.08);
 
-      // Read the SVG's viewBox to get exact content dimensions
       const vbParts = svgEl.getAttribute('viewBox').split(' ').map(Number);
       const vbW = vbParts[2];
       const vbH = vbParts[3];
 
-      // Scale content to renderW width, compute exact content height
       const scale = renderW / vbW;
       const contentH = Math.round(vbH * scale);
-
-      // Place the content center at exactly 55% from the top
       const contentOffsetY = Math.round(H * 0.55) - Math.round(contentH / 2);
 
       const clone = svgEl.cloneNode(true);
@@ -121,10 +188,12 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
     }
   }
 
+  const desktopActiveSongTrack = hoveredSong?.track ?? null;
+
   return (
     <div className="fixed inset-0 overflow-hidden bg-surface-0" style={{ animation: `${isExiting ? 'vizFadeOut' : 'vizFadeIn'} 0.2s ease both` }}>
 
-      {/* Visualization — full bleed behind header */}
+      {/* Visualization — full bleed */}
       <div
         className="absolute inset-0"
         style={{ background: palette.bg }}
@@ -134,23 +203,24 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
           width: '116%',
           height: '100%',
           marginLeft: '-8%',
-          transform: activeSongTrack != null ? 'translateY(-10%)' : 'translateY(0)',
+          transform: (!isDesktop && activeSongTrack != null) ? 'translateY(-10%)' : 'translateY(0)',
           transition: 'transform 0.35s ease',
         }}>
           <Visualization
             ref={vizRef}
             album={album}
             palette={palette}
-            activeSongTrack={activeSongTrack}
-            onFlowerClick={handleFlowerClick}
+            activeSongTrack={isDesktop ? desktopActiveSongTrack : activeSongTrack}
+            onFlowerClick={isDesktop ? undefined : handleFlowerClick}
+            onFlowerHover={isDesktop ? handleFlowerHover : undefined}
             animate
           />
         </div>
       </div>
 
-      {/* Header — floats over viz with gradient fade */}
+      {/* ── MOBILE header ── */}
       <div
-        className="absolute top-0 left-0 right-0 flex items-start pl-4 pr-6 pt-2 pb-12 pointer-events-none"
+        className="lg:hidden absolute top-0 left-0 right-0 flex items-start pl-4 pr-6 pt-2 pb-12 pointer-events-none"
         style={{ background: `linear-gradient(to bottom, ${palette.bg} 40%, transparent)` }}
       >
         <button
@@ -167,8 +237,8 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
         <div className="w-7 shrink-0" />
       </div>
 
-      {/* Bottom bar */}
-      <div className="absolute bottom-0 left-0 right-0 h-16 flex items-center justify-between px-8">
+      {/* ── MOBILE bottom bar ── */}
+      <div className="lg:hidden absolute bottom-0 left-0 right-0 h-16 flex items-center justify-between px-8">
         <button onClick={onInfoClick} style={{ color: vizTextPrimary }}><Info size={22} /></button>
         <button onClick={onPaletteClick} style={{ color: vizTextPrimary }}><Palette size={22} /></button>
         <button
@@ -182,8 +252,55 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
         </button>
       </div>
 
-      {/* Song card */}
-      {songCardMounted && (
+      {/* ── DESKTOP back arrow (top-left) ── */}
+      <button
+        onClick={handleBack}
+        className="hidden lg:flex absolute top-6 left-6 z-10 w-10 h-10 items-center justify-center rounded-full"
+        style={{ color: vizTextPrimary }}
+      >
+        <ArrowLeft size={26} />
+      </button>
+
+      {/* ── DESKTOP album info (left edge, vertically centered) ── */}
+      <button
+        onClick={onEditClick}
+        className="hidden lg:flex absolute left-8 z-10 flex-col items-start pointer-events-auto"
+        style={{
+          top: '50%',
+          transform: 'translateY(-50%)',
+          color: vizTextPrimary,
+          maxWidth: '14rem',
+        }}
+      >
+        <p className="font-serif text-title leading-tight text-left">{album.title}</p>
+        <p className="font-mono text-caption mt-1 text-left" style={{ color: vizTextSecondary }}>{album.artist}</p>
+      </button>
+
+      {/* ── DESKTOP right icon strip ── */}
+      <div
+        className="hidden lg:flex absolute right-6 z-10 flex-col items-center gap-8"
+        style={{ top: '50%', transform: 'translateY(-50%)' }}
+      >
+        <button onClick={onInfoClick} style={{ color: vizTextPrimary }}><Info size={22} /></button>
+        <button onClick={onPaletteClick} style={{ color: vizTextPrimary }}><Palette size={22} /></button>
+        <button
+          onClick={handleDownload}
+          disabled={isDownloading}
+          className="disabled:opacity-40"
+          style={{ color: vizTextPrimary }}
+          title="Download as wallpaper"
+        >
+          <Download size={22} />
+        </button>
+      </div>
+
+      {/* ── DESKTOP hover tooltip ── */}
+      {isDesktop && hoveredSong && (
+        <SongTooltip song={hoveredSong} x={tooltipPos.x} y={tooltipPos.y} />
+      )}
+
+      {/* ── MOBILE song card carousel ── */}
+      {!isDesktop && songCardMounted && (
         <SongCard
           ref={songCardRef}
           songs={sortedSongs}

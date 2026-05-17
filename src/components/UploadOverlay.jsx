@@ -4,6 +4,7 @@ import { X, Copy, ChevronDown } from 'lucide-react';
 import PrimaryButton from './PrimaryButton';
 import { useScrollLock } from '../hooks/useScrollLock';
 import { useSheetAnimation } from '../hooks/useSheetAnimation';
+import { useIsDesktop } from '../hooks/useIsDesktop';
 
 const REQUIRED_COLUMNS = ['track', 'name', 'duration', 'bpm', 'key', 'accidental', 'mode'];
 const VALID_KEYS = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
@@ -76,7 +77,6 @@ function AccordionStep({ stepLabel, label, isOpen, onToggle, children }) {
         />
       </button>
 
-      {/* grid-template-rows trick for smooth height:auto animation */}
       <div
         className="grid"
         style={{
@@ -94,9 +94,125 @@ function AccordionStep({ stepLabel, label, isOpen, onToggle, children }) {
   );
 }
 
+function UploadContent({
+  openStep, toggle, copied, handleCopy, displayPrompt,
+  albumTitle, setAlbumTitle, titleError, setTitleError,
+  artistName, setArtistName, artistError, setArtistError,
+  csvText, setCsvText, csvError, handleSubmit,
+  albumInputRef, artistInputRef,
+  close,
+}) {
+  return (
+    <>
+      <div className="shrink-0 flex items-center justify-between px-6 pt-5 pb-4">
+        <h2 className="font-sans text-ui font-medium uppercase tracking-wider text-text-primary">Create Your Visualization</h2>
+        <button
+          onClick={close}
+          className="w-9 h-9 rounded-full flex items-center justify-center text-text-secondary"
+          style={{ background: 'rgba(0,0,0,0.3)' }}
+        >
+          <X size={18} />
+        </button>
+      </div>
+
+      <div className="overflow-y-auto flex-1 px-6 pb-10">
+        <p className="font-sans text-body text-text-secondary mb-6">
+          Once you have an album in mind, follow this two step process to generate your artwork. It takes about 30 seconds. You'll need access to an AI chat tool like ChatGPT, Claude or Gemini.
+        </p>
+
+        <div className="flex flex-col gap-3">
+          <AccordionStep
+            stepLabel="Step 1"
+            label="Get Your Album Data"
+            isOpen={openStep === 1}
+            onToggle={() => toggle(1)}
+          >
+            <div className="flex flex-col gap-3 mb-5">
+              <div>
+                <label className="font-mono text-caption text-text-secondary uppercase block mb-2">Album</label>
+                <input
+                  ref={albumInputRef}
+                  value={albumTitle}
+                  onChange={e => { setAlbumTitle(e.target.value); if (e.target.value.trim()) setTitleError(''); }}
+                  className="w-full bg-surface-1 text-text-primary font-sans text-body rounded-md px-4 py-3 outline-none border border-border focus:ring-1 focus:ring-accent"
+                  placeholder="Album name"
+                />
+                {titleError && <p className="text-red-400 font-mono text-caption mt-1.5">{titleError}</p>}
+              </div>
+              <div>
+                <label className="font-mono text-caption text-text-secondary uppercase block mb-2">Artist</label>
+                <input
+                  ref={artistInputRef}
+                  value={artistName}
+                  onChange={e => { setArtistName(e.target.value); if (e.target.value.trim()) setArtistError(''); }}
+                  className="w-full bg-surface-1 text-text-primary font-sans text-body rounded-md px-4 py-3 outline-none border border-border focus:ring-1 focus:ring-accent"
+                  placeholder="Artist name"
+                />
+                {artistError && <p className="text-red-400 font-mono text-caption mt-1.5">{artistError}</p>}
+              </div>
+            </div>
+
+            <p className="font-sans text-body text-text-secondary mb-4">
+              Copy this prompt into an AI chat tool like ChatGPT.
+            </p>
+
+            <div className="bg-surface-0 rounded-md p-4 mb-4">
+              <div className="flex justify-end mb-2">
+                <button
+                  onClick={handleCopy}
+                  className="font-mono text-caption flex items-center gap-1 transition-colors"
+                  style={{ color: copied ? '#7B9FD4' : '#525A68' }}
+                >
+                  {copied ? 'Copied!' : 'COPY'}
+                  <Copy size={13} />
+                </button>
+              </div>
+              <p className="font-mono text-caption text-text-secondary whitespace-pre-wrap">
+                {displayPrompt}
+              </p>
+            </div>
+
+            <button
+              onClick={handleCopy}
+              className="w-full flex items-center justify-center gap-2 rounded-md py-3 font-sans text-ui font-bold transition-colors"
+              style={{ border: '1px solid rgba(123,159,212,0.35)', color: '#7B9FD4', background: copied ? 'rgba(123,159,212,0.08)' : 'transparent' }}
+            >
+              <Copy size={15} />
+              {copied ? 'Copied!' : 'Copy Prompt'}
+            </button>
+          </AccordionStep>
+
+          <AccordionStep
+            stepLabel="Step 2"
+            label="Paste In Your Data"
+            isOpen={openStep === 2}
+            onToggle={() => toggle(2)}
+          >
+            <p className="font-sans text-body text-text-secondary mb-4">
+              Paste the CSV text your AI tool gives you into the box below.
+            </p>
+
+            <textarea
+              value={csvText}
+              onChange={e => setCsvText(e.target.value)}
+              placeholder="Paste your data here."
+              className="w-full h-36 bg-surface-0 font-mono text-caption text-text-primary rounded-md p-4 resize-none outline-none placeholder-text-tertiary focus:ring-1 focus:ring-accent"
+            />
+
+            {csvError && <p className="text-red-400 font-mono text-caption mt-2">{csvError}</p>}
+
+            <PrimaryButton onClick={handleSubmit} className="mt-4">GENERATE →</PrimaryButton>
+          </AccordionStep>
+        </div>
+      </div>
+    </>
+  );
+}
+
 export default function UploadOverlay({ onClose, onUpload }) {
   useScrollLock(true);
-  const { close, backdropStyle, sheetStyle } = useSheetAnimation(onClose);
+  const isDesktop = useIsDesktop();
+  const { close, backdropStyle, sheetStyle } = useSheetAnimation(onClose, isDesktop ? 'right' : 'up');
   const [openStep, setOpenStep] = useState(null);
   const [copied, setCopied] = useState(false);
   const [csvText, setCsvText] = useState('');
@@ -106,7 +222,6 @@ export default function UploadOverlay({ onClose, onUpload }) {
   const [artistError, setArtistError] = useState('');
   const [csvError, setCsvError] = useState(null);
 
-  // Debounced values for live prompt substitution
   const [promptAlbum, setPromptAlbum] = useState('');
   const [promptArtist, setPromptArtist] = useState('');
 
@@ -192,6 +307,34 @@ export default function UploadOverlay({ onClose, onUpload }) {
     });
   }
 
+  const contentProps = {
+    openStep, toggle, copied, handleCopy, displayPrompt,
+    albumTitle, setAlbumTitle, titleError, setTitleError,
+    artistName, setArtistName, artistError, setArtistError,
+    csvText, setCsvText, csvError, handleSubmit,
+    albumInputRef, artistInputRef,
+    close,
+  };
+
+  if (isDesktop) {
+    return (
+      <div className="fixed inset-0 z-50 flex">
+        <div className="absolute inset-0 bg-black/60" style={backdropStyle} onClick={close} />
+        <div
+          className="relative ml-auto h-full bg-surface-1 flex flex-col"
+          style={{
+            width: '40%',
+            minWidth: '380px',
+            boxShadow: '-8px 0 32px rgba(0,0,0,0.5)',
+            ...sheetStyle,
+          }}
+        >
+          <UploadContent {...contentProps} />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="fixed inset-0 z-50 flex flex-col justify-end">
       <div className="absolute inset-0 bg-black/75" style={backdropStyle} onClick={close} />
@@ -199,111 +342,7 @@ export default function UploadOverlay({ onClose, onUpload }) {
         className="relative bg-surface-1 rounded-t-lg flex flex-col"
         style={{ height: 'calc(100dvh - 48px)', maxHeight: 'calc(100dvh - 48px)', boxShadow: '0 -8px 32px rgba(0,0,0,0.5)', ...sheetStyle }}
       >
-
-        <div className="shrink-0 flex items-center justify-between px-6 pt-5 pb-4">
-          <h2 className="font-sans text-ui font-medium uppercase tracking-wider text-text-primary">Create Your Visualization</h2>
-          <button
-            onClick={close}
-            className="w-9 h-9 rounded-full flex items-center justify-center text-text-secondary"
-            style={{ background: 'rgba(0,0,0,0.3)' }}
-          >
-            <X size={18} />
-          </button>
-        </div>
-
-        <div className="overflow-y-auto flex-1 px-6 pb-10">
-
-          <p className="font-sans text-body text-text-secondary mb-6">
-            Once you have an album in mind, follow this two step process to generate your artwork. It takes about 30 seconds. You'll need access to an AI chat tool like ChatGPT, Claude or Gemini.
-          </p>
-
-          <div className="flex flex-col gap-3">
-
-            <AccordionStep
-              stepLabel="Step 1"
-              label="Get Your Album Data"
-              isOpen={openStep === 1}
-              onToggle={() => toggle(1)}
-            >
-              <div className="flex flex-col gap-3 mb-5">
-                <div>
-                  <label className="font-mono text-caption text-text-secondary uppercase block mb-2">Album</label>
-                  <input
-                    ref={albumInputRef}
-                    value={albumTitle}
-                    onChange={e => { setAlbumTitle(e.target.value); if (e.target.value.trim()) setTitleError(''); }}
-                    className="w-full bg-surface-1 text-text-primary font-sans text-body rounded-md px-4 py-3 outline-none border border-border focus:ring-1 focus:ring-accent"
-                    placeholder="Album name"
-                  />
-                  {titleError && <p className="text-red-400 font-mono text-caption mt-1.5">{titleError}</p>}
-                </div>
-                <div>
-                  <label className="font-mono text-caption text-text-secondary uppercase block mb-2">Artist</label>
-                  <input
-                    ref={artistInputRef}
-                    value={artistName}
-                    onChange={e => { setArtistName(e.target.value); if (e.target.value.trim()) setArtistError(''); }}
-                    className="w-full bg-surface-1 text-text-primary font-sans text-body rounded-md px-4 py-3 outline-none border border-border focus:ring-1 focus:ring-accent"
-                    placeholder="Artist name"
-                  />
-                  {artistError && <p className="text-red-400 font-mono text-caption mt-1.5">{artistError}</p>}
-                </div>
-              </div>
-
-              <p className="font-sans text-body text-text-secondary mb-4">
-                Copy this prompt into an AI chat tool like ChatGPT.
-              </p>
-
-              <div className="bg-surface-0 rounded-md p-4 mb-4">
-                <div className="flex justify-end mb-2">
-                  <button
-                    onClick={handleCopy}
-                    className="font-mono text-caption flex items-center gap-1 transition-colors"
-                    style={{ color: copied ? '#7B9FD4' : '#525A68' }}
-                  >
-                    {copied ? 'Copied!' : 'COPY'}
-                    <Copy size={13} />
-                  </button>
-                </div>
-                <p className="font-mono text-caption text-text-secondary whitespace-pre-wrap">
-                  {displayPrompt}
-                </p>
-              </div>
-
-              <button
-                onClick={handleCopy}
-                className="w-full flex items-center justify-center gap-2 rounded-md py-3 font-sans text-ui font-bold transition-colors"
-                style={{ border: '1px solid rgba(123,159,212,0.35)', color: '#7B9FD4', background: copied ? 'rgba(123,159,212,0.08)' : 'transparent' }}
-              >
-                <Copy size={15} />
-                {copied ? 'Copied!' : 'Copy Prompt'}
-              </button>
-            </AccordionStep>
-
-            <AccordionStep
-              stepLabel="Step 2"
-              label="Paste In Your Data"
-              isOpen={openStep === 2}
-              onToggle={() => toggle(2)}
-            >
-              <p className="font-sans text-body text-text-secondary mb-4">
-                Paste the CSV text your AI tool gives you into the box below.
-              </p>
-
-              <textarea
-                value={csvText}
-                onChange={e => setCsvText(e.target.value)}
-                placeholder="Paste your data here."
-                className="w-full h-36 bg-surface-0 font-mono text-caption text-text-primary rounded-md p-4 resize-none outline-none placeholder-text-tertiary focus:ring-1 focus:ring-accent"
-              />
-
-              {csvError && <p className="text-red-400 font-mono text-caption mt-2">{csvError}</p>}
-
-              <PrimaryButton onClick={handleSubmit} className="mt-4">GENERATE →</PrimaryButton>
-            </AccordionStep>
-
-          </div>
-        </div>
+        <UploadContent {...contentProps} />
       </div>
     </div>
   );
