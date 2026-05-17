@@ -457,4 +457,25 @@ export const brilliantCorners = {
   ],
 };
 
-export const PRELOADED_ALBUMS = [blonde, boc, speakNow, pistols, inRainbows];
+export const PRELOADED_ALBUMS = [
+  blonde,
+  hurryUpWereDreaming,
+  theMiseducationOfLaurynHill,
+  speakNow,
+  brilliantCorners,
+  mbdtf,
+  americanBeauty,
+  ctrl,
+  timeOut,
+  sometimesIMightBeIntrovert,
+  inRainbows,
+  songsInTheKeyOfLife,
+  pistols,
+  syro,
+  carrieAndLowell,
+  momentOfTruth,
+  rumours,
+  boc,
+  billyBreathes,
+  normanFuckingRockwell,
+];
