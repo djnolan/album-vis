@@ -88,16 +88,16 @@ export default function HomeScreen({ userAlbums = [], paletteOverrides = {}, onS
     <div className="bg-surface-0 min-h-screen">
 
       {/* ── FIXED LEFT SIDEBAR (desktop only) ── */}
-      <aside className="hidden lg:flex flex-col fixed left-0 top-0 h-screen w-[40%] px-14 py-16">
-        <div className="flex-1">
-          <h1 className="font-serif text-text-primary leading-none" style={{ fontSize: '5rem' }}>
-            In Bloom
-          </h1>
-          <p className="font-sans text-body text-text-secondary mt-5">
-            A music visualization experiment.<br />Browse album artwork or create your own.
-          </p>
+      <aside className="hidden lg:flex flex-col justify-center fixed left-0 top-0 h-screen w-[40%] px-14 py-16">
+        <h1 className="font-serif text-text-primary leading-none" style={{ fontSize: '5rem' }}>
+          In Bloom
+        </h1>
+        <p className="font-sans text-body text-text-secondary mt-5">
+          A music visualization experiment.<br />Browse album artwork or create your own.
+        </p>
+        <div className="mt-10">
+          <PrimaryButton compact onClick={onCreateClick}>CREATE +</PrimaryButton>
         </div>
-        <PrimaryButton onClick={onCreateClick}>CREATE +</PrimaryButton>
       </aside>
 
       {/* ── MOBILE HEADER ── */}

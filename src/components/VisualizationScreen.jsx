@@ -9,7 +9,7 @@ import { useIsDesktop } from '../hooks/useIsDesktop';
 const CARD_BG = '#DDE2EE';
 const TOOLTIP_TEXT_PRIMARY = '#1A2030';
 const TOOLTIP_TEXT_SECONDARY = '#5A6278';
-const TOOLTIP_W = 230;
+const CARD_W = 240;
 
 function formatDuration(seconds) {
   const m = Math.floor(seconds / 60);
@@ -24,11 +24,13 @@ function formatKeyMode(key, accidental, mode) {
   return `${note} ${mode === 'minor' ? 'Minor' : 'Major'}`;
 }
 
-function SongTooltip({ song, x, y, visible }) {
+function DesktopSongCard({ song, x, y }) {
   if (!song) return null;
 
-  const tooltipLeft = Math.min(x + 20, window.innerWidth - TOOLTIP_W - 16);
-  const tooltipTop = Math.max(y - 60, 16);
+  // Position card to the right of click point, clamped to viewport
+  const CARD_H = 160;
+  const left = Math.min(x + 16, window.innerWidth - CARD_W - 16);
+  const top = Math.max(Math.min(y - CARD_H / 2, window.innerHeight - CARD_H - 16), 16);
 
   const stats = [
     { label: 'Duration', value: formatDuration(song.duration) },
@@ -39,13 +41,7 @@ function SongTooltip({ song, x, y, visible }) {
   return (
     <div
       className="fixed z-50 pointer-events-none"
-      style={{
-        left: tooltipLeft,
-        top: tooltipTop,
-        width: TOOLTIP_W,
-        opacity: visible ? 1 : 0,
-        transition: 'opacity 0.15s ease',
-      }}
+      style={{ left, top, width: CARD_W, opacity: 1, transition: 'opacity 0.15s ease' }}
     >
       <div
         className="rounded-lg overflow-hidden"
@@ -86,12 +82,11 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
   const [cardIndex, setCardIndex] = useState(0);
   const [isDownloading, setIsDownloading] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
-  const [hoveredSong, setHoveredSong] = useState(null);
-  const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
-  const [tooltipVisible, setTooltipVisible] = useState(false);
+  // Desktop click-to-reveal card state
+  const [desktopClickedSong, setDesktopClickedSong] = useState(null);
+  const [desktopCardPos, setDesktopCardPos] = useState({ x: 0, y: 0 });
   const vizRef = useRef(null);
   const songCardRef = useRef(null);
-  const hoverTimerRef = useRef(null);
 
   function handleBack() {
     setIsExiting(true);
@@ -103,25 +98,22 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
 
   const sortedSongs = [...album.songs].sort((a, b) => a.track - b.track);
 
-  function handleFlowerClick(node) {
+  function handleFlowerClick(node, clientX, clientY) {
+    if (isDesktop) {
+      // Toggle: clicking the same flower again dismisses the card
+      if (desktopClickedSong?.track === node.track) {
+        setDesktopClickedSong(null);
+      } else {
+        setDesktopClickedSong(node);
+        setDesktopCardPos({ x: clientX, y: clientY });
+      }
+      return;
+    }
+    // Mobile: bottom carousel
     const idx = sortedSongs.findIndex(s => s.track === node.track);
     setCardIndex(idx >= 0 ? idx : 0);
     setActiveSongTrack(node.track);
     setSongCardMounted(true);
-  }
-
-  function handleFlowerHover(node, x, y) {
-    clearTimeout(hoverTimerRef.current);
-    if (node) {
-      setHoveredSong(node);
-      setTooltipPos({ x, y });
-      // Delay showing the tooltip so fast mouse movement doesn't flash cards
-      hoverTimerRef.current = setTimeout(() => setTooltipVisible(true), 220);
-    } else {
-      setTooltipVisible(false);
-      // Keep hoveredSong briefly so the dimming fades cleanly
-      hoverTimerRef.current = setTimeout(() => setHoveredSong(null), 200);
-    }
   }
 
   function handleCardIndexChange(i) {
@@ -140,6 +132,10 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
   function handleVizClick() {
     if (isDesktop && desktopOverlayOpen) {
       onCloseOverlay?.();
+      return;
+    }
+    if (isDesktop) {
+      setDesktopClickedSong(null);
       return;
     }
     if (activeSongTrack == null) return;
@@ -205,10 +201,7 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
     }
   }
 
-  // On desktop, dim hovered flower; on mobile, dim around active song card
-  const desktopActiveSong = hoveredSong?.track ?? null;
-
-  // Viz shift: left when desktop overlay is open, up when mobile song card is active
+  // Viz shift: left when desktop overlay open, up when mobile song card active
   let vizTransform = 'translateY(0)';
   if (isDesktop && desktopOverlayOpen) {
     vizTransform = 'translateX(-15%)';
@@ -216,7 +209,6 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
     vizTransform = 'translateY(-10%)';
   }
 
-  // Left chrome (back arrow + album info) hides when desktop overlay is open
   const chromeHidden = isDesktop && desktopOverlayOpen;
 
   return (
@@ -239,9 +231,8 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
             ref={vizRef}
             album={album}
             palette={palette}
-            activeSongTrack={isDesktop ? desktopActiveSong : activeSongTrack}
-            onFlowerClick={isDesktop ? undefined : handleFlowerClick}
-            onFlowerHover={isDesktop ? handleFlowerHover : undefined}
+            activeSongTrack={isDesktop ? (desktopClickedSong?.track ?? null) : activeSongTrack}
+            onFlowerClick={handleFlowerClick}
             animate
           />
         </div>
@@ -331,9 +322,13 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
         </button>
       </div>
 
-      {/* ── DESKTOP hover tooltip ── */}
-      {isDesktop && hoveredSong && (
-        <SongTooltip song={hoveredSong} x={tooltipPos.x} y={tooltipPos.y} visible={tooltipVisible} />
+      {/* ── DESKTOP click-to-reveal song card ── */}
+      {isDesktop && desktopClickedSong && (
+        <DesktopSongCard
+          song={desktopClickedSong}
+          x={desktopCardPos.x}
+          y={desktopCardPos.y}
+        />
       )}
 
       {/* ── MOBILE song card carousel ── */}

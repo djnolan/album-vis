@@ -47,7 +47,7 @@ function computeLayout(songs) {
   return nodes;
 }
 
-const Visualization = forwardRef(function Visualization({ album, palette, activeSongTrack, onFlowerClick, onFlowerHover, animate = false }, ref) {
+const Visualization = forwardRef(function Visualization({ album, palette, activeSongTrack, onFlowerClick, animate = false }, ref) {
   const [nodes, setNodes] = useState([]);
 
   const colorRamp = useMemo(() => (
@@ -98,9 +98,7 @@ const Visualization = forwardRef(function Visualization({ album, palette, active
           <g
             key={`${album.id}-${node.track}`}
             transform={`translate(${node.x - node.r}, ${node.y - node.r})`}
-            onClick={(e) => { if (onFlowerClick) { e.stopPropagation(); onFlowerClick(node); } }}
-            onMouseEnter={(e) => onFlowerHover?.(node, e.clientX, e.clientY)}
-            onMouseLeave={() => onFlowerHover?.(null, 0, 0)}
+            onClick={(e) => { if (onFlowerClick) { e.stopPropagation(); onFlowerClick(node, e.clientX, e.clientY); } }}
             style={{ cursor: 'pointer' }}
           >
             <g style={animate ? {
