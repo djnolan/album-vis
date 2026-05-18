@@ -95,6 +95,8 @@ export default function App() {
           onPaletteClick={() => setShowPalette(true)}
           onInfoClick={() => setShowLegend(true)}
           onEditClick={() => setShowEdit(true)}
+          desktopOverlayOpen={showPalette || showLegend}
+          onCloseOverlay={() => { setShowPalette(false); setShowLegend(false); }}
         />
       )}
 

@@ -137,10 +137,9 @@ export default function PaletteOverlay({ activePaletteId, onSelect, onClose }) {
 
   if (isDesktop) {
     return (
-      <div className="fixed inset-0 z-50 flex">
-        <div className="absolute inset-0 bg-black/60" style={backdropStyle} onClick={close} />
+      <div className="fixed inset-0 z-50 flex pointer-events-none">
         <div
-          className="relative ml-auto h-full bg-surface-1 flex flex-col"
+          className="relative ml-auto h-full bg-surface-1 flex flex-col rounded-tl-lg rounded-bl-lg pointer-events-auto"
           style={{
             width: '36%',
             minWidth: '320px',

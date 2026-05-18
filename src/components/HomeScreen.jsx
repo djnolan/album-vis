@@ -33,7 +33,7 @@ function AlbumCard({ album, onSelect, isUserAlbum, onLongPress }) {
 
   return (
     <div
-      className="w-64 md:w-full pb-6 md:pb-0 flex flex-col cursor-pointer"
+      className="w-64 md:w-full pb-6 md:pb-0 flex flex-col items-center cursor-pointer"
       onClick={handleClick}
       onMouseDown={handlePressStart}
       onMouseUp={handlePressEnd}
@@ -54,7 +54,7 @@ function AlbumCard({ album, onSelect, isUserAlbum, onLongPress }) {
           <Visualization album={album} palette={palette} activeSongTrack={null} />
         </div>
       </div>
-      <div className="mt-3 text-center md:text-left">
+      <div className="mt-3 text-center w-full">
         <p className="font-serif text-title leading-tight text-text-primary">{album.title}</p>
         <p className="font-mono text-caption mt-1 text-text-secondary">{album.artist}</p>
       </div>
@@ -64,7 +64,7 @@ function AlbumCard({ album, onSelect, isUserAlbum, onLongPress }) {
 
 function AlbumGrid({ albums, onSelectAlbum, isUserAlbum, onLongPress }) {
   return (
-    <div className="grid grid-cols-1 justify-items-center md:justify-items-start md:grid-cols-2 gap-6 md:gap-8 lg:gap-10">
+    <div className="grid grid-cols-1 justify-items-center md:justify-items-start md:grid-cols-2 gap-6 md:gap-8">
       {albums.map(album => (
         <AlbumCard
           key={album.id}
@@ -85,42 +85,42 @@ export default function HomeScreen({ userAlbums = [], paletteOverrides = {}, onS
   );
 
   return (
-    <div className="bg-surface-0 min-h-screen lg:flex lg:h-screen lg:overflow-hidden">
+    <div className="bg-surface-0 min-h-screen">
 
-      {/* ── LEFT SIDEBAR (desktop only) ── */}
-      <aside className="hidden lg:flex flex-col w-80 shrink-0 h-screen sticky top-0 px-10 py-14 border-r border-border">
+      {/* ── FIXED LEFT SIDEBAR (desktop only) ── */}
+      <aside className="hidden lg:flex flex-col fixed left-0 top-0 h-screen w-[40%] px-14 py-16">
         <div className="flex-1">
-          <h1 className="font-serif text-text-primary leading-none" style={{ fontSize: '3.5rem' }}>
+          <h1 className="font-serif text-text-primary leading-none" style={{ fontSize: '5rem' }}>
             In Bloom
           </h1>
-          <p className="font-sans text-body text-text-secondary mt-4">
+          <p className="font-sans text-body text-text-secondary mt-5">
             A music visualization experiment.<br />Browse album artwork or create your own.
           </p>
         </div>
         <PrimaryButton onClick={onCreateClick}>CREATE +</PrimaryButton>
       </aside>
 
-      {/* ── RIGHT CONTENT AREA ── */}
-      <main className="flex-1 lg:overflow-y-auto lg:h-screen">
+      {/* ── MOBILE HEADER ── */}
+      <div className="lg:hidden px-6 pt-8 pb-8">
+        <h1 className="font-serif text-text-primary leading-tight text-center" style={{ fontSize: '3rem' }}>
+          In Bloom
+        </h1>
+        <p className="font-sans text-body text-text-secondary text-center mt-1">
+          A music visualization experiment.<br />Browse album artwork or create your own.
+        </p>
+      </div>
 
-        {/* Mobile header */}
-        <div className="lg:hidden px-6 pt-8 pb-8">
-          <h1 className="font-serif text-text-primary leading-tight text-center" style={{ fontSize: '3rem' }}>
-            In Bloom
-          </h1>
-          <p className="font-sans text-body text-text-secondary text-center mt-1">
-            A music visualization experiment.<br />Browse album artwork or create your own.
-          </p>
-        </div>
+      {/* ── RIGHT CONTENT AREA (offset by sidebar on desktop) ── */}
+      <div className="lg:ml-[40%]">
 
-        {/* ── DESKTOP album layout ── */}
-        <div className="hidden lg:block px-10 pt-12 pb-20">
+        {/* Desktop album grid */}
+        <div className="hidden lg:block px-16 py-16">
           {userAlbums.length > 0 && (
-            <section className="mb-16">
-              <p className="font-mono text-caption text-text-secondary uppercase tracking-wider mb-8">
+            <section className="mb-20">
+              <p className="font-mono text-caption text-text-secondary uppercase tracking-wider mb-10">
                 Your Albums
               </p>
-              <div className="grid grid-cols-2 gap-10">
+              <div className="grid grid-cols-2 gap-x-12 gap-y-14">
                 {userAlbums.map(album => (
                   <AlbumCard
                     key={album.id}
@@ -133,7 +133,7 @@ export default function HomeScreen({ userAlbums = [], paletteOverrides = {}, onS
               </div>
             </section>
           )}
-          <div className="grid grid-cols-2 gap-10">
+          <div className="grid grid-cols-2 gap-x-12 gap-y-14">
             {preloadedAlbums.map(album => (
               <AlbumCard
                 key={album.id}
@@ -146,10 +146,10 @@ export default function HomeScreen({ userAlbums = [], paletteOverrides = {}, onS
           </div>
         </div>
 
-        {/* ── MOBILE / TABLET album layout ── */}
+        {/* Mobile / tablet album layout */}
         <div className="lg:hidden">
           {userAlbums.length > 0 && (
-            <div className="mx-4 mt-6 mb-10 rounded-lg px-4 pt-0 pb-4" style={{ border: '1px solid rgba(255,255,255,0.12)' }}>
+            <div className="mx-4 mt-2 mb-10 rounded-lg px-4 pt-0 pb-4" style={{ border: '1px solid rgba(255,255,255,0.12)' }}>
               <div className="flex justify-center">
                 <p
                   className="font-sans text-ui font-medium uppercase tracking-wider text-text-secondary px-3 mb-6"
@@ -176,10 +176,9 @@ export default function HomeScreen({ userAlbums = [], paletteOverrides = {}, onS
             />
           </div>
 
-          {/* Spacer so content clears the fixed bottom bar */}
           <div className="h-40" />
         </div>
-      </main>
+      </div>
 
       {/* ── MOBILE fixed bottom bar ── */}
       <div className="lg:hidden fixed bottom-0 left-0 right-0 flex items-end px-6 pt-20 pb-5 bg-gradient-to-t from-surface-0 to-transparent pointer-events-none">

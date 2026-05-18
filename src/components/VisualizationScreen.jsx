@@ -24,7 +24,7 @@ function formatKeyMode(key, accidental, mode) {
   return `${note} ${mode === 'minor' ? 'Minor' : 'Major'}`;
 }
 
-function SongTooltip({ song, x, y }) {
+function SongTooltip({ song, x, y, visible }) {
   if (!song) return null;
 
   const tooltipLeft = Math.min(x + 20, window.innerWidth - TOOLTIP_W - 16);
@@ -39,7 +39,13 @@ function SongTooltip({ song, x, y }) {
   return (
     <div
       className="fixed z-50 pointer-events-none"
-      style={{ left: tooltipLeft, top: tooltipTop, width: TOOLTIP_W }}
+      style={{
+        left: tooltipLeft,
+        top: tooltipTop,
+        width: TOOLTIP_W,
+        opacity: visible ? 1 : 0,
+        transition: 'opacity 0.15s ease',
+      }}
     >
       <div
         className="rounded-lg overflow-hidden"
@@ -70,7 +76,7 @@ function SongTooltip({ song, x, y }) {
   );
 }
 
-export default function VisualizationScreen({ album, paletteId, onBack, onPaletteClick, onInfoClick, onEditClick }) {
+export default function VisualizationScreen({ album, paletteId, onBack, onPaletteClick, onInfoClick, onEditClick, desktopOverlayOpen = false, onCloseOverlay }) {
   useScrollLock(true);
   const isDesktop = useIsDesktop();
   const palette = PALETTES.find(p => p.id === paletteId) ?? PALETTES[0];
@@ -82,8 +88,10 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
   const [isExiting, setIsExiting] = useState(false);
   const [hoveredSong, setHoveredSong] = useState(null);
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
+  const [tooltipVisible, setTooltipVisible] = useState(false);
   const vizRef = useRef(null);
   const songCardRef = useRef(null);
+  const hoverTimerRef = useRef(null);
 
   function handleBack() {
     setIsExiting(true);
@@ -103,11 +111,16 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
   }
 
   function handleFlowerHover(node, x, y) {
+    clearTimeout(hoverTimerRef.current);
     if (node) {
       setHoveredSong(node);
       setTooltipPos({ x, y });
+      // Delay showing the tooltip so fast mouse movement doesn't flash cards
+      hoverTimerRef.current = setTimeout(() => setTooltipVisible(true), 220);
     } else {
-      setHoveredSong(null);
+      setTooltipVisible(false);
+      // Keep hoveredSong briefly so the dimming fades cleanly
+      hoverTimerRef.current = setTimeout(() => setHoveredSong(null), 200);
     }
   }
 
@@ -125,6 +138,10 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
   }
 
   function handleVizClick() {
+    if (isDesktop && desktopOverlayOpen) {
+      onCloseOverlay?.();
+      return;
+    }
     if (activeSongTrack == null) return;
     setActiveSongTrack(null);
     songCardRef.current?.close();
@@ -188,7 +205,19 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
     }
   }
 
-  const desktopActiveSongTrack = hoveredSong?.track ?? null;
+  // On desktop, dim hovered flower; on mobile, dim around active song card
+  const desktopActiveSong = hoveredSong?.track ?? null;
+
+  // Viz shift: left when desktop overlay is open, up when mobile song card is active
+  let vizTransform = 'translateY(0)';
+  if (isDesktop && desktopOverlayOpen) {
+    vizTransform = 'translateX(-15%)';
+  } else if (!isDesktop && activeSongTrack != null) {
+    vizTransform = 'translateY(-10%)';
+  }
+
+  // Left chrome (back arrow + album info) hides when desktop overlay is open
+  const chromeHidden = isDesktop && desktopOverlayOpen;
 
   return (
     <div className="fixed inset-0 overflow-hidden bg-surface-0" style={{ animation: `${isExiting ? 'vizFadeOut' : 'vizFadeIn'} 0.2s ease both` }}>
@@ -203,14 +232,14 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
           width: '116%',
           height: '100%',
           marginLeft: '-8%',
-          transform: (!isDesktop && activeSongTrack != null) ? 'translateY(-10%)' : 'translateY(0)',
-          transition: 'transform 0.35s ease',
+          transform: vizTransform,
+          transition: 'transform 0.4s ease',
         }}>
           <Visualization
             ref={vizRef}
             album={album}
             palette={palette}
-            activeSongTrack={isDesktop ? desktopActiveSongTrack : activeSongTrack}
+            activeSongTrack={isDesktop ? desktopActiveSong : activeSongTrack}
             onFlowerClick={isDesktop ? undefined : handleFlowerClick}
             onFlowerHover={isDesktop ? handleFlowerHover : undefined}
             animate
@@ -256,7 +285,12 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
       <button
         onClick={handleBack}
         className="hidden lg:flex absolute top-6 left-6 z-10 w-10 h-10 items-center justify-center rounded-full"
-        style={{ color: vizTextPrimary }}
+        style={{
+          color: vizTextPrimary,
+          opacity: chromeHidden ? 0 : 1,
+          pointerEvents: chromeHidden ? 'none' : 'auto',
+          transition: 'opacity 0.25s ease',
+        }}
       >
         <ArrowLeft size={26} />
       </button>
@@ -264,16 +298,19 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
       {/* ── DESKTOP album info (left edge, vertically centered) ── */}
       <button
         onClick={onEditClick}
-        className="hidden lg:flex absolute left-8 z-10 flex-col items-start pointer-events-auto"
+        className="hidden lg:flex absolute left-8 z-10 flex-col items-start"
         style={{
           top: '50%',
           transform: 'translateY(-50%)',
           color: vizTextPrimary,
-          maxWidth: '14rem',
+          maxWidth: '16rem',
+          opacity: chromeHidden ? 0 : 1,
+          pointerEvents: chromeHidden ? 'none' : 'auto',
+          transition: 'opacity 0.25s ease',
         }}
       >
-        <p className="font-serif text-title leading-tight text-left">{album.title}</p>
-        <p className="font-mono text-caption mt-1 text-left" style={{ color: vizTextSecondary }}>{album.artist}</p>
+        <p className="font-serif leading-tight text-left" style={{ fontSize: '1.6rem' }}>{album.title}</p>
+        <p className="font-mono text-label mt-1.5 text-left" style={{ color: vizTextSecondary }}>{album.artist}</p>
       </button>
 
       {/* ── DESKTOP right icon strip ── */}
@@ -296,7 +333,7 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
 
       {/* ── DESKTOP hover tooltip ── */}
       {isDesktop && hoveredSong && (
-        <SongTooltip song={hoveredSong} x={tooltipPos.x} y={tooltipPos.y} />
+        <SongTooltip song={hoveredSong} x={tooltipPos.x} y={tooltipPos.y} visible={tooltipVisible} />
       )}
 
       {/* ── MOBILE song card carousel ── */}
