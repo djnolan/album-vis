@@ -24,12 +24,21 @@ function formatKeyMode(key, accidental, mode) {
   return `${note} ${mode === 'minor' ? 'Minor' : 'Major'}`;
 }
 
-function DesktopSongCard({ song, x, y, onClose }) {
-  if (!song) return null;
+function DesktopSongCard({ song, rect, onClose }) {
+  if (!song || !rect) return null;
 
-  const CARD_H = 180;
-  const left = Math.min(x + 16, window.innerWidth - CARD_W - 16);
-  const top = Math.max(Math.min(y - CARD_H / 2, window.innerHeight - CARD_H - 16), 16);
+  const CARD_H = 200;
+  const OVERLAP = 16;
+  const flowerCenterY = rect.top + rect.height / 2;
+
+  // Prefer right of flower; flip left if it would overflow
+  let left = rect.right - OVERLAP;
+  if (left + CARD_W + 16 > window.innerWidth) {
+    left = rect.left + OVERLAP - CARD_W;
+  }
+  left = Math.max(16, left);
+
+  const top = Math.max(16, Math.min(flowerCenterY - CARD_H / 2, window.innerHeight - CARD_H - 16));
 
   const stats = [
     { label: 'Duration', value: formatDuration(song.duration) },
@@ -97,7 +106,7 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
   const [isExiting, setIsExiting] = useState(false);
   // Desktop click-to-reveal card state
   const [desktopClickedSong, setDesktopClickedSong] = useState(null);
-  const [desktopCardPos, setDesktopCardPos] = useState({ x: 0, y: 0 });
+  const [desktopCardRect, setDesktopCardRect] = useState(null);
   const vizRef = useRef(null);
   const songCardRef = useRef(null);
 
@@ -111,14 +120,14 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
 
   const sortedSongs = [...album.songs].sort((a, b) => a.track - b.track);
 
-  function handleFlowerClick(node, clientX, clientY) {
+  function handleFlowerClick(node, rect) {
     if (isDesktop) {
       // Toggle: clicking the same flower again dismisses the card
       if (desktopClickedSong?.track === node.track) {
         setDesktopClickedSong(null);
       } else {
         setDesktopClickedSong(node);
-        setDesktopCardPos({ x: clientX, y: clientY });
+        setDesktopCardRect(rect);
       }
       return;
     }
@@ -339,8 +348,7 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
       {isDesktop && desktopClickedSong && (
         <DesktopSongCard
           song={desktopClickedSong}
-          x={desktopCardPos.x}
-          y={desktopCardPos.y}
+          rect={desktopCardRect}
           onClose={() => setDesktopClickedSong(null)}
         />
       )}

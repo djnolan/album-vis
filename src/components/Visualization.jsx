@@ -98,7 +98,7 @@ const Visualization = forwardRef(function Visualization({ album, palette, active
           <g
             key={`${album.id}-${node.track}`}
             transform={`translate(${node.x - node.r}, ${node.y - node.r})`}
-            onClick={(e) => { if (onFlowerClick) { e.stopPropagation(); onFlowerClick(node, e.clientX, e.clientY); } }}
+            onClick={(e) => { if (onFlowerClick) { e.stopPropagation(); onFlowerClick(node, e.currentTarget.getBoundingClientRect()); } }}
             style={{ cursor: 'pointer' }}
           >
             <g style={animate ? {
