@@ -130,10 +130,10 @@ function PaletteContent({ activePaletteId, onSelect, close }) {
   );
 }
 
-export default function PaletteOverlay({ activePaletteId, onSelect, onClose }) {
+export default function PaletteOverlay({ activePaletteId, onSelect, onClose, onClosingStart }) {
   useScrollLock(true);
   const isDesktop = useIsDesktop();
-  const { close, backdropStyle, sheetStyle } = useSheetAnimation(onClose, isDesktop ? 'right' : 'up');
+  const { close, backdropStyle, sheetStyle } = useSheetAnimation(onClose, isDesktop ? 'right' : 'up', onClosingStart);
 
   if (isDesktop) {
     return (

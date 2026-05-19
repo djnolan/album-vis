@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 const DURATION = 340;
 const EASING = 'cubic-bezier(0.32, 0.72, 0, 1)';
 
-export function useSheetAnimation(onClose, direction = 'up') {
+export function useSheetAnimation(onClose, direction = 'up', onClosingStart) {
   const [visible, setVisible] = useState(false);
   const [closing, setClosing] = useState(false);
 
@@ -14,6 +14,7 @@ export function useSheetAnimation(onClose, direction = 'up') {
 
   function close() {
     if (closing) return;
+    onClosingStart?.();
     setClosing(true);
     setVisible(false);
     setTimeout(onClose, DURATION);

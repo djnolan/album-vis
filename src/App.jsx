@@ -26,6 +26,8 @@ export default function App() {
   const [showPalette, setShowPalette] = useState(false);
   const [showLegend, setShowLegend] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
+  // Tracks viz slide separately — flips false immediately when overlay starts closing
+  const [vizSlideActive, setVizSlideActive] = useState(false);
 
   useEffect(() => {
     try { localStorage.setItem('userAlbums', JSON.stringify(userAlbums)); } catch {}
@@ -92,11 +94,11 @@ export default function App() {
           album={currentAlbum}
           paletteId={currentPaletteId}
           onBack={() => setScreen('home')}
-          onPaletteClick={() => setShowPalette(true)}
-          onInfoClick={() => setShowLegend(true)}
+          onPaletteClick={() => { setShowPalette(true); setVizSlideActive(true); }}
+          onInfoClick={() => { setShowLegend(true); setVizSlideActive(true); }}
           onEditClick={() => setShowEdit(true)}
-          desktopOverlayOpen={showPalette || showLegend}
-          onCloseOverlay={() => { setShowPalette(false); setShowLegend(false); }}
+          desktopOverlayOpen={vizSlideActive}
+          onCloseOverlay={() => { setVizSlideActive(false); setShowPalette(false); setShowLegend(false); }}
         />
       )}
 
@@ -111,6 +113,7 @@ export default function App() {
           activePaletteId={currentPaletteId}
           onSelect={handlePaletteSelect}
           onClose={() => setShowPalette(false)}
+          onClosingStart={() => setVizSlideActive(false)}
         />
       )}
       {showLegend && (() => {
@@ -118,6 +121,7 @@ export default function App() {
         return (
           <LegendOverlay
             onClose={() => setShowLegend(false)}
+            onClosingStart={() => setVizSlideActive(false)}
             colorStart={activePalette.colorStart}
             colorEnd={activePalette.colorEnd}
             bgColor={activePalette.bg}

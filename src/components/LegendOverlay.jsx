@@ -236,10 +236,10 @@ function LegendContent({ close, flowerColor, noteColors, bgColor }) {
 }
 
 // ── LegendOverlay ─────────────────────────────────────────────────────────────
-export default function LegendOverlay({ onClose, colorStart, colorEnd, bgColor = SHEET_BG }) {
+export default function LegendOverlay({ onClose, colorStart, colorEnd, bgColor = SHEET_BG, onClosingStart }) {
   useScrollLock(true);
   const isDesktop = useIsDesktop();
-  const { close, backdropStyle, sheetStyle } = useSheetAnimation(onClose, isDesktop ? 'right' : 'up');
+  const { close, backdropStyle, sheetStyle } = useSheetAnimation(onClose, isDesktop ? 'right' : 'up', onClosingStart);
 
   const flowerColor = resolveFlowerColor(colorStart, colorEnd);
   const noteColors = buildNoteColors(colorStart, colorEnd);
