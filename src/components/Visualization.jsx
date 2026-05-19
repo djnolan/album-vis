@@ -98,7 +98,18 @@ const Visualization = forwardRef(function Visualization({ album, palette, active
           <g
             key={`${album.id}-${node.track}`}
             transform={`translate(${node.x - node.r}, ${node.y - node.r})`}
-            onClick={(e) => { if (onFlowerClick) { e.stopPropagation(); onFlowerClick(node, e.currentTarget.getBoundingClientRect()); } }}
+            onClick={(e) => {
+              if (onFlowerClick) {
+                e.stopPropagation();
+                const svgEl = e.currentTarget.closest('svg');
+                const ctm = svgEl.getScreenCTM();
+                const pt = svgEl.createSVGPoint();
+                pt.x = node.x;
+                pt.y = node.y;
+                const screenPt = pt.matrixTransform(ctm);
+                onFlowerClick(node, { cx: screenPt.x, cy: screenPt.y, r: node.r * ctm.a });
+              }
+            }}
             style={{ cursor: 'pointer' }}
           >
             <g style={animate ? {
