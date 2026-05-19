@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { ArrowLeft, Info, Palette, Download } from 'lucide-react';
+import { ArrowLeft, Info, Palette, Download, X } from 'lucide-react';
 import Visualization from './Visualization';
 import SongCard from './SongCard';
 import { PALETTES } from '../data/palettes';
@@ -24,11 +24,10 @@ function formatKeyMode(key, accidental, mode) {
   return `${note} ${mode === 'minor' ? 'Minor' : 'Major'}`;
 }
 
-function DesktopSongCard({ song, x, y }) {
+function DesktopSongCard({ song, x, y, onClose }) {
   if (!song) return null;
 
-  // Position card to the right of click point, clamped to viewport
-  const CARD_H = 160;
+  const CARD_H = 180;
   const left = Math.min(x + 16, window.innerWidth - CARD_W - 16);
   const top = Math.max(Math.min(y - CARD_H / 2, window.innerHeight - CARD_H - 16), 16);
 
@@ -41,24 +40,38 @@ function DesktopSongCard({ song, x, y }) {
   return (
     <div
       className="fixed z-50 pointer-events-none"
-      style={{ left, top, width: CARD_W, opacity: 1, transition: 'opacity 0.15s ease' }}
+      style={{ left, top, width: CARD_W }}
     >
       <div
-        className="rounded-lg overflow-hidden"
+        className="rounded-lg overflow-hidden pointer-events-auto"
         style={{ background: CARD_BG, boxShadow: '0 8px 40px rgba(0,0,0,0.55)' }}
+        onClick={e => e.stopPropagation()}
       >
-        <div className="px-4 pt-4 pb-3">
-          <p className="font-mono text-caption uppercase tracking-widest mb-0.5" style={{ color: TOOLTIP_TEXT_SECONDARY }}>
-            Track {song.track}
-          </p>
-          <p className="font-serif text-title leading-tight" style={{ color: TOOLTIP_TEXT_PRIMARY }}>
-            {song.name}
-          </p>
+        <div className="flex items-start justify-between px-4 pt-4 pb-3">
+          <div className="flex-1 pr-3">
+            <p className="font-mono text-caption uppercase tracking-widest mb-0.5" style={{ color: TOOLTIP_TEXT_SECONDARY }}>
+              Track {song.track}
+            </p>
+            <p className="font-serif text-title leading-tight" style={{ color: TOOLTIP_TEXT_PRIMARY }}>
+              {song.name}
+            </p>
+          </div>
+          <button
+            onClick={onClose}
+            className="w-7 h-7 rounded-full flex items-center justify-center shrink-0 mt-0.5"
+            style={{ background: 'rgba(0,0,0,0.1)', color: TOOLTIP_TEXT_PRIMARY }}
+          >
+            <X size={14} />
+          </button>
         </div>
-        <div className="px-4 pb-4 flex flex-col gap-1.5" style={{ borderTop: '1px solid rgba(0,0,0,0.08)' }}>
+        <div className="px-4 pb-4 flex flex-col">
           {stats.map(({ label, value }) => (
-            <div key={label} className="flex items-baseline justify-between pt-1.5">
-              <span className="font-mono text-caption uppercase tracking-widest" style={{ color: TOOLTIP_TEXT_SECONDARY }}>
+            <div
+              key={label}
+              className="flex items-baseline gap-4 py-2"
+              style={{ borderTop: '1px solid rgba(0,0,0,0.1)' }}
+            >
+              <span className="font-mono text-caption uppercase tracking-widest w-16 shrink-0" style={{ color: TOOLTIP_TEXT_SECONDARY }}>
                 {label}
               </span>
               <span className="font-mono text-label" style={{ color: TOOLTIP_TEXT_PRIMARY }}>
@@ -301,7 +314,7 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
         }}
       >
         <p className="font-serif leading-tight text-left" style={{ fontSize: '1.6rem' }}>{album.title}</p>
-        <p className="font-mono text-label mt-1.5 text-left" style={{ color: vizTextSecondary }}>{album.artist}</p>
+        <p className="font-mono text-label mt-1.5 text-left" style={{ color: vizTextPrimary }}>{album.artist}</p>
       </button>
 
       {/* ── DESKTOP right icon strip ── */}
@@ -328,6 +341,7 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
           song={desktopClickedSong}
           x={desktopCardPos.x}
           y={desktopCardPos.y}
+          onClose={() => setDesktopClickedSong(null)}
         />
       )}
 
