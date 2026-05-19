@@ -1,6 +1,7 @@
 import { X } from 'lucide-react';
 import { useScrollLock } from '../hooks/useScrollLock';
 import { useSheetAnimation } from '../hooks/useSheetAnimation';
+import { useIsDesktop } from '../hooks/useIsDesktop';
 import { NATURAL_PETALS, SHARP_PETALS, FLAT_PETALS, MAJOR_PATH, MINOR_PATH } from '../data/petalPaths';
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -129,124 +130,138 @@ function ItemLabel({ title, description }) {
   );
 }
 
+function LegendContent({ close, flowerColor, noteColors, bgColor }) {
+  return (
+    <>
+      <div className="shrink-0 flex items-center justify-between px-6 pt-5 pb-4">
+        <h2 className="font-sans text-ui font-medium uppercase tracking-wider text-text-primary">Each flower represents a song</h2>
+        <button
+          onClick={close}
+          className="w-9 h-9 rounded-full flex items-center justify-center text-text-secondary"
+          style={{ background: 'rgba(0,0,0,0.3)' }}
+        >
+          <X size={18} />
+        </button>
+      </div>
+
+      <div className="overflow-y-auto flex-1 pb-10">
+
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <div style={{ padding: "0 24px 16px" }}>
+            <ItemLabel
+              title="Size = duration"
+              description="The size of the flower is based on the song's length."
+            />
+            <div style={{ display: "flex", alignItems: "flex-end", gap: 4 }}>
+              {[{ s: 26, seed: 3 }, { s: 42, seed: 7 }, { s: 60, seed: 11 }].map(({ s, seed }) => (
+                <div key={s}>
+                  <MiniFlower size={s} petalCount={6} accidental="natural" mode="major" color={flowerColor} bgColor={SHEET_BG} seed={seed} globalRotation={20} />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <Divider />
+
+          <div style={{ padding: "16px 24px" }}>
+            <ItemLabel
+              title="Petals = tempo"
+              description="The number of petals reflects the song's beats per minute."
+            />
+            <div style={{ display: "flex", alignItems: "flex-end", gap: 4 }}>
+              {[{ p: 4, seed: 5 }, { p: 7, seed: 9 }, { p: 11, seed: 13 }].map(({ p, seed }) => (
+                <div key={p}>
+                  <MiniFlower size={46} petalCount={p} accidental="natural" mode="major" color={flowerColor} bgColor={SHEET_BG} seed={seed} globalRotation={0} />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <Divider label="Key Signature" />
+
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <div style={{ padding: "16px 24px" }}>
+            <ItemLabel
+              title="Color = base note"
+              description="The color of the flower shows the root note of the song's key."
+            />
+            <div style={{ display: "flex", alignItems: "flex-end", gap: 0 }}>
+              {NATURAL_NOTES.map((note, i) => (
+                <div key={note} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
+                  <MiniFlower size={36} petalCount={6} accidental="natural" mode="major" color={noteColors[i]} bgColor={SHEET_BG} seed={i * 3 + 1} globalRotation={i * 17} />
+                  <span style={{ fontFamily: mono, fontSize: 10, color: "#8B93A1", fontWeight: 500 }}>{note}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <Divider />
+
+          <div style={{ padding: "16px 24px" }}>
+            <ItemLabel
+              title="Shape = note change"
+              description="The shape of the petals shows whether the key is natural, sharp, or flat."
+            />
+            <div style={{ display: "flex", gap: 6, alignItems: "flex-start" }}>
+              {[{ a: "natural", l: "natural", seed: 2 }, { a: "sharp", l: "sharp", seed: 6 }, { a: "flat", l: "flat", seed: 10 }].map(({ a, l, seed }) => (
+                <div key={a} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 5 }}>
+                  <MiniFlower size={50} petalCount={6} accidental={a} mode="major" color={flowerColor} bgColor={SHEET_BG} seed={seed} globalRotation={15} />
+                  <span style={{ fontFamily: mono, fontSize: 11, color: "#F0F2F5", fontWeight: 500 }}>{l}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <Divider />
+
+          <div style={{ padding: "16px 24px 28px" }}>
+            <ItemLabel
+              title="Center shape = key type"
+              description="The center cutout shows whether the song is in a major or minor key."
+            />
+            <div style={{ display: "flex", gap: 6, alignItems: "flex-start" }}>
+              {[{ m: "major", l: "major", seed: 4 }, { m: "minor", l: "minor", seed: 8 }].map(({ m, l, seed }) => (
+                <div key={m} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 5 }}>
+                  <MiniFlower size={58} petalCount={6} accidental="natural" mode={m} color={flowerColor} bgColor={SHEET_BG} seed={seed} globalRotation={10} />
+                  <span style={{ fontFamily: mono, fontSize: 11, color: "#F0F2F5", fontWeight: 500 }}>{l}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
 // ── LegendOverlay ─────────────────────────────────────────────────────────────
-export default function LegendOverlay({ onClose, colorStart, colorEnd, bgColor = SHEET_BG }) {
+export default function LegendOverlay({ onClose, colorStart, colorEnd, bgColor = SHEET_BG, onClosingStart }) {
   useScrollLock(true);
-  const { close, backdropStyle, sheetStyle } = useSheetAnimation(onClose);
+  const isDesktop = useIsDesktop();
+  const { close, backdropStyle, sheetStyle } = useSheetAnimation(onClose, isDesktop ? 'right' : 'up', onClosingStart);
 
   const flowerColor = resolveFlowerColor(colorStart, colorEnd);
   const noteColors = buildNoteColors(colorStart, colorEnd);
+
+  if (isDesktop) {
+    return (
+      <div className="fixed inset-0 z-50 flex pointer-events-none">
+        <div
+          className="relative ml-auto h-full bg-surface-1 flex flex-col rounded-tl-lg rounded-bl-lg pointer-events-auto"
+          style={{ width: '36%', minWidth: '320px', boxShadow: '-8px 0 32px rgba(0,0,0,0.5)', ...sheetStyle }}
+        >
+          <LegendContent close={close} flowerColor={flowerColor} noteColors={noteColors} bgColor={bgColor} />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="fixed inset-0 z-50 flex flex-col justify-end">
       <div className="absolute inset-0 bg-black/75" style={backdropStyle} onClick={close} />
       <div className="relative bg-surface-1 rounded-t-lg flex flex-col" style={{ maxHeight: 'calc(100dvh - 48px)', boxShadow: '0 -8px 32px rgba(0,0,0,0.5)', ...sheetStyle }}>
-
-        <div className="shrink-0 flex items-center justify-between px-6 pt-5 pb-4">
-          <h2 className="font-sans text-ui font-medium uppercase tracking-wider text-text-primary">Each flower represents a song</h2>
-          <button
-            onClick={close}
-            className="w-9 h-9 rounded-full flex items-center justify-center text-text-secondary"
-            style={{ background: 'rgba(0,0,0,0.3)' }}
-          >
-            <X size={18} />
-          </button>
-        </div>
-
-        <div className="overflow-y-auto flex-1 pb-10">
-
-          {/* ── Section 1: Size & Tempo ── */}
-          <div style={{ display: "flex", flexDirection: "column" }}>
-
-            <div style={{ padding: "0 24px 16px" }}>
-              <ItemLabel
-                title="Size = duration"
-                description="The size of the flower is based on the song's length."
-              />
-              <div style={{ display: "flex", alignItems: "flex-end", gap: 4 }}>
-                {[{ s: 26, seed: 3 }, { s: 42, seed: 7 }, { s: 60, seed: 11 }].map(({ s, seed }) => (
-                  <div key={s}>
-                    <MiniFlower size={s} petalCount={6} accidental="natural" mode="major" color={flowerColor} bgColor={SHEET_BG} seed={seed} globalRotation={20} />
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <Divider />
-
-            <div style={{ padding: "16px 24px" }}>
-              <ItemLabel
-                title="Petals = tempo"
-                description="The number of petals reflects the song's beats per minute."
-              />
-              <div style={{ display: "flex", alignItems: "flex-end", gap: 4 }}>
-                {[{ p: 4, seed: 5 }, { p: 7, seed: 9 }, { p: 11, seed: 13 }].map(({ p, seed }) => (
-                  <div key={p}>
-                    <MiniFlower size={46} petalCount={p} accidental="natural" mode="major" color={flowerColor} bgColor={SHEET_BG} seed={seed} globalRotation={0} />
-                  </div>
-                ))}
-              </div>
-            </div>
-
-          </div>
-
-          {/* ── Section 2: Key Signature ── */}
-          <Divider label="Key Signature" />
-
-          <div style={{ display: "flex", flexDirection: "column" }}>
-
-            <div style={{ padding: "16px 24px" }}>
-              <ItemLabel
-                title="Color = base note"
-                description="The color of the flower shows the root note of the song's key."
-              />
-              <div style={{ display: "flex", alignItems: "flex-end", gap: 0 }}>
-                {NATURAL_NOTES.map((note, i) => (
-                  <div key={note} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
-                    <MiniFlower size={36} petalCount={6} accidental="natural" mode="major" color={noteColors[i]} bgColor={SHEET_BG} seed={i * 3 + 1} globalRotation={i * 17} />
-                    <span style={{ fontFamily: mono, fontSize: 10, color: "#8B93A1", fontWeight: 500 }}>{note}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <Divider />
-
-            <div style={{ padding: "16px 24px" }}>
-              <ItemLabel
-                title="Shape = note change"
-                description="The shape of the petals shows whether the key is natural, sharp, or flat."
-              />
-              <div style={{ display: "flex", gap: 6, alignItems: "flex-start" }}>
-                {[{ a: "natural", l: "natural", seed: 2 }, { a: "sharp", l: "sharp", seed: 6 }, { a: "flat", l: "flat", seed: 10 }].map(({ a, l, seed }) => (
-                  <div key={a} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 5 }}>
-                    <MiniFlower size={50} petalCount={6} accidental={a} mode="major" color={flowerColor} bgColor={SHEET_BG} seed={seed} globalRotation={15} />
-                    <span style={{ fontFamily: mono, fontSize: 11, color: "#F0F2F5", fontWeight: 500 }}>{l}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <Divider />
-
-            <div style={{ padding: "16px 24px 28px" }}>
-              <ItemLabel
-                title="Center shape = key type"
-                description="The center cutout shows whether the song is in a major or minor key."
-              />
-              <div style={{ display: "flex", gap: 6, alignItems: "flex-start" }}>
-                {[{ m: "major", l: "major", seed: 4 }, { m: "minor", l: "minor", seed: 8 }].map(({ m, l, seed }) => (
-                  <div key={m} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 5 }}>
-                    <MiniFlower size={58} petalCount={6} accidental="natural" mode={m} color={flowerColor} bgColor={SHEET_BG} seed={seed} globalRotation={10} />
-                    <span style={{ fontFamily: mono, fontSize: 11, color: "#F0F2F5", fontWeight: 500 }}>{l}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-          </div>
-
-        </div>
+        <LegendContent close={close} flowerColor={flowerColor} noteColors={noteColors} bgColor={bgColor} />
       </div>
     </div>
   );
