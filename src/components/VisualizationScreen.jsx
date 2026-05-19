@@ -68,13 +68,13 @@ function DesktopSongCard({ song, x, y, onClose }) {
           {stats.map(({ label, value }) => (
             <div
               key={label}
-              className="flex items-baseline gap-4 py-3"
+              className="flex items-baseline py-3"
               style={{ borderTop: '1px solid rgba(0,0,0,0.1)' }}
             >
-              <span className="font-mono text-caption uppercase tracking-widest w-16 shrink-0" style={{ color: TOOLTIP_TEXT_SECONDARY }}>
+              <span className="font-mono text-caption uppercase tracking-widest w-1/2 shrink-0" style={{ color: TOOLTIP_TEXT_SECONDARY }}>
                 {label}
               </span>
-              <span className="font-mono text-label" style={{ color: TOOLTIP_TEXT_PRIMARY }}>
+              <span className="font-mono text-label w-1/2" style={{ color: TOOLTIP_TEXT_PRIMARY }}>
                 {value}
               </span>
             </div>
