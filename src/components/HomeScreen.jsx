@@ -34,7 +34,7 @@ function AlbumCard({ album, onSelect, isUserAlbum, onLongPress }) {
 
   return (
     <div
-      className="w-64 md:w-full pb-6 last:pb-3 md:pb-0 flex flex-col items-center cursor-pointer"
+      className="w-64 md:w-full pb-6 last:pb-5 md:pb-0 flex flex-col items-center cursor-pointer"
       onClick={handleClick}
       onMouseDown={handlePressStart}
       onMouseUp={handlePressEnd}
