@@ -23,8 +23,8 @@ export default {
         sans: ['DM Sans', 'system-ui', 'sans-serif'],
       },
       fontSize: {
-        'display': ['2rem',      { lineHeight: '1.2' }],
-        'title':   ['1.375rem',  { lineHeight: '1.3' }],
+        'display': ['2rem',      { lineHeight: '1.05' }],
+        'title':   ['1.375rem',  { lineHeight: '1.1' }],
         'body':    ['1rem',      { lineHeight: '1.4' }],
         'ui':      ['0.9375rem', { lineHeight: '1.4' }],
         'label':   ['0.875rem',  { lineHeight: '1.4', fontWeight: '500' }],

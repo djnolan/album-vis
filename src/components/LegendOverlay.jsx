@@ -2,6 +2,7 @@ import { X } from 'lucide-react';
 import { useScrollLock } from '../hooks/useScrollLock';
 import { useSheetAnimation } from '../hooks/useSheetAnimation';
 import { useIsDesktop } from '../hooks/useIsDesktop';
+import { noOrphan } from '../utils/typography';
 import { NATURAL_PETALS, SHARP_PETALS, FLAT_PETALS, MAJOR_PATH, MINOR_PATH } from '../data/petalPaths';
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -124,8 +125,8 @@ function Divider({ label }) {
 function ItemLabel({ title, description }) {
   return (
     <div style={{ marginBottom: 10 }}>
-      <div style={{ fontFamily: mono, fontSize: 11, fontWeight: 500, letterSpacing: "0.08em", textTransform: "uppercase", color: "#8B93A1" }}>{title}</div>
-      <div style={{ fontFamily: sans, fontSize: 13, color: "#525A68", lineHeight: 1.45, marginTop: 3 }}>{description}</div>
+      <div style={{ fontFamily: mono, fontSize: 12, fontWeight: 500, letterSpacing: "0.08em", textTransform: "uppercase", color: "#8B93A1" }}>{title}</div>
+      <div style={{ fontFamily: sans, fontSize: 15, color: "#525A68", lineHeight: 1.45, marginTop: 3 }}>{noOrphan(description)}</div>
     </div>
   );
 }
@@ -134,7 +135,7 @@ function LegendContent({ close, flowerColor, noteColors, bgColor }) {
   return (
     <>
       <div className="shrink-0 flex items-center justify-between px-6 pt-5 pb-4">
-        <h2 className="font-sans text-ui font-medium uppercase tracking-wider text-text-primary">Each flower represents a song</h2>
+        <h2 className="font-sans text-body font-medium uppercase tracking-wider text-text-primary">Each flower represents a song</h2>
         <button
           onClick={close}
           className="w-9 h-9 rounded-full flex items-center justify-center text-text-secondary"

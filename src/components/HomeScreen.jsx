@@ -4,6 +4,7 @@ import { PALETTES } from '../data/palettes';
 import { PRELOADED_ALBUMS } from '../data/albums';
 import PrimaryButton from './PrimaryButton';
 import RemoveAlbumSheet from './RemoveAlbumSheet';
+import { noOrphan } from '../utils/typography';
 
 function AlbumCard({ album, onSelect, isUserAlbum, onLongPress }) {
   const palette = PALETTES.find(p => p.id === album.paletteId) ?? PALETTES[0];
@@ -55,8 +56,8 @@ function AlbumCard({ album, onSelect, isUserAlbum, onLongPress }) {
         </div>
       </div>
       <div className="mt-3 text-center w-full">
-        <p className="font-serif text-title leading-tight text-text-primary">{album.title}</p>
-        <p className="font-mono text-caption mt-1 text-text-secondary">{album.artist}</p>
+        <p className="font-serif text-[1.5rem] leading-[1.1] text-text-primary">{noOrphan(album.title)}</p>
+        <p className="font-mono text-label mt-1 text-text-secondary">{album.artist}</p>
       </div>
     </div>
   );
@@ -89,7 +90,7 @@ export default function HomeScreen({ userAlbums = [], paletteOverrides = {}, onS
 
       {/* ── FIXED LEFT SIDEBAR (desktop only) ── */}
       <aside className="hidden lg:flex flex-col justify-center fixed left-0 top-0 h-screen w-[40%] px-14 py-16">
-        <h1 className="font-serif text-text-primary leading-none" style={{ fontSize: '5rem' }}>
+        <h1 className="font-serif text-text-primary leading-none" style={{ fontSize: '6rem' }}>
           In Bloom
         </h1>
         <p className="font-sans text-body text-text-secondary mt-5">
@@ -102,7 +103,7 @@ export default function HomeScreen({ userAlbums = [], paletteOverrides = {}, onS
 
       {/* ── MOBILE HEADER ── */}
       <div className="lg:hidden px-6 pt-8 pb-8">
-        <h1 className="font-serif text-text-primary leading-tight text-center" style={{ fontSize: '3rem' }}>
+        <h1 className="font-serif text-text-primary leading-[1.1] text-center" style={{ fontSize: '3.75rem' }}>
           In Bloom
         </h1>
         <p className="font-sans text-body text-text-secondary text-center mt-1">
