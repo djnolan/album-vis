@@ -151,7 +151,7 @@ function LegendContent({ close, flowerColor, noteColors, bgColor }) {
           <div style={{ padding: "0 24px 16px" }}>
             <ItemLabel
               title="Size = duration"
-              description="The size of the flower is based on the song's length."
+              description="The size of the flower is based on the song’s length."
             />
             <div style={{ display: "flex", alignItems: "flex-end", gap: 4 }}>
               {[{ s: 26, seed: 3 }, { s: 42, seed: 7 }, { s: 60, seed: 11 }].map(({ s, seed }) => (
@@ -167,7 +167,7 @@ function LegendContent({ close, flowerColor, noteColors, bgColor }) {
           <div style={{ padding: "16px 24px" }}>
             <ItemLabel
               title="Petals = tempo"
-              description="The number of petals reflects the song's beats per minute."
+              description="The number of petals reflects the song’s beats per minute."
             />
             <div style={{ display: "flex", alignItems: "flex-end", gap: 4 }}>
               {[{ p: 4, seed: 5 }, { p: 7, seed: 9 }, { p: 11, seed: 13 }].map(({ p, seed }) => (
@@ -185,7 +185,7 @@ function LegendContent({ close, flowerColor, noteColors, bgColor }) {
           <div style={{ padding: "16px 24px" }}>
             <ItemLabel
               title="Color = base note"
-              description="The color of the flower shows the root note of the song's key."
+              description="The color of the flower shows the root note of the song’s key."
             />
             <div style={{ display: "flex", alignItems: "flex-end", gap: 0 }}>
               {NATURAL_NOTES.map((note, i) => (
