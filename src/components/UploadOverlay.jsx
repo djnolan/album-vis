@@ -5,6 +5,7 @@ import PrimaryButton from './PrimaryButton';
 import { useScrollLock } from '../hooks/useScrollLock';
 import { useSheetAnimation } from '../hooks/useSheetAnimation';
 import { useIsDesktop } from '../hooks/useIsDesktop';
+import { PALETTES } from '../data/palettes';
 
 const REQUIRED_COLUMNS = ['track', 'name', 'duration', 'bpm', 'key', 'accidental', 'mode'];
 const VALID_KEYS = ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
@@ -302,7 +303,7 @@ export default function UploadOverlay({ onClose, onUpload }) {
       id: 'custom-' + Date.now(),
       title: albumTitle.trim(),
       artist: artistName.trim(),
-      paletteId: 'deep-navy',
+      paletteId: PALETTES[Math.floor(Math.random() * PALETTES.length)].id,
       songs: rows,
     });
   }
