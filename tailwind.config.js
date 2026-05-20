@@ -18,7 +18,7 @@ export default {
         },
       },
       fontFamily: {
-        serif: ['Instrument Serif', 'Georgia', 'serif'],
+        serif: ['PP Editorial New', 'Georgia', 'serif'],
         mono: ['DM Mono', 'Courier New', 'monospace'],
         sans: ['DM Sans', 'system-ui', 'sans-serif'],
       },
