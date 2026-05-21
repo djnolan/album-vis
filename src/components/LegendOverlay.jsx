@@ -135,7 +135,7 @@ function LegendContent({ close, flowerColor, noteColors, bgColor }) {
   return (
     <>
       <div className="shrink-0 flex items-center justify-between px-6 pt-5 pb-4">
-        <h2 className="font-sans text-body font-medium uppercase tracking-wider text-text-primary">Each flower represents a song</h2>
+        <h2 className="font-sans text-ui font-medium uppercase tracking-wider text-text-primary">Each flower represents a song</h2>
         <button
           onClick={close}
           className="w-9 h-9 rounded-full flex items-center justify-center text-text-secondary"
