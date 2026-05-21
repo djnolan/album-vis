@@ -57,7 +57,7 @@ function AlbumCard({ album, onSelect, isUserAlbum, onLongPress }) {
       </div>
       <div className="mt-3 text-center w-full">
         <p className="font-serif text-[1.5rem] leading-[1.1] text-text-primary">{noOrphan(album.title)}</p>
-        <p className="font-mono text-label mt-1 text-text-secondary">{album.artist}</p>
+        <p className="font-mono font-normal text-label mt-1 text-text-secondary">{album.artist}</p>
       </div>
     </div>
   );

@@ -324,7 +324,7 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
         }}
       >
         <p className="font-serif leading-[1.1] text-left" style={{ fontSize: '1.6rem' }}>{noOrphan(album.title)}</p>
-        <p className="font-mono text-label mt-1.5 text-left" style={{ color: vizTextPrimary }}>{album.artist}</p>
+        <p className="font-mono font-normal text-label mt-1.5 text-left" style={{ color: vizTextPrimary }}>{album.artist}</p>
       </button>
 
       {/* ── DESKTOP right icon strip ── */}
