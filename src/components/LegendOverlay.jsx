@@ -125,8 +125,8 @@ function Divider({ label }) {
 function ItemLabel({ title, description }) {
   return (
     <div style={{ marginBottom: 10 }}>
-      <div style={{ fontFamily: mono, fontSize: 12, fontWeight: 500, letterSpacing: "0.08em", textTransform: "uppercase", color: "#8B93A1" }}>{title}</div>
-      <div style={{ fontFamily: sans, fontSize: 15, color: "#525A68", lineHeight: 1.45, marginTop: 3 }}>{noOrphan(description)}</div>
+      <div style={{ fontFamily: mono, fontSize: 13, fontWeight: 500, letterSpacing: "0.08em", textTransform: "uppercase", color: "#8B93A1" }}>{title}</div>
+      <div style={{ fontFamily: sans, fontSize: 15, color: "#525A68", lineHeight: 1.3, marginTop: 3 }}>{noOrphan(description)}</div>
     </div>
   );
 }
