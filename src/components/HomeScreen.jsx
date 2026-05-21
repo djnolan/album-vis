@@ -34,7 +34,7 @@ function AlbumCard({ album, onSelect, isUserAlbum, onLongPress }) {
 
   return (
     <div
-      className="w-64 md:w-full pb-6 last:pb-5 md:pb-0 flex flex-col items-center cursor-pointer"
+      className="w-64 md:w-full pb-6 last:pb-3 md:pb-0 flex flex-col items-center cursor-pointer"
       onClick={handleClick}
       onMouseDown={handlePressStart}
       onMouseUp={handlePressEnd}
@@ -150,7 +150,7 @@ export default function HomeScreen({ userAlbums = [], paletteOverrides = {}, onS
         {/* Mobile / tablet album layout */}
         <div className="lg:hidden">
           {userAlbums.length > 0 && (
-            <div className="mx-4 mt-2 mb-16 rounded-lg px-4 pt-0 pb-0" style={{ border: '1px solid rgba(255,255,255,0.12)' }}>
+            <div className="mx-4 mt-2 mb-16 rounded-lg px-4 pt-0 pb-2" style={{ border: '1px solid rgba(255,255,255,0.12)' }}>
               <div className="flex justify-center">
                 <p
                   className="font-sans text-ui font-medium uppercase tracking-wider text-text-secondary px-3 mb-6"
