@@ -7,22 +7,6 @@ import { useIsDesktop } from '../hooks/useIsDesktop';
 
 const FLOWER_SIZE = 80;
 
-function makeSuperellipsePath(cx, cy, rx, ry, n, steps) {
-  const exp = 2 / n;
-  let d = '';
-  for (let i = 0; i < steps; i++) {
-    const t = (2 * Math.PI * i) / steps;
-    const cos = Math.cos(t);
-    const sin = Math.sin(t);
-    const x = cx + rx * Math.sign(cos) * Math.pow(Math.abs(cos), exp);
-    const y = cy + ry * Math.sign(sin) * Math.pow(Math.abs(sin), exp);
-    d += (i === 0 ? 'M' : 'L') + x.toFixed(3) + ',' + y.toFixed(3);
-  }
-  return d + 'Z';
-}
-
-const SQUIRCLE_D = makeSuperellipsePath(50, 20, 50, 20, 4, 64);
-const SQUIRCLE_MASK_URL = `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 40"><path d="${SQUIRCLE_D}" fill="white"/></svg>`)}`;
 
 const FLOWER_CONFIGS = [
   [
@@ -81,60 +65,38 @@ function PaletteThumbnail({ palette, active, onClick, index }) {
   return (
     <button onClick={onClick} className="flex flex-col gap-2 w-full items-center">
       <div
-        className="w-full"
+        className="w-full rounded-md overflow-hidden"
         style={{
+          aspectRatio: '5 / 2',
           position: 'relative',
-          filter: 'drop-shadow(0 2px 8px rgba(0,0,0,0.4))',
+          background: palette.bg,
+          boxShadow: active
+            ? '0 0 0 1px #161B24, 0 0 0 2.5px #8B93A1'
+            : '0 2px 8px rgba(0,0,0,0.4), inset 0 0 0 1px rgba(255,255,255,0.06)',
         }}
       >
-        <div
-          className="w-full"
-          style={{
-            aspectRatio: '5 / 2',
-            position: 'relative',
-            background: palette.bg,
-            WebkitMaskImage: `url("${SQUIRCLE_MASK_URL}")`,
-            maskImage: `url("${SQUIRCLE_MASK_URL}")`,
-            WebkitMaskSize: '100% 100%',
-            maskSize: '100% 100%',
-          }}
-        >
-          {cfg.map((f, i) => {
-            const color = f.col === 'start' ? palette.colorStart : palette.colorEnd;
-            return (
-              <div
-                key={i}
-                style={{
-                  position: 'absolute',
-                  left: `${f.cx}%`,
-                  top: `${f.cy}%`,
-                  transform: `translate(-50%, -50%) rotate(${f.rot}deg)`,
-                }}
-              >
-                <Flower
-                  song={{ bpm: f.bpm, accidental: f.acc, mode: f.mode, track: f.track }}
-                  size={FLOWER_SIZE}
-                  color={color}
-                  bg={palette.bg}
-                  globalRotation={0}
-                />
-              </div>
-            );
-          })}
-        </div>
-        <svg
-          viewBox="0 0 100 40"
-          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none' }}
-        >
-          {active ? (
-            <>
-              <path d={SQUIRCLE_D} fill="none" stroke="#161B24" strokeWidth="2.5" />
-              <path d={SQUIRCLE_D} fill="none" stroke="#8B93A1" strokeWidth="1.2" />
-            </>
-          ) : (
-            <path d={SQUIRCLE_D} fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="0.8" />
-          )}
-        </svg>
+        {cfg.map((f, i) => {
+          const color = f.col === 'start' ? palette.colorStart : palette.colorEnd;
+          return (
+            <div
+              key={i}
+              style={{
+                position: 'absolute',
+                left: `${f.cx}%`,
+                top: `${f.cy}%`,
+                transform: `translate(-50%, -50%) rotate(${f.rot}deg)`,
+              }}
+            >
+              <Flower
+                song={{ bpm: f.bpm, accidental: f.acc, mode: f.mode, track: f.track }}
+                size={FLOWER_SIZE}
+                color={color}
+                bg={palette.bg}
+                globalRotation={0}
+              />
+            </div>
+          );
+        })}
       </div>
       <p className="font-mono text-caption text-text-secondary text-center">
         {palette.name}
