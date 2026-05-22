@@ -14,7 +14,7 @@ const FLOWER_CONFIGS = [
   ],
   [
     { acc: 'flat',    bpm: 60,  mode: 'minor', track: 3,  col: 'end',   cx: 32, cy: 48, rot: 60 },
-    { acc: 'natural', bpm: 105, mode: 'major', track: 4,  col: 'start', cx: 66, cy: 52, rot: 240 },
+    { acc: 'flat',    bpm: 105, mode: 'major', track: 4,  col: 'start', cx: 66, cy: 52, rot: 240 },
   ],
   [
     { acc: 'sharp',   bpm: 90,  mode: 'major', track: 5,  col: 'start', cx: 30, cy: 52, rot: 120 },
@@ -25,7 +25,7 @@ const FLOWER_CONFIGS = [
     { acc: 'sharp',   bpm: 60,  mode: 'major', track: 8,  col: 'start', cx: 63, cy: 51, rot: 225 },
   ],
   [
-    { acc: 'flat',    bpm: 135, mode: 'major', track: 9,  col: 'start', cx: 29, cy: 51, rot: 90 },
+    { acc: 'natural', bpm: 105, mode: 'major', track: 9,  col: 'start', cx: 29, cy: 51, rot: 90 },
     { acc: 'natural', bpm: 75,  mode: 'minor', track: 10, col: 'end',   cx: 67, cy: 49, rot: 270 },
   ],
   [
@@ -37,8 +37,8 @@ const FLOWER_CONFIGS = [
     { acc: 'sharp',   bpm: 135, mode: 'minor', track: 14, col: 'end',   cx: 69, cy: 47, rot: 315 },
   ],
   [
-    { acc: 'flat',    bpm: 75,  mode: 'minor', track: 15, col: 'end',   cx: 36, cy: 50, rot: 75 },
-    { acc: 'natural', bpm: 90,  mode: 'major', track: 16, col: 'start', cx: 62, cy: 50, rot: 255 },
+    { acc: 'sharp',   bpm: 75,  mode: 'minor', track: 15, col: 'end',   cx: 36, cy: 50, rot: 75 },
+    { acc: 'sharp',   bpm: 90,  mode: 'major', track: 16, col: 'start', cx: 62, cy: 50, rot: 255 },
   ],
   [
     { acc: 'sharp',   bpm: 60,  mode: 'major', track: 17, col: 'start', cx: 27, cy: 48, rot: 15 },
@@ -49,7 +49,7 @@ const FLOWER_CONFIGS = [
     { acc: 'flat',    bpm: 60,  mode: 'major', track: 20, col: 'start', cx: 64, cy: 48, rot: 345 },
   ],
   [
-    { acc: 'sharp',   bpm: 75,  mode: 'minor', track: 21, col: 'end',   cx: 30, cy: 50, rot: 210 },
+    { acc: 'natural', bpm: 75,  mode: 'minor', track: 21, col: 'end',   cx: 30, cy: 50, rot: 210 },
     { acc: 'natural', bpm: 120, mode: 'major', track: 22, col: 'start', cx: 68, cy: 50, rot: 30 },
   ],
   [
