@@ -2,6 +2,7 @@ import { X } from 'lucide-react';
 import { useScrollLock } from '../hooks/useScrollLock';
 import { useSheetAnimation } from '../hooks/useSheetAnimation';
 import { useIsDesktop } from '../hooks/useIsDesktop';
+import { noOrphan } from '../utils/typography';
 import { NATURAL_PETALS, SHARP_PETALS, FLAT_PETALS, MAJOR_PATH, MINOR_PATH } from '../data/petalPaths';
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -111,7 +112,7 @@ function Divider({ label }) {
       {label ? (
         <div style={{ display: "flex", alignItems: "center", gap: 10, margin: "4px 0" }}>
           <div style={{ height: 1, background: "#2A3140", flex: 1 }} />
-          <span style={{ fontFamily: mono, fontSize: 10, fontWeight: 500, letterSpacing: "0.12em", textTransform: "uppercase", color: "#525A68", flexShrink: 0 }}>{label}</span>
+          <span style={{ fontFamily: mono, fontSize: 12, fontWeight: 500, letterSpacing: "0.12em", textTransform: "uppercase", color: "#525A68", flexShrink: 0 }}>{label}</span>
           <div style={{ height: 1, background: "#2A3140", flex: 1 }} />
         </div>
       ) : (
@@ -124,8 +125,8 @@ function Divider({ label }) {
 function ItemLabel({ title, description }) {
   return (
     <div style={{ marginBottom: 10 }}>
-      <div style={{ fontFamily: mono, fontSize: 11, fontWeight: 500, letterSpacing: "0.08em", textTransform: "uppercase", color: "#8B93A1" }}>{title}</div>
-      <div style={{ fontFamily: sans, fontSize: 13, color: "#525A68", lineHeight: 1.45, marginTop: 3 }}>{description}</div>
+      <div style={{ fontFamily: mono, fontSize: 13, fontWeight: 500, letterSpacing: "0.08em", textTransform: "uppercase", color: "#8B93A1" }}>{title}</div>
+      <div style={{ fontFamily: sans, fontSize: 15, color: "#525A68", lineHeight: 1.3, marginTop: 3 }}>{noOrphan(description)}</div>
     </div>
   );
 }
@@ -150,7 +151,7 @@ function LegendContent({ close, flowerColor, noteColors, bgColor }) {
           <div style={{ padding: "0 24px 16px" }}>
             <ItemLabel
               title="Size = duration"
-              description="The size of the flower is based on the song's length."
+              description="The size of the flower is based on the song’s length."
             />
             <div style={{ display: "flex", alignItems: "flex-end", gap: 4 }}>
               {[{ s: 26, seed: 3 }, { s: 42, seed: 7 }, { s: 60, seed: 11 }].map(({ s, seed }) => (
@@ -166,7 +167,7 @@ function LegendContent({ close, flowerColor, noteColors, bgColor }) {
           <div style={{ padding: "16px 24px" }}>
             <ItemLabel
               title="Petals = tempo"
-              description="The number of petals reflects the song's beats per minute."
+              description="The number of petals reflects the song’s beats per minute."
             />
             <div style={{ display: "flex", alignItems: "flex-end", gap: 4 }}>
               {[{ p: 4, seed: 5 }, { p: 7, seed: 9 }, { p: 11, seed: 13 }].map(({ p, seed }) => (
@@ -184,13 +185,13 @@ function LegendContent({ close, flowerColor, noteColors, bgColor }) {
           <div style={{ padding: "16px 24px" }}>
             <ItemLabel
               title="Color = base note"
-              description="The color of the flower shows the root note of the song's key."
+              description="The color of the flower shows the root note of the song’s key."
             />
             <div style={{ display: "flex", alignItems: "flex-end", gap: 0 }}>
               {NATURAL_NOTES.map((note, i) => (
                 <div key={note} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 4 }}>
                   <MiniFlower size={36} petalCount={6} accidental="natural" mode="major" color={noteColors[i]} bgColor={SHEET_BG} seed={i * 3 + 1} globalRotation={i * 17} />
-                  <span style={{ fontFamily: mono, fontSize: 10, color: "#8B93A1", fontWeight: 500 }}>{note}</span>
+                  <span style={{ fontFamily: mono, fontSize: 12, color: "#8B93A1", fontWeight: 500 }}>{note}</span>
                 </div>
               ))}
             </div>
@@ -207,7 +208,7 @@ function LegendContent({ close, flowerColor, noteColors, bgColor }) {
               {[{ a: "natural", l: "natural", seed: 2 }, { a: "sharp", l: "sharp", seed: 6 }, { a: "flat", l: "flat", seed: 10 }].map(({ a, l, seed }) => (
                 <div key={a} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 5 }}>
                   <MiniFlower size={50} petalCount={6} accidental={a} mode="major" color={flowerColor} bgColor={SHEET_BG} seed={seed} globalRotation={15} />
-                  <span style={{ fontFamily: mono, fontSize: 11, color: "#F0F2F5", fontWeight: 500 }}>{l}</span>
+                  <span style={{ fontFamily: mono, fontSize: 11, color: "#8B93A1", fontWeight: 500 }}>{l}</span>
                 </div>
               ))}
             </div>
@@ -224,7 +225,7 @@ function LegendContent({ close, flowerColor, noteColors, bgColor }) {
               {[{ m: "major", l: "major", seed: 4 }, { m: "minor", l: "minor", seed: 8 }].map(({ m, l, seed }) => (
                 <div key={m} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 5 }}>
                   <MiniFlower size={58} petalCount={6} accidental="natural" mode={m} color={flowerColor} bgColor={SHEET_BG} seed={seed} globalRotation={10} />
-                  <span style={{ fontFamily: mono, fontSize: 11, color: "#F0F2F5", fontWeight: 500 }}>{l}</span>
+                  <span style={{ fontFamily: mono, fontSize: 11, color: "#8B93A1", fontWeight: 500 }}>{l}</span>
                 </div>
               ))}
             </div>

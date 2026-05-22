@@ -118,7 +118,7 @@ function UploadContent({
 
       <div className="overflow-y-auto flex-1 px-6 pb-10">
         <p className="font-sans text-body text-text-secondary mb-6">
-          Once you have an album in mind, follow this two step process to generate your artwork. It takes about 30 seconds. You'll need access to an AI chat tool like ChatGPT, Claude or Gemini.
+          Once you have an album in mind, follow this two step process to generate your artwork. It takes about 30 seconds. You’ll need access to an AI chat tool like ChatGPT, Claude or Gemini.
         </p>
 
         <div className="flex flex-col gap-3">

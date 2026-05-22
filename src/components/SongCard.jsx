@@ -2,6 +2,7 @@ import { forwardRef, useImperativeHandle, useRef, useState } from 'react';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useScrollLock } from '../hooks/useScrollLock';
 import { useSheetAnimation } from '../hooks/useSheetAnimation';
+import { noOrphan } from '../utils/typography';
 
 const CARD_BG = '#DDE2EE';
 const TEXT_PRIMARY = '#1A2030';
@@ -80,7 +81,7 @@ const SongCard = forwardRef(function SongCard({ songs, activeIndex, onIndexChang
           <div className="flex items-start justify-between px-5 pt-5 pb-3">
             <div className="flex-1 pr-3">
               <p className="font-mono text-caption uppercase tracking-widest mb-0.5" style={{ color: TEXT_SECONDARY }}>Track {song.track}</p>
-              <p className="font-serif text-title leading-tight" style={{ color: TEXT_PRIMARY }}>{song.name}</p>
+              <p className="font-serif text-title" style={{ color: TEXT_PRIMARY }}>{noOrphan(song.name)}</p>
             </div>
             <button
               onClick={handleClose}

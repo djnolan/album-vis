@@ -5,6 +5,7 @@ import SongCard from './SongCard';
 import { PALETTES } from '../data/palettes';
 import { useScrollLock } from '../hooks/useScrollLock';
 import { useIsDesktop } from '../hooks/useIsDesktop';
+import { noOrphan } from '../utils/typography';
 
 const CARD_BG = '#DDE2EE';
 const TOOLTIP_TEXT_PRIMARY = '#1A2030';
@@ -61,8 +62,8 @@ function DesktopSongCard({ song, pos, onClose }) {
             <p className="font-mono text-caption uppercase tracking-widest mb-0.5" style={{ color: TOOLTIP_TEXT_SECONDARY }}>
               Track {song.track}
             </p>
-            <p className="font-serif text-title leading-tight" style={{ color: TOOLTIP_TEXT_PRIMARY }}>
-              {song.name}
+            <p className="font-serif text-title" style={{ color: TOOLTIP_TEXT_PRIMARY }}>
+              {noOrphan(song.name)}
             </p>
           </div>
           <button
@@ -273,7 +274,7 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
           <ArrowLeft size={26} />
         </button>
         <button onClick={onEditClick} className="flex-1 text-center px-3 mt-2 pointer-events-auto">
-          <p className="font-serif text-title leading-tight" style={{ color: vizTextPrimary }}>{album.title}</p>
+          <p className="font-serif text-title" style={{ color: vizTextPrimary }}>{noOrphan(album.title)}</p>
           <p className="font-mono text-caption mt-0.5" style={{ color: vizTextPrimary }}>{album.artist}</p>
         </button>
         <div className="w-7 shrink-0" />
@@ -322,8 +323,8 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
           transition: 'opacity 0.25s ease',
         }}
       >
-        <p className="font-serif leading-tight text-left" style={{ fontSize: '1.6rem' }}>{album.title}</p>
-        <p className="font-mono text-label mt-1.5 text-left" style={{ color: vizTextPrimary }}>{album.artist}</p>
+        <p className="font-serif leading-[1.1] text-left" style={{ fontSize: '1.6rem' }}>{noOrphan(album.title)}</p>
+        <p className="font-mono font-normal text-label mt-1.5 text-left" style={{ color: vizTextPrimary }}>{album.artist}</p>
       </button>
 
       {/* ── DESKTOP right icon strip ── */}
