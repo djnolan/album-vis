@@ -1,12 +1,14 @@
 import { X } from 'lucide-react';
+import { useRef, useEffect, useState } from 'react';
 import { PALETTES } from '../data/palettes';
 import Flower from './Flower';
 import { useScrollLock } from '../hooks/useScrollLock';
 import { useSheetAnimation } from '../hooks/useSheetAnimation';
 import { useIsDesktop } from '../hooks/useIsDesktop';
 
-const FLOWER_SIZE = 80;
-
+// Ratio of flower size to container height, calibrated to mobile layout.
+// Mobile (~390px): col ~155px, container height ~62px, flower 80px → 80/62 ≈ 1.29
+const FLOWER_RATIO = 80 / 62;
 
 const FLOWER_CONFIGS = [
   [
@@ -59,7 +61,7 @@ const FLOWER_CONFIGS = [
   ],
 ];
 
-function PaletteThumbnail({ palette, active, onClick, index }) {
+function PaletteThumbnail({ palette, active, onClick, index, flowerSize }) {
   const cfg = FLOWER_CONFIGS[index % FLOWER_CONFIGS.length];
 
   return (
@@ -89,7 +91,7 @@ function PaletteThumbnail({ palette, active, onClick, index }) {
             >
               <Flower
                 song={{ bpm: f.bpm, accidental: f.acc, mode: f.mode, track: f.track }}
-                size={FLOWER_SIZE}
+                size={flowerSize}
                 color={color}
                 bg={palette.bg}
                 globalRotation={0}
@@ -106,6 +108,22 @@ function PaletteThumbnail({ palette, active, onClick, index }) {
 }
 
 function PaletteContent({ activePaletteId, onSelect, close }) {
+  const gridRef = useRef(null);
+  const [flowerSize, setFlowerSize] = useState(80);
+
+  useEffect(() => {
+    const el = gridRef.current;
+    if (!el) return;
+    const ro = new ResizeObserver(([entry]) => {
+      const gridWidth = entry.contentRect.width;
+      const colWidth = (gridWidth - 32) / 2; // gap-x-8 = 32px
+      const containerHeight = colWidth * (2 / 5); // aspect-ratio 5/2
+      setFlowerSize(Math.round(containerHeight * FLOWER_RATIO));
+    });
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
   return (
     <>
       <div className="shrink-0 flex items-center justify-between px-6 pt-5 pb-4">
@@ -119,7 +137,7 @@ function PaletteContent({ activePaletteId, onSelect, close }) {
         </button>
       </div>
       <div className="overflow-y-auto flex-1 px-6 pt-2 pb-10">
-        <div className="grid grid-cols-2 gap-x-8 gap-y-5">
+        <div ref={gridRef} className="grid grid-cols-2 gap-x-8 gap-y-5">
           {PALETTES.map((p, i) => (
             <PaletteThumbnail
               key={p.id}
@@ -127,6 +145,7 @@ function PaletteContent({ activePaletteId, onSelect, close }) {
               active={p.id === activePaletteId}
               onClick={() => { onSelect(p.id); close(); }}
               index={i}
+              flowerSize={flowerSize}
             />
           ))}
         </div>
