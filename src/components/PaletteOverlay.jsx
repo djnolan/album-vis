@@ -1,6 +1,6 @@
 import { X } from 'lucide-react';
 import { PALETTES } from '../data/palettes';
-import { NATURAL_PETALS, SHARP_PETALS, FLAT_PETALS, MAJOR_PATH } from '../data/petalPaths';
+import { NATURAL_PETALS, SHARP_PETALS, FLAT_PETALS, MAJOR_PATH, MINOR_PATH } from '../data/petalPaths';
 import { useScrollLock } from '../hooks/useScrollLock';
 import { useSheetAnimation } from '../hooks/useSheetAnimation';
 import { useIsDesktop } from '../hooks/useIsDesktop';
@@ -17,70 +17,70 @@ function parseBBox(d) {
   };
 }
 
-// Each pair: two shapes in a 100×40 viewBox. Tips peek in from top or bottom edges.
-// "From top" (natural orientation): py = targetH/2 + tip_offset, tip appears near top edge.
-// "From bottom" (flipped ~180°): py = tip_y - targetH/2, tip appears near bottom edge.
-// px varied across configs for compositional diversity.
+// Petal tip positions vary so shapes enter at different depths from the edge.
+// "From top": tip_y = py - targetH/2  →  py = targetH/2 + tip_y
+// "From bottom" (~180° flip): tip_y = py + targetH/2  →  py = tip_y - targetH/2
+// Center holes (MAJOR/MINOR): py ≈ 10–30, slightly cropped, not buried at edge.
 const SHAPE_CONFIGS = [
-  // round from top-left + sharp from bottom-right
+  // round from top (tip y≈3) + sharp from bottom (tip y≈32) — shallow vs deep
   [
-    { d: NATURAL_PETALS[0], col: 'start', px: 24, py: 36, targetH: 64, rot:  -8 },
-    { d: SHARP_PETALS[0],   col: 'end',   px: 74, py: 10, targetH: 52, rot: 183 },
+    { d: NATURAL_PETALS[0], col: 'start', px: 30, py: 35, targetH: 64, rot: -12 },
+    { d: SHARP_PETALS[0],   col: 'end',   px: 62, py:  6, targetH: 52, rot: 165 },
   ],
-  // round from bottom-left + round from top-right
+  // round from bottom (tip y≈38) + round from top (tip y≈10)
   [
-    { d: NATURAL_PETALS[1], col: 'end',   px: 32, py:  4, targetH: 66, rot: 192 },
-    { d: NATURAL_PETALS[2], col: 'start', px: 70, py: 35, targetH: 62, rot: -12 },
+    { d: NATURAL_PETALS[1], col: 'end',   px: 33, py:  5, targetH: 66, rot: 196 },
+    { d: NATURAL_PETALS[2], col: 'start', px: 63, py: 41, targetH: 62, rot: -20 },
   ],
-  // flat from top-right + oval arc from bottom-left
+  // flat from top (tip y≈6) + major oval near middle
   [
-    { d: FLAT_PETALS[0],    col: 'start', px: 68, py: 34, targetH: 60, rot:  -6 },
-    { d: MAJOR_PATH,        col: 'end',   px: 22, py: 44, targetH: 28, rot:  20 },
+    { d: FLAT_PETALS[0],    col: 'start', px: 28, py: 36, targetH: 60, rot:  18 },
+    { d: MAJOR_PATH,        col: 'end',   px: 64, py: 10, targetH: 28, rot:  25 },
   ],
-  // sharp from top-left + round from bottom-right
+  // sharp from top (tip y≈15) + round from bottom (tip y≈26)
   [
-    { d: SHARP_PETALS[1],   col: 'end',   px: 22, py: 31, targetH: 54, rot:  10 },
-    { d: NATURAL_PETALS[3], col: 'start', px: 73, py:  6, targetH: 65, rot: 188 },
+    { d: SHARP_PETALS[1],   col: 'end',   px: 30, py: 42, targetH: 54, rot:  22 },
+    { d: NATURAL_PETALS[3], col: 'start', px: 64, py: -7, targetH: 65, rot: 183 },
   ],
-  // round from top-far-left + flat from bottom-far-right
+  // round from top (tip y≈4) + flat from bottom (tip y≈34)
   [
-    { d: NATURAL_PETALS[4], col: 'start', px: 18, py: 37, targetH: 66, rot: -14 },
-    { d: FLAT_PETALS[1],    col: 'end',   px: 80, py:  6, targetH: 60, rot: 175 },
+    { d: NATURAL_PETALS[4], col: 'start', px: 25, py: 37, targetH: 66, rot: -22 },
+    { d: FLAT_PETALS[1],    col: 'end',   px: 65, py:  4, targetH: 60, rot: 178 },
   ],
-  // sharp from bottom-left + flat from top-right
+  // sharp from bottom (tip y≈36) + flat from top (tip y≈12)
   [
-    { d: SHARP_PETALS[2],   col: 'end',   px: 20, py: 11, targetH: 50, rot: 172 },
-    { d: FLAT_PETALS[2],    col: 'start', px: 75, py: 35, targetH: 62, rot:  -9 },
+    { d: SHARP_PETALS[2],   col: 'end',   px: 28, py: 11, targetH: 50, rot: 200 },
+    { d: FLAT_PETALS[2],    col: 'start', px: 62, py: 43, targetH: 62, rot: -15 },
   ],
-  // sharp from top-left + round from bottom-far-right
+  // sharp from top (tip y≈8) + round from bottom (tip y≈30)
   [
-    { d: SHARP_PETALS[3],   col: 'start', px: 30, py: 30, targetH: 52, rot:   7 },
-    { d: NATURAL_PETALS[0], col: 'end',   px: 76, py:  5, targetH: 62, rot: 176 },
+    { d: SHARP_PETALS[3],   col: 'start', px: 35, py: 34, targetH: 52, rot: -18 },
+    { d: NATURAL_PETALS[0], col: 'end',   px: 65, py: -1, targetH: 62, rot: 172 },
   ],
-  // sharp from top-right + round from bottom-left
+  // sharp from top (tip y≈18) + round from bottom (tip y≈22)
   [
-    { d: SHARP_PETALS[4],   col: 'start', px: 72, py: 31, targetH: 54, rot:  -5 },
-    { d: NATURAL_PETALS[1], col: 'end',   px: 24, py:  6, targetH: 64, rot: 190 },
+    { d: SHARP_PETALS[4],   col: 'start', px: 32, py: 45, targetH: 54, rot:  -8 },
+    { d: NATURAL_PETALS[1], col: 'end',   px: 62, py:-10, targetH: 64, rot: 193 },
   ],
-  // flat from top-center-left + sharp from bottom-right
+  // flat from top (tip y≈3) + minor triangle near middle
   [
-    { d: FLAT_PETALS[3],    col: 'start', px: 35, py: 33, targetH: 58, rot:  -6 },
-    { d: SHARP_PETALS[0],   col: 'end',   px: 72, py: 12, targetH: 50, rot: 168 },
+    { d: FLAT_PETALS[3],    col: 'start', px: 28, py: 32, targetH: 58, rot: -10 },
+    { d: MINOR_PATH,        col: 'end',   px: 66, py: 28, targetH: 28, rot:  35 },
   ],
-  // round from bottom-left + oval arc from top-right
+  // round from bottom (tip y≈34) + major oval near middle
   [
-    { d: NATURAL_PETALS[2], col: 'end',   px: 33, py:  5, targetH: 64, rot: 185 },
-    { d: MAJOR_PATH,        col: 'start', px: 76, py: -3, targetH: 28, rot: -10 },
+    { d: NATURAL_PETALS[2], col: 'end',   px: 30, py:  2, targetH: 64, rot: 185 },
+    { d: MAJOR_PATH,        col: 'start', px: 66, py: 28, targetH: 28, rot: -20 },
   ],
-  // round from top-left + sharp from bottom-right
+  // round from top (tip y≈7) + sharp from bottom (tip y≈38)
   [
-    { d: NATURAL_PETALS[3], col: 'start', px: 26, py: 36, targetH: 63, rot: -16 },
-    { d: SHARP_PETALS[2],   col: 'end',   px: 73, py: 10, targetH: 50, rot: 172 },
+    { d: NATURAL_PETALS[3], col: 'start', px: 32, py: 39, targetH: 63, rot: -24 },
+    { d: SHARP_PETALS[2],   col: 'end',   px: 63, py: 13, targetH: 50, rot: 170 },
   ],
-  // flat from bottom-right + round from top-left
+  // minor triangle near middle + flat from bottom (tip y≈30)
   [
-    { d: FLAT_PETALS[4],    col: 'end',   px: 72, py:  7, targetH: 60, rot: 187 },
-    { d: NATURAL_PETALS[4], col: 'start', px: 30, py: 37, targetH: 67, rot:  -8 },
+    { d: MINOR_PATH,        col: 'end',   px: 30, py: 10, targetH: 28, rot: -15 },
+    { d: FLAT_PETALS[4],    col: 'start', px: 65, py:  0, targetH: 60, rot: 205 },
   ],
 ];
 
