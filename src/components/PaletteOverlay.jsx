@@ -71,7 +71,7 @@ function PaletteThumbnail({ palette, active, onClick, index }) {
           position: 'relative',
           background: palette.bg,
           boxShadow: active
-            ? '0 0 0 1px #7B9FD4, 0 0 10px rgba(123,159,212,0.45)'
+            ? '0 0 0 1px #7B9FD4, 0 1px 10px rgba(123,159,212,0.65)'
             : '0 2px 8px rgba(0,0,0,0.4), inset 0 0 0 1px rgba(255,255,255,0.06)',
         }}
       >
