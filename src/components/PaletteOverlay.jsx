@@ -1,91 +1,65 @@
 import { X } from 'lucide-react';
 import { PALETTES } from '../data/palettes';
-import { MAJOR_PATH, MINOR_PATH } from '../data/petalPaths';
+import Flower from './Flower';
 import { useScrollLock } from '../hooks/useScrollLock';
 import { useSheetAnimation } from '../hooks/useSheetAnimation';
 import { useIsDesktop } from '../hooks/useIsDesktop';
 
-function parseBBox(d) {
-  const nums = d.match(/[-+]?\d*\.?\d+/g).map(Number);
-  const xs = [], ys = [];
-  for (let i = 0; i < nums.length - 1; i += 2) { xs.push(nums[i]); ys.push(nums[i + 1]); }
-  return {
-    cx: (Math.min(...xs) + Math.max(...xs)) / 2,
-    cy: (Math.min(...ys) + Math.max(...ys)) / 2,
-    w: Math.max(...xs) - Math.min(...xs),
-    h: Math.max(...ys) - Math.min(...ys),
-  };
-}
+const FLOWER_SIZE = 72;
 
-// Only MAJOR_PATH (oval) and MINOR_PATH (triangle apex-up at rot=0).
-// Both shapes same size. Positions near centre; slight crop OK.
-// MINOR rotation changes its pointing direction: 0=up, 90=right, 180=down, -90=left, ±45=diagonal.
-const T = 34; // consistent targetH for all shapes
-const SHAPE_CONFIGS = [
-  // MINOR pointing up + MAJOR tilted
+const FLOWER_CONFIGS = [
   [
-    { d: MINOR_PATH, col: 'start', px: 32, py: 20, targetH: T, rot:   0 },
-    { d: MAJOR_PATH, col: 'end',   px: 65, py: 20, targetH: T, rot:  25 },
+    { acc: 'natural', bpm: 45,  mode: 'major', track: 1,  col: 'start', cx: 28, cy: 50, rot: 0 },
+    { acc: 'sharp',   bpm: 75,  mode: 'minor', track: 2,  col: 'end',   cx: 68, cy: 50, rot: 180 },
   ],
-  // MAJOR + MINOR pointing right
   [
-    { d: MAJOR_PATH, col: 'end',   px: 30, py: 18, targetH: T, rot: -15 },
-    { d: MINOR_PATH, col: 'start', px: 65, py: 22, targetH: T, rot:  90 },
+    { acc: 'flat',    bpm: 60,  mode: 'minor', track: 3,  col: 'end',   cx: 32, cy: 48, rot: 60 },
+    { acc: 'natural', bpm: 105, mode: 'major', track: 4,  col: 'start', cx: 66, cy: 52, rot: 240 },
   ],
-  // MINOR pointing down + MINOR pointing up (mirrored pair)
   [
-    { d: MINOR_PATH, col: 'start', px: 32, py: 22, targetH: T, rot: 180 },
-    { d: MINOR_PATH, col: 'end',   px: 64, py: 18, targetH: T, rot:  12 },
+    { acc: 'sharp',   bpm: 90,  mode: 'major', track: 5,  col: 'start', cx: 30, cy: 52, rot: 120 },
+    { acc: 'flat',    bpm: 45,  mode: 'minor', track: 6,  col: 'end',   cx: 70, cy: 48, rot: 300 },
   ],
-  // MAJOR + MAJOR, different rotations
   [
-    { d: MAJOR_PATH, col: 'end',   px: 33, py: 16, targetH: T, rot:  30 },
-    { d: MAJOR_PATH, col: 'start', px: 65, py: 24, targetH: T, rot: -22 },
+    { acc: 'natural', bpm: 120, mode: 'minor', track: 7,  col: 'end',   cx: 35, cy: 49, rot: 45 },
+    { acc: 'sharp',   bpm: 60,  mode: 'major', track: 8,  col: 'start', cx: 63, cy: 51, rot: 225 },
   ],
-  // MINOR pointing left + MAJOR tilted
   [
-    { d: MINOR_PATH, col: 'end',   px: 34, py: 20, targetH: T, rot: -90 },
-    { d: MAJOR_PATH, col: 'start', px: 66, py: 20, targetH: T, rot:  40 },
+    { acc: 'flat',    bpm: 135, mode: 'major', track: 9,  col: 'start', cx: 29, cy: 51, rot: 90 },
+    { acc: 'natural', bpm: 75,  mode: 'minor', track: 10, col: 'end',   cx: 67, cy: 49, rot: 270 },
   ],
-  // MAJOR slightly cropped top + MINOR diagonal
   [
-    { d: MAJOR_PATH, col: 'start', px: 30, py:  9, targetH: T, rot:  10 },
-    { d: MINOR_PATH, col: 'end',   px: 65, py: 24, targetH: T, rot:  45 },
+    { acc: 'sharp',   bpm: 105, mode: 'minor', track: 11, col: 'end',   cx: 33, cy: 47, rot: 30 },
+    { acc: 'flat',    bpm: 90,  mode: 'major', track: 12, col: 'start', cx: 65, cy: 53, rot: 150 },
   ],
-  // MINOR pointing down slightly cropped + MAJOR
   [
-    { d: MINOR_PATH, col: 'end',   px: 32, py: 29, targetH: T, rot: 180 },
-    { d: MAJOR_PATH, col: 'start', px: 66, py: 16, targetH: T, rot: -30 },
+    { acc: 'natural', bpm: 60,  mode: 'major', track: 13, col: 'start', cx: 31, cy: 53, rot: 135 },
+    { acc: 'sharp',   bpm: 135, mode: 'minor', track: 14, col: 'end',   cx: 69, cy: 47, rot: 315 },
   ],
-  // MAJOR + MINOR pointing left
   [
-    { d: MAJOR_PATH, col: 'start', px: 30, py: 22, targetH: T, rot: -20 },
-    { d: MINOR_PATH, col: 'end',   px: 66, py: 18, targetH: T, rot: -90 },
+    { acc: 'flat',    bpm: 75,  mode: 'minor', track: 15, col: 'end',   cx: 36, cy: 50, rot: 75 },
+    { acc: 'natural', bpm: 90,  mode: 'major', track: 16, col: 'start', cx: 62, cy: 50, rot: 255 },
   ],
-  // MINOR upper-left diagonal + MAJOR
   [
-    { d: MINOR_PATH, col: 'end',   px: 30, py: 20, targetH: T, rot: -45 },
-    { d: MAJOR_PATH, col: 'start', px: 65, py: 20, targetH: T, rot:  15 },
+    { acc: 'sharp',   bpm: 45,  mode: 'major', track: 17, col: 'start', cx: 27, cy: 48, rot: 15 },
+    { acc: 'flat',    bpm: 120, mode: 'minor', track: 18, col: 'end',   cx: 71, cy: 52, rot: 195 },
   ],
-  // MAJOR slightly cropped bottom + MINOR pointing up
   [
-    { d: MAJOR_PATH, col: 'end',   px: 33, py: 30, targetH: T, rot:  18 },
-    { d: MINOR_PATH, col: 'start', px: 64, py: 18, targetH: T, rot: -18 },
+    { acc: 'natural', bpm: 135, mode: 'minor', track: 19, col: 'end',   cx: 34, cy: 52, rot: 165 },
+    { acc: 'flat',    bpm: 60,  mode: 'major', track: 20, col: 'start', cx: 64, cy: 48, rot: 345 },
   ],
-  // MINOR upper-right + MINOR upper-left (crossing diagonals)
   [
-    { d: MINOR_PATH, col: 'start', px: 32, py: 20, targetH: T, rot:  45 },
-    { d: MINOR_PATH, col: 'end',   px: 65, py: 20, targetH: T, rot: -45 },
+    { acc: 'sharp',   bpm: 75,  mode: 'minor', track: 21, col: 'end',   cx: 30, cy: 50, rot: 210 },
+    { acc: 'natural', bpm: 120, mode: 'major', track: 22, col: 'start', cx: 68, cy: 50, rot: 30 },
   ],
-  // MAJOR + MINOR pointing lower-left
   [
-    { d: MAJOR_PATH, col: 'end',   px: 30, py: 20, targetH: T, rot: -12 },
-    { d: MINOR_PATH, col: 'start', px: 66, py: 20, targetH: T, rot: 210 },
+    { acc: 'flat',    bpm: 105, mode: 'major', track: 23, col: 'start', cx: 32, cy: 47, rot: 105 },
+    { acc: 'sharp',   bpm: 45,  mode: 'minor', track: 24, col: 'end',   cx: 66, cy: 53, rot: 285 },
   ],
 ];
 
 function PaletteThumbnail({ palette, active, onClick, index }) {
-  const cfg = SHAPE_CONFIGS[index % SHAPE_CONFIGS.length];
+  const cfg = FLOWER_CONFIGS[index % FLOWER_CONFIGS.length];
 
   return (
     <button onClick={onClick} className="flex flex-col gap-2 w-full items-center">
@@ -95,31 +69,35 @@ function PaletteThumbnail({ palette, active, onClick, index }) {
           aspectRatio: '5 / 2',
           borderRadius: '20px',
           overflow: 'hidden',
+          position: 'relative',
+          background: palette.bg,
           boxShadow: active
             ? '0 0 0 1px #161B24, 0 0 0 2.5px #8B93A1'
             : '0 2px 8px rgba(0,0,0,0.4), inset 0 0 0 1px rgba(255,255,255,0.06)',
         }}
       >
-        <svg
-          viewBox="0 0 100 40"
-          width="100%"
-          height="100%"
-          style={{ display: 'block', background: palette.bg, overflow: 'hidden' }}
-        >
-          {cfg.map((shape, i) => {
-            const bb = parseBBox(shape.d);
-            const s = shape.targetH / bb.h;
-            const color = shape.col === 'start' ? palette.colorStart : palette.colorEnd;
-            return (
-              <g
-                key={i}
-                transform={`translate(${shape.px},${shape.py}) rotate(${shape.rot}) scale(${s}) translate(${-bb.cx},${-bb.cy})`}
-              >
-                <path d={shape.d} fill={color} />
-              </g>
-            );
-          })}
-        </svg>
+        {cfg.map((f, i) => {
+          const color = f.col === 'start' ? palette.colorStart : palette.colorEnd;
+          return (
+            <div
+              key={i}
+              style={{
+                position: 'absolute',
+                left: `${f.cx}%`,
+                top: `${f.cy}%`,
+                transform: `translate(-50%, -50%) rotate(${f.rot}deg)`,
+              }}
+            >
+              <Flower
+                song={{ bpm: f.bpm, accidental: f.acc, mode: f.mode, track: f.track }}
+                size={FLOWER_SIZE}
+                color={color}
+                bg={palette.bg}
+                globalRotation={0}
+              />
+            </div>
+          );
+        })}
       </div>
       <p className="font-mono text-caption text-text-secondary text-center">
         {palette.name}
