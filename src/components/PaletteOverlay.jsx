@@ -98,7 +98,7 @@ function PaletteThumbnail({ palette, active, onClick, index }) {
           );
         })}
       </div>
-      <p className={`font-mono text-caption text-center ${active ? 'text-text-primary' : 'text-text-secondary'}`}>
+      <p className="font-mono text-caption text-text-secondary text-center">
         {palette.name}
       </p>
     </button>
