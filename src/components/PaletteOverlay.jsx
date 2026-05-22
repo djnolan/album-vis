@@ -5,11 +5,11 @@ import { useScrollLock } from '../hooks/useScrollLock';
 import { useSheetAnimation } from '../hooks/useSheetAnimation';
 import { useIsDesktop } from '../hooks/useIsDesktop';
 
-const FLOWER_SIZE = 72;
+const FLOWER_SIZE = 80;
 
 const FLOWER_CONFIGS = [
   [
-    { acc: 'natural', bpm: 45,  mode: 'major', track: 1,  col: 'start', cx: 28, cy: 50, rot: 0 },
+    { acc: 'natural', bpm: 60,  mode: 'major', track: 1,  col: 'start', cx: 28, cy: 50, rot: 0 },
     { acc: 'sharp',   bpm: 75,  mode: 'minor', track: 2,  col: 'end',   cx: 68, cy: 50, rot: 180 },
   ],
   [
@@ -18,7 +18,7 @@ const FLOWER_CONFIGS = [
   ],
   [
     { acc: 'sharp',   bpm: 90,  mode: 'major', track: 5,  col: 'start', cx: 30, cy: 52, rot: 120 },
-    { acc: 'flat',    bpm: 45,  mode: 'minor', track: 6,  col: 'end',   cx: 70, cy: 48, rot: 300 },
+    { acc: 'flat',    bpm: 70,  mode: 'minor', track: 6,  col: 'end',   cx: 70, cy: 48, rot: 300 },
   ],
   [
     { acc: 'natural', bpm: 120, mode: 'minor', track: 7,  col: 'end',   cx: 35, cy: 49, rot: 45 },
@@ -41,7 +41,7 @@ const FLOWER_CONFIGS = [
     { acc: 'natural', bpm: 90,  mode: 'major', track: 16, col: 'start', cx: 62, cy: 50, rot: 255 },
   ],
   [
-    { acc: 'sharp',   bpm: 45,  mode: 'major', track: 17, col: 'start', cx: 27, cy: 48, rot: 15 },
+    { acc: 'sharp',   bpm: 60,  mode: 'major', track: 17, col: 'start', cx: 27, cy: 48, rot: 15 },
     { acc: 'flat',    bpm: 120, mode: 'minor', track: 18, col: 'end',   cx: 71, cy: 52, rot: 195 },
   ],
   [
@@ -54,7 +54,7 @@ const FLOWER_CONFIGS = [
   ],
   [
     { acc: 'flat',    bpm: 105, mode: 'major', track: 23, col: 'start', cx: 32, cy: 47, rot: 105 },
-    { acc: 'sharp',   bpm: 45,  mode: 'minor', track: 24, col: 'end',   cx: 66, cy: 53, rot: 285 },
+    { acc: 'sharp',   bpm: 75,  mode: 'minor', track: 24, col: 'end',   cx: 66, cy: 53, rot: 285 },
   ],
 ];
 
