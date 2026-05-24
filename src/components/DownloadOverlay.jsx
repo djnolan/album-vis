@@ -189,7 +189,7 @@ async function exportWallpaper(svgEl, album, palette) {
 }
 
 async function exportWatch(svgEl, album, palette) {
-  const W = 396, H = 484;
+  const W = 1584, H = 1936;  // 4× the 396×484 screen size
   const renderW = Math.round(W * 1.1);
   const { vbW, vbH } = getVbDims(svgEl);
   const scale   = renderW / vbW;
