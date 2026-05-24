@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import { ArrowLeft, Info, Palette, Download } from 'lucide-react';
 import Visualization from './Visualization';
+import DownloadOverlay from './DownloadOverlay';
 import SongCard from './SongCard';
 import { PALETTES } from '../data/palettes';
 import { useScrollLock } from '../hooks/useScrollLock';
@@ -203,48 +204,14 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
         </button>
       </div>
 
-      {/* Format picker */}
       {showFormatPicker && (
-        <div
-          className="fixed inset-0 z-50 flex flex-col justify-end"
-          onClick={() => setShowFormatPicker(false)}
-        >
-          <div
-            className="bg-surface-1 rounded-t-xl px-6 pt-6 pb-10 flex flex-col gap-4"
-            onClick={e => e.stopPropagation()}
-          >
-            <p className="font-mono text-label uppercase tracking-widest" style={{ color: '#8B93A1' }}>Save as</p>
-            <div className="flex flex-col gap-2">
-              {[
-                { id: 'wallpaper', label: 'Phone Wallpaper' },
-                { id: 'watch',     label: 'Watch Face' },
-                { id: 'poster',    label: 'Poster (11×17")' },
-                { id: 'tshirt',    label: 'T-Shirt Print' },
-              ].map(fmt => (
-                <button
-                  key={fmt.id}
-                  onClick={() => setFormatId(fmt.id)}
-                  className="text-left px-4 py-3 rounded-lg font-sans text-body"
-                  style={{
-                    background: formatId === fmt.id ? 'rgba(123,159,212,0.15)' : 'transparent',
-                    color: formatId === fmt.id ? '#7B9FD4' : '#F0F2F5',
-                    border: `1.5px solid ${formatId === fmt.id ? '#7B9FD4' : 'transparent'}`,
-                  }}
-                >
-                  {fmt.label}
-                </button>
-              ))}
-            </div>
-            <button
-              onClick={handleDownload}
-              disabled={isDownloading}
-              className="w-full py-4 rounded-lg font-sans text-body font-bold disabled:opacity-40"
-              style={{ background: '#7B9FD4', color: '#0E1117' }}
-            >
-              {isDownloading ? 'Downloading…' : 'Download'}
-            </button>
-          </div>
-        </div>
+        <DownloadOverlay
+          formatId={formatId}
+          onFormatChange={setFormatId}
+          onDownload={handleDownload}
+          isDownloading={isDownloading}
+          onClose={() => setShowFormatPicker(false)}
+        />
       )}
 
       {/* Song card */}
