@@ -66,78 +66,218 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
     setShowFormatPicker(false);
 
     try {
+      await document.fonts.ready;
       const vbParts = svgEl.getAttribute('viewBox').split(' ').map(Number);
       const vbW = vbParts[2];
       const vbH = vbParts[3];
 
-      let W, H, renderW, offsetX, contentOffsetY, bgColor, suffix;
-
-      if (formatId === 'wallpaper') {
-        W = 1170; H = 2532;
-        renderW = Math.round(W * 1.16);
-        offsetX = -Math.round(W * 0.08);
-        const scale = renderW / vbW;
-        contentOffsetY = Math.round(H * 0.55) - Math.round(vbH * scale / 2);
-        bgColor = palette.bg; suffix = 'wallpaper';
-      } else if (formatId === 'watch') {
-        W = 396; H = 484;
-        renderW = Math.round(W * 1.10);
-        offsetX = -Math.round((renderW - W) / 2);
-        const scale = renderW / vbW;
-        contentOffsetY = Math.round((H - vbH * scale) / 2);
-        bgColor = palette.bg; suffix = 'watchface';
-      } else if (formatId === 'poster') {
-        W = 3300; H = 5100;
-        const scale = Math.min((W - 600) / vbW, (H * 0.55) / vbH);
-        renderW = Math.round(vbW * scale);
-        offsetX = Math.round((W - renderW) / 2);
-        contentOffsetY = 300;
-        bgColor = palette.bg; suffix = 'poster';
-      } else {
-        W = 4500; H = 5400;
-        const scale = Math.min((W - 600) / vbW, (H * 0.65) / vbH);
-        renderW = Math.round(vbW * scale);
-        offsetX = Math.round((W - renderW) / 2);
-        contentOffsetY = 200;
-        bgColor = palette.bg; suffix = 'tshirt';
-      }
-
-      const contentH = Math.round(vbH * (renderW / vbW));
-
       const clone = svgEl.cloneNode(true);
       clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
-      clone.setAttribute('width', renderW);
-      clone.setAttribute('height', contentH);
 
-      const svgString = new XMLSerializer().serializeToString(clone);
-      const svgBlob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
-      const svgUrl = URL.createObjectURL(svgBlob);
+      if (formatId === 'wallpaper') {
+        const W = 1170, H = 2532;
+        const renderW = Math.round(W * 1.16);
+        const offsetX = -Math.round(W * 0.08);
+        const scale = renderW / vbW;
+        const contentH = Math.round(vbH * scale);
+        const contentOffsetY = Math.round(H * 0.55) - Math.round(contentH / 2);
 
-      await new Promise((resolve, reject) => {
-        const img = new Image();
-        img.onload = () => {
-          const canvas = document.createElement('canvas');
-          canvas.width = W;
-          canvas.height = H;
-          const ctx = canvas.getContext('2d');
+        clone.setAttribute('width', renderW);
+        clone.setAttribute('height', contentH);
+        const svgString = new XMLSerializer().serializeToString(clone);
+        const svgUrl = URL.createObjectURL(new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' }));
 
-          ctx.fillStyle = bgColor;
-          ctx.fillRect(0, 0, W, H);
-          ctx.drawImage(img, offsetX, contentOffsetY, renderW, contentH);
-          URL.revokeObjectURL(svgUrl);
+        await new Promise((resolve, reject) => {
+          const img = new Image();
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            canvas.width = W; canvas.height = H;
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = palette.bg;
+            ctx.fillRect(0, 0, W, H);
+            ctx.drawImage(img, offsetX, contentOffsetY, renderW, contentH);
+            URL.revokeObjectURL(svgUrl);
+            canvas.toBlob(blob => {
+              const link = document.createElement('a');
+              link.href = URL.createObjectURL(blob);
+              link.download = `${album.title.replace(/[^a-z0-9]/gi, '-').toLowerCase()}-wallpaper.png`;
+              link.click();
+              setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+              resolve();
+            }, 'image/png');
+          };
+          img.onerror = reject;
+          img.src = svgUrl;
+        });
 
-          canvas.toBlob(blob => {
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = `${album.title.replace(/[^a-z0-9]/gi, '-').toLowerCase()}-${suffix}.png`;
-            link.click();
-            setTimeout(() => URL.revokeObjectURL(link.href), 1000);
-            resolve();
-          }, 'image/png');
-        };
-        img.onerror = reject;
-        img.src = svgUrl;
-      });
+      } else if (formatId === 'watch') {
+        const W = 800, H = 978;
+        const renderW = Math.round(W * 1.10);
+        const offsetX = -Math.round((renderW - W) / 2);
+        const scale = renderW / vbW;
+        const contentH = Math.round(vbH * scale);
+        const contentOffsetY = Math.round((H - contentH) / 2);
+
+        clone.setAttribute('width', renderW);
+        clone.setAttribute('height', contentH);
+        const svgString = new XMLSerializer().serializeToString(clone);
+        const svgUrl = URL.createObjectURL(new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' }));
+
+        await new Promise((resolve, reject) => {
+          const img = new Image();
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            canvas.width = W; canvas.height = H;
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = palette.bg;
+            ctx.fillRect(0, 0, W, H);
+            ctx.drawImage(img, offsetX, contentOffsetY, renderW, contentH);
+            URL.revokeObjectURL(svgUrl);
+            canvas.toBlob(blob => {
+              const link = document.createElement('a');
+              link.href = URL.createObjectURL(blob);
+              link.download = `${album.title.replace(/[^a-z0-9]/gi, '-').toLowerCase()}-watchface.png`;
+              link.click();
+              setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+              resolve();
+            }, 'image/png');
+          };
+          img.onerror = reject;
+          img.src = svgUrl;
+        });
+
+      } else if (formatId === 'poster') {
+        const W = 3300, H = 5100;
+        const scale = Math.min((W - 600) / vbW, (H * 0.52) / vbH);
+        const renderW = Math.round(vbW * scale);
+        const contentH = Math.round(vbH * scale);
+        const offsetX = Math.round((W - renderW) / 2);
+        const contentOffsetY = 300;
+
+        clone.setAttribute('width', renderW);
+        clone.setAttribute('height', contentH);
+        const svgString = new XMLSerializer().serializeToString(clone);
+        const svgUrl = URL.createObjectURL(new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' }));
+
+        await new Promise((resolve, reject) => {
+          const img = new Image();
+          img.onload = async () => {
+            const canvas = document.createElement('canvas');
+            canvas.width = W; canvas.height = H;
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = palette.bg;
+            ctx.fillRect(0, 0, W, H);
+            ctx.drawImage(img, offsetX, contentOffsetY, renderW, contentH);
+            URL.revokeObjectURL(svgUrl);
+
+            const textColor = palette.lightBg ? '#0E1117' : '#F0F2F5';
+            const textSecondary = palette.lightBg ? 'rgba(14,17,23,0.55)' : 'rgba(240,242,245,0.55)';
+            let y = contentOffsetY + contentH + 120;
+
+            ctx.fillStyle = textColor;
+            ctx.textAlign = 'center';
+            ctx.font = `italic 96px "Instrument Serif", serif`;
+            ctx.fillText(album.title, W / 2, y);
+            y += 80;
+
+            ctx.font = `48px "DM Mono", monospace`;
+            ctx.fillStyle = textSecondary;
+            ctx.fillText(album.artist, W / 2, y);
+            y += 120;
+
+            // Legend: key → color samples
+            const noteColors = palette.colorStart && palette.colorEnd
+              ? sortedSongs.reduce((acc, s) => {
+                  const key = s.key + (s.accidental === 'sharp' ? '♯' : s.accidental === 'flat' ? '♭' : '');
+                  if (!acc.some(e => e.label === key)) acc.push({ label: key, mode: s.mode });
+                  return acc;
+                }, [])
+              : [];
+
+            if (noteColors.length) {
+              const dotR = 18;
+              const lineH = 76;
+              const cols = Math.min(noteColors.length, 4);
+              const colW = 560;
+              const totalW = cols * colW;
+              const startX = (W - totalW) / 2 + colW / 2;
+              ctx.font = `30px "DM Mono", monospace`;
+              ctx.fillStyle = textSecondary;
+              noteColors.slice(0, 8).forEach((entry, i) => {
+                const col = i % cols;
+                const row = Math.floor(i / cols);
+                const ex = startX + col * colW;
+                const ey = y + row * lineH;
+                ctx.textAlign = 'left';
+                ctx.fillText(`${entry.label} ${entry.mode}`, ex - colW / 2 + dotR * 2 + 20, ey + 10);
+              });
+            }
+
+            canvas.toBlob(blob => {
+              const link = document.createElement('a');
+              link.href = URL.createObjectURL(blob);
+              link.download = `${album.title.replace(/[^a-z0-9]/gi, '-').toLowerCase()}-poster.png`;
+              link.click();
+              setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+              resolve();
+            }, 'image/png');
+          };
+          img.onerror = reject;
+          img.src = svgUrl;
+        });
+
+      } else {
+        // T-shirt: transparent bg, tight crop, title + artist text
+        const W = 3000;
+        const scale = Math.min((W * 0.80) / vbW, 1800 / vbH);
+        const renderW = Math.round(vbW * scale);
+        const contentH = Math.round(vbH * scale);
+        const offsetX = Math.round((W - renderW) / 2);
+        const contentOffsetY = 100;
+        const titleSize = 120, artistSize = 76;
+        const H = contentOffsetY + contentH + 80 + titleSize + 40 + artistSize + 160;
+
+        clone.setAttribute('width', renderW);
+        clone.setAttribute('height', contentH);
+        const svgString = new XMLSerializer().serializeToString(clone);
+        const svgUrl = URL.createObjectURL(new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' }));
+
+        await new Promise((resolve, reject) => {
+          const img = new Image();
+          img.onload = async () => {
+            const canvas = document.createElement('canvas');
+            canvas.width = W; canvas.height = H;
+            const ctx = canvas.getContext('2d');
+            // transparent background — no fillRect
+            ctx.drawImage(img, offsetX, contentOffsetY, renderW, contentH);
+            URL.revokeObjectURL(svgUrl);
+
+            const textColor = palette.lightBg ? '#0E1117' : '#F0F2F5';
+            const textSecondary = palette.lightBg ? 'rgba(14,17,23,0.55)' : 'rgba(240,242,245,0.55)';
+
+            let y = contentOffsetY + contentH + 80 + titleSize;
+            ctx.fillStyle = textColor;
+            ctx.textAlign = 'center';
+            ctx.font = `italic ${titleSize}px "Instrument Serif", serif`;
+            ctx.fillText(album.title, W / 2, y);
+            y += 40 + artistSize;
+            ctx.font = `${artistSize}px "DM Mono", monospace`;
+            ctx.fillStyle = textSecondary;
+            ctx.fillText(album.artist, W / 2, y);
+
+            canvas.toBlob(blob => {
+              const link = document.createElement('a');
+              link.href = URL.createObjectURL(blob);
+              link.download = `${album.title.replace(/[^a-z0-9]/gi, '-').toLowerCase()}-tshirt.png`;
+              link.click();
+              setTimeout(() => URL.revokeObjectURL(link.href), 1000);
+              resolve();
+            }, 'image/png');
+          };
+          img.onerror = reject;
+          img.src = svgUrl;
+        });
+      }
     } finally {
       setIsDownloading(false);
     }
