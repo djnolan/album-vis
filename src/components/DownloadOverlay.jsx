@@ -216,42 +216,49 @@ async function exportPoster(svgEl, album, palette) {
   const subColor  = palette.lightBg ? '#3A3F4A' : '#8B93A1';
   const muteColor = palette.lightBg ? '#6B7280' : '#6B7A8D';
 
-  // ── Header ────────────────────────────────────────────────────────────────
+  // ── Header — title + artist centered together on one line ─────────────────
   const TITLE_SIZE      = 72;
   const ARTIST_SIZE     = 40;
-  const HEADER_BASELINE = MARGIN + TITLE_SIZE + 10;  // 232
+  const HEADER_BASELINE = MARGIN + TITLE_SIZE + 4;  // 226
+  const HEADER_SEP      = 80;  // px gap between title and artist text
 
-  // ── Legend typography & flower sizes ─────────────────────────────────────
-  const HEAD_SIZE          = 36;
+  // ── Legend section heading ─────────────────────────────────────────────────
+  const LEGEND_TOP          = 4580;
+  const LEGEND_HEADING_SIZE = 30;
+  const LEGEND_HEADING_Y    = LEGEND_TOP + LEGEND_HEADING_SIZE;  // 4610
+  const SEPARATOR_Y         = LEGEND_HEADING_Y + 14;             // 4624
+  const COL_START           = SEPARATOR_Y + 22;                  // 4646
+
+  // ── Legend column typography & flower sizes ───────────────────────────────
+  const HEAD_SIZE          = 28;
   const BLURB_SIZE         = 28;
-  const BLURB_LINE_H       = 38;   // ~1.35× blurb size
+  const BLURB_LINE_H       = 38;
   const LABEL_SIZE         = 24;
-  const COLOR_FLOWER       = 60;   // 7 note flowers — a touch smaller
-  const SHAPE_FLOWER       = 85;   // 3 accidental flowers — a bit bigger
-  const CENTER_FLOWER      = 100;  // 2 key-type flowers — a bit bigger
-  const MAX_FLOWER         = CENTER_FLOWER;
+  const COLOR_FLOWER       = 60;
+  const SHAPE_FLOWER       = 85;
+  const CENTER_FLOWER      = 100;
 
-  // ── Legend fixed Y positions (anchored from bottom) ──────────────────────
-  const LEGEND_TOP         = 4550;
-  const LEGEND_HEAD_Y      = LEGEND_TOP + 30 + HEAD_SIZE;           // 4616
-  const LEGEND_BLURB_Y     = LEGEND_HEAD_Y + Math.round(HEAD_SIZE * 1.25);  // 4661
-  const LEGEND_GRAPHIC_TOP = LEGEND_BLURB_Y + 3*BLURB_LINE_H + 20; // 4795
-
-  // ── Visualization geometry ─────────────────────────────────────────────────
-  const VIZ_TOP    = HEADER_BASELINE + 44;     // 276
-  const VIZ_BOTTOM = LEGEND_TOP - 40;          // 4510
-  const VIZ_AVAIL_H = VIZ_BOTTOM - VIZ_TOP;   // 4234
+  // ── Legend fixed Y positions ──────────────────────────────────────────────
+  const LEGEND_HEAD_Y      = COL_START + HEAD_SIZE;                          // 4674
+  const LEGEND_BLURB_Y     = LEGEND_HEAD_Y + Math.round(HEAD_SIZE * 1.4);   // 4713
+  const LEGEND_GRAPHIC_TOP = LEGEND_BLURB_Y + 3*BLURB_LINE_H + 8;           // 4835 → 4797 actually: 4713+114+8=4835
 
   // ── Columns ───────────────────────────────────────────────────────────────
-  const COL_GAP = 20;
-  const COL_W   = Math.round((CONTENT_W - COL_GAP * 4) / 5);  // 584
+  const COL_GAP = 40;
+  const COL_W   = Math.round((CONTENT_W - COL_GAP * 4) / 5);  // 568
   const COL_PAD = 16;
-  const TEXT_W  = COL_W - COL_PAD;  // 568
+  const TEXT_W  = COL_W - COL_PAD;  // 552
+
+  // ── Visualization geometry ─────────────────────────────────────────────────
+  const VIZ_TOP     = HEADER_BASELINE + 48;      // 274
+  const VIZ_BOTTOM  = LEGEND_TOP - 50;           // 4530
+  const VIZ_AVAIL_H = VIZ_BOTTOM - VIZ_TOP;     // 4256
 
   // ── Explicitly load fonts so canvas uses DM Mono, not the fallback ────────
   await Promise.all([
     document.fonts.load(`${TITLE_SIZE}px "Instrument Serif"`),
     document.fonts.load(`500 ${ARTIST_SIZE}px "DM Mono"`),
+    document.fonts.load(`500 ${LEGEND_HEADING_SIZE}px "DM Sans"`),
     document.fonts.load(`500 ${HEAD_SIZE}px "DM Mono"`),
     document.fonts.load(`${LABEL_SIZE}px "DM Mono"`),
     document.fonts.load(`${BLURB_SIZE}px "DM Sans"`),
@@ -272,15 +279,12 @@ async function exportPoster(svgEl, album, palette) {
 
   const [vizImg, ...legendImgs] = await Promise.all([
     svgToImage(svgEl, vizW, vizH),
-    // Color column: 7 note flowers
-    ...noteColors.map((c, i) => loadMiniFlower(COLOR_FLOWER, 6, 'natural', 'major', c,           palette.bg, i*3+1, i*17)),
-    // Shape column: natural, sharp, flat
-    loadMiniFlower(SHAPE_FLOWER, 6, 'natural', 'major', flowerColor, palette.bg, 2,  20),
-    loadMiniFlower(SHAPE_FLOWER, 6, 'sharp',   'major', flowerColor, palette.bg, 6,  15),
-    loadMiniFlower(SHAPE_FLOWER, 6, 'flat',    'major', flowerColor, palette.bg, 10, 15),
-    // Center column: major, minor
-    loadMiniFlower(CENTER_FLOWER, 6, 'natural', 'major', flowerColor, palette.bg, 4, 10),
-    loadMiniFlower(CENTER_FLOWER, 6, 'natural', 'minor', flowerColor, palette.bg, 8, 10),
+    ...noteColors.map((c, i) => loadMiniFlower(COLOR_FLOWER,  6, 'natural', 'major', c,           palette.bg, i*3+1, i*17)),
+    loadMiniFlower(SHAPE_FLOWER,  6, 'natural', 'major', flowerColor, palette.bg, 2,  20),
+    loadMiniFlower(SHAPE_FLOWER,  6, 'sharp',   'major', flowerColor, palette.bg, 6,  15),
+    loadMiniFlower(SHAPE_FLOWER,  6, 'flat',    'major', flowerColor, palette.bg, 10, 15),
+    loadMiniFlower(CENTER_FLOWER, 6, 'natural', 'major', flowerColor, palette.bg, 4,  10),
+    loadMiniFlower(CENTER_FLOWER, 6, 'natural', 'minor', flowerColor, palette.bg, 8,  10),
   ]);
 
   const colorFlowers  = legendImgs.slice(0, 7);
@@ -299,23 +303,37 @@ async function exportPoster(svgEl, album, palette) {
   // Visualization
   ctx.drawImage(vizImg, vizX, vizY, vizW, vizH);
 
-  // ── Header: title (upper-left) + artist (upper-right) ─────────────────────
+  // ── Header: title + artist centered together on one line ──────────────────
+  ctx.font = `${TITLE_SIZE}px "Instrument Serif", Georgia, serif`;
+  const titleW = ctx.measureText(album.title).width;
+  ctx.font = `500 ${ARTIST_SIZE}px "DM Mono", "Courier New", monospace`;
+  const artistW = ctx.measureText(album.artist).width;
+
+  const groupW  = titleW + HEADER_SEP + artistW;
+  const titleX  = Math.round((W - groupW) / 2);
+  const artistX = titleX + Math.round(titleW) + HEADER_SEP;
+
   ctx.font      = `${TITLE_SIZE}px "Instrument Serif", Georgia, serif`;
   ctx.fillStyle = textColor;
   ctx.textAlign = 'left';
-  ctx.fillText(album.title, MARGIN, HEADER_BASELINE);
+  ctx.fillText(album.title, titleX, HEADER_BASELINE);
 
   ctx.font      = `500 ${ARTIST_SIZE}px "DM Mono", "Courier New", monospace`;
   ctx.fillStyle = subColor;
-  ctx.textAlign = 'right';
-  ctx.fillText(album.artist, W - MARGIN, HEADER_BASELINE);
+  ctx.fillText(album.artist, artistX, HEADER_BASELINE);
+
+  // ── Legend section heading ─────────────────────────────────────────────────
+  ctx.font      = `500 ${LEGEND_HEADING_SIZE}px "DM Sans", system-ui, sans-serif`;
+  ctx.fillStyle = subColor;
+  ctx.textAlign = 'left';
+  ctx.fillText('EACH FLOWER REPRESENTS A SONG', MARGIN, LEGEND_HEADING_Y);
 
   // ── Legend separator line ──────────────────────────────────────────────────
   ctx.strokeStyle = palette.lightBg ? 'rgba(0,0,0,0.15)' : 'rgba(255,255,255,0.12)';
   ctx.lineWidth   = 2;
   ctx.beginPath();
-  ctx.moveTo(MARGIN, LEGEND_TOP - 24);
-  ctx.lineTo(W - MARGIN, LEGEND_TOP - 24);
+  ctx.moveTo(MARGIN, SEPARATOR_Y);
+  ctx.lineTo(W - MARGIN, SEPARATOR_Y);
   ctx.stroke();
 
   // ── Legend columns ─────────────────────────────────────────────────────────
@@ -333,17 +351,17 @@ async function exportPoster(svgEl, album, palette) {
     {
       heading: 'Color = Root Note',
       blurb:   "The color of the flower shows the root note of the song's key.",
-      graphic: { flowers: colorFlowers, labels: NOTES,                         size: COLOR_FLOWER,  gap: 6  },
+      graphic: { flowers: colorFlowers,  labels: NOTES,                       size: COLOR_FLOWER,  gap: 6  },
     },
     {
       heading: 'Shape = Accidental',
       blurb:   'The petal shape shows whether the key is natural, sharp, or flat.',
-      graphic: { flowers: shapeFlowers,  labels: ['natural','sharp','flat'],   size: SHAPE_FLOWER,  gap: 12 },
+      graphic: { flowers: shapeFlowers,  labels: ['natural', 'sharp', 'flat'], size: SHAPE_FLOWER,  gap: 24 },
     },
     {
       heading: 'Center = Key Type',
       blurb:   'The center cutout shows whether the song is in a major or minor key.',
-      graphic: { flowers: centerFlowers, labels: ['major','minor'],            size: CENTER_FLOWER, gap: 16 },
+      graphic: { flowers: centerFlowers, labels: ['major', 'minor'],           size: CENTER_FLOWER, gap: 16 },
     },
   ];
 
