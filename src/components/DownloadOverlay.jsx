@@ -222,7 +222,7 @@ async function exportPoster(svgEl, album, palette) {
   // ── Font sizes ────────────────────────────────────────────────────────────
   const TITLE_SIZE          = 32;
   const ARTIST_SIZE         = 23;
-  const LEGEND_HEADING_SIZE = 17;
+  const LEGEND_HEADING_SIZE = 23;
   const HEAD_SIZE           = 13;
   const BLURB_SIZE          = 10;
   const LABEL_SIZE          = 10;
@@ -242,9 +242,9 @@ async function exportPoster(svgEl, album, palette) {
   const ARTIST_BASELINE = TITLE_BASELINE + Math.round(ARTIST_SIZE * 1.6);  // +37
 
   // Legend block — bottom-right, right edge flush with W − MARGIN
-  const COL_GAP         = 16;
-  const COL_W           = 350;
-  const LEGEND_LEFT     = W - MARGIN - (5 * COL_W + 4 * COL_GAP);  // 1336
+  const COL_GAP         = 32;
+  const COL_W           = 245;
+  const LEGEND_LEFT     = W - MARGIN - (5 * COL_W + 4 * COL_GAP);
 
   const LEGEND_HEADING_Y = BOTTOM_SECTION_TOP + LEGEND_HEADING_SIZE;  // 4767
   const COL_BORDER_TOP   = LEGEND_HEADING_Y + 28;                     // 4795
@@ -272,11 +272,11 @@ async function exportPoster(svgEl, album, palette) {
 
   // ── Compute viz scale ─────────────────────────────────────────────────────
   const { vbW, vbH } = getVbDims(svgEl);
-  const vizScale = CONTENT_W / vbW;          // always fill full width
-  const vizW = CONTENT_W;
+  const vizScale = (CONTENT_W * 1.10) / vbW;  // 110% — bleed past margins slightly
+  const vizW = Math.round(vbW * vizScale);
   const vizH = Math.round(vbH * vizScale);
-  const vizX = MARGIN;
-  const vizY = VIZ_TOP;                       // pin to top, not vertically centered
+  const vizX = MARGIN - Math.round((vizW - CONTENT_W) / 2);  // centered
+  const vizY = VIZ_TOP + Math.round((VIZ_AVAIL_H - vizH) * 0.2);  // 20% down
 
   // ── Load all assets in parallel ───────────────────────────────────────────
   const flowerColor = resolveFlowerColor(palette.colorStart, palette.colorEnd);
