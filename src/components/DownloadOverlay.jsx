@@ -325,11 +325,11 @@ async function exportPoster(svgEl, album, palette) {
   ctx.fillText('Each flower represents a song', gridX(7), LEGEND_HEADING_Y);
 
   const legendItems = [
-    { heading: 'Size = Duration',    blurb: "The size of the flower is based on the song's length.",              graphic: null },
-    { heading: 'Petals = Tempo',     blurb: "The number of petals reflects the song's beats per minute.",        graphic: null },
-    { heading: 'Color = Root Note',  blurb: "The color of the flower shows the root note of the song's key.",    graphic: { flowers: colorFlowers,  labels: NOTES,                       size: COLOR_FLOWER,  gap: 4  } },
-    { heading: 'Shape = Accidental', blurb: "The petal shape shows whether the key is natural, sharp, or flat.", graphic: { flowers: shapeFlowers,  labels: ['natural', 'sharp', 'flat'], size: SHAPE_FLOWER,  gap: 14 } },
-    { heading: 'Center = Key Type',  blurb: "The center cutout shows whether the song is in a major or minor key.", graphic: { flowers: centerFlowers, labels: ['major', 'minor'],          size: CENTER_FLOWER, gap: 14 } },
+    { heading: 'Size = duration',       blurb: "The size of the flower is based on the song's length.",                        graphic: null },
+    { heading: 'Petals = tempo',        blurb: "The number of petals reflects the song's beats per minute.",                  graphic: null },
+    { heading: 'Color = base note',     blurb: "The color of the flower shows the root note of the song's key.",              graphic: { flowers: colorFlowers,  labels: NOTES,                       size: COLOR_FLOWER,  gap: 4  } },
+    { heading: 'Shape = note change',   blurb: "The shape of the petals shows whether the key is natural, sharp, or flat.",   graphic: { flowers: shapeFlowers,  labels: ['natural', 'sharp', 'flat'], size: SHAPE_FLOWER,  gap: 14 } },
+    { heading: 'Center shape = key type', blurb: "The center cutout shows whether the song is in a major or minor key.",      graphic: { flowers: centerFlowers, labels: ['major', 'minor'],           size: CENTER_FLOWER, gap: 14 } },
   ];
 
   for (let col = 0; col < 5; col++) {
