@@ -220,46 +220,45 @@ async function exportPoster(svgEl, album, palette) {
   const border = isLight ? 'rgba(0,0,0,0.2)'  : 'rgba(255,255,255,0.2)';
 
   // ── Font sizes ────────────────────────────────────────────────────────────
-  const TITLE_SIZE          = 32;   // Instrument Serif  — strong
-  const ARTIST_SIZE         = 23;   // DM Mono           — muted
-  const LEGEND_HEADING_SIZE = 17;   // Instrument Serif  — strong
-  const HEAD_SIZE           = 13;   // DM Mono           — strong
-  const BLURB_SIZE          = 10;   // DM Mono           — muted
-  const LABEL_SIZE          = 10;   // DM Mono           — muted
+  const TITLE_SIZE          = 32;
+  const ARTIST_SIZE         = 23;
+  const LEGEND_HEADING_SIZE = 17;
+  const HEAD_SIZE           = 13;
+  const BLURB_SIZE          = 10;
+  const LABEL_SIZE          = 10;
 
-  // ── Header — stacked, upper-left ─────────────────────────────────────────
-  const TITLE_BASELINE  = MARGIN + TITLE_SIZE + 4;                         // 186
-  const ARTIST_BASELINE = TITLE_BASELINE + Math.round(ARTIST_SIZE * 1.6);  // 223
+  // ── Flower sizes ──────────────────────────────────────────────────────────
+  const COLOR_FLOWER  = 28;
+  const SHAPE_FLOWER  = 36;
+  const CENTER_FLOWER = 44;
+  const BLURB_LINE_H  = 14;
 
-  // ── Legend layout ─────────────────────────────────────────────────────────
-  const LEGEND_TOP       = 4700;
-  const LEGEND_HEADING_Y = LEGEND_TOP + LEGEND_HEADING_SIZE;  // 4717
-  const COL_BORDER_TOP   = LEGEND_HEADING_Y + 28;             // 4745 — more margin under title
+  // ── Bottom two-column section (album left, legend right) ──────────────────
+  // Working backwards from H − MARGIN: legend title + gap + items
+  const BOTTOM_SECTION_TOP = 4750;
 
-  const INNER_PAD       = 8;
-  const BLURB_LINE_H    = 14;
-  const COLOR_FLOWER    = 28;
-  const SHAPE_FLOWER    = 36;
-  const CENTER_FLOWER   = 44;
+  // Album block — bottom-left
+  const TITLE_BASELINE  = BOTTOM_SECTION_TOP + TITLE_SIZE;
+  const ARTIST_BASELINE = TITLE_BASELINE + Math.round(ARTIST_SIZE * 1.6);  // +37
 
-  const COL_BORDER_H      = 143;
-  const COL_BORDER_BOTTOM = COL_BORDER_TOP + COL_BORDER_H;   // 4888
+  // Legend block — bottom-right, right edge flush with W − MARGIN
+  const COL_GAP         = 16;
+  const COL_W           = 350;
+  const LEGEND_LEFT     = W - MARGIN - (5 * COL_W + 4 * COL_GAP);  // 1336
 
-  // Fixed Y positions inside each bordered column
-  const LEGEND_HEAD_Y      = COL_BORDER_TOP + INNER_PAD + HEAD_SIZE;       // 4766
-  const LEGEND_BLURB_Y     = LEGEND_HEAD_Y + 14;                           // 4780
-  // Graphics pinned from the bottom of the border so they always align
-  const LEGEND_GRAPHIC_TOP = COL_BORDER_BOTTOM - INNER_PAD - CENTER_FLOWER - LABEL_SIZE - 6;  // 4820
+  const LEGEND_HEADING_Y = BOTTOM_SECTION_TOP + LEGEND_HEADING_SIZE;  // 4767
+  const COL_BORDER_TOP   = LEGEND_HEADING_Y + 28;                     // 4795
 
-  // ── Columns — tight, left-aligned, no outer padding ──────────────────────
-  const COL_GAP = 16;
-  const COL_W   = 350;
-  const TEXT_W  = COL_W - INNER_PAD * 2;  // 334
+  // No inner padding — text starts at colX
+  const LEGEND_HEAD_Y      = COL_BORDER_TOP + 8 + HEAD_SIZE;          // 4816
+  const LEGEND_BLURB_Y     = LEGEND_HEAD_Y + 14;                      // 4830
+  // Graphics pinned from poster bottom so they align across columns
+  const LEGEND_GRAPHIC_TOP = H - MARGIN - CENTER_FLOWER - LABEL_SIZE - 14;  // 4872
 
-  // ── Visualization geometry ─────────────────────────────────────────────────
-  const VIZ_TOP     = ARTIST_BASELINE + 48;
-  const VIZ_BOTTOM  = LEGEND_TOP - 30;
-  const VIZ_AVAIL_H = VIZ_BOTTOM - VIZ_TOP;
+  // ── Visualization — no top header, so starts near top of poster ───────────
+  const VIZ_TOP     = MARGIN + 30;             // 180
+  const VIZ_BOTTOM  = BOTTOM_SECTION_TOP - 40; // 4710
+  const VIZ_AVAIL_H = VIZ_BOTTOM - VIZ_TOP;   // 4530
 
   // ── Load fonts ────────────────────────────────────────────────────────────
   await Promise.all([
@@ -309,7 +308,7 @@ async function exportPoster(svgEl, album, palette) {
 
   ctx.drawImage(vizImg, vizX, vizY, vizW, vizH);
 
-  // ── Header ────────────────────────────────────────────────────────────────
+  // ── Album block — bottom-left ─────────────────────────────────────────────
   ctx.textAlign = 'left';
   ctx.font      = `${TITLE_SIZE}px "Instrument Serif", Georgia, serif`;
   ctx.fillStyle = strong;
@@ -319,13 +318,12 @@ async function exportPoster(svgEl, album, palette) {
   ctx.fillStyle = muted;
   ctx.fillText(album.artist, MARGIN, ARTIST_BASELINE);
 
-  // ── Legend title ──────────────────────────────────────────────────────────
+  // ── Legend block — bottom-right, right edge flush with W − MARGIN ─────────
   ctx.font      = `${LEGEND_HEADING_SIZE}px "Instrument Serif", Georgia, serif`;
   ctx.fillStyle = strong;
   ctx.textAlign = 'left';
-  ctx.fillText('Each flower represents a song', MARGIN, LEGEND_HEADING_Y);
+  ctx.fillText('Each flower represents a song', LEGEND_LEFT, LEGEND_HEADING_Y);
 
-  // ── Legend columns with per-item borders ──────────────────────────────────
   const legendItems = [
     { heading: 'Size = Duration',    blurb: "The size of the flower is based on the song's length.",              graphic: null },
     { heading: 'Petals = Tempo',     blurb: "The number of petals reflects the song's beats per minute.",        graphic: null },
@@ -335,31 +333,33 @@ async function exportPoster(svgEl, album, palette) {
   ];
 
   for (let col = 0; col < 5; col++) {
-    const colX  = MARGIN + col * (COL_W + COL_GAP);
-    const textX = colX + INNER_PAD;
+    const colX = LEGEND_LEFT + col * (COL_W + COL_GAP);
     const { heading, blurb, graphic } = legendItems[col];
 
-    // Border around this item
+    // Top border only
     ctx.strokeStyle = border;
     ctx.lineWidth   = 1;
-    ctx.strokeRect(colX, COL_BORDER_TOP, COL_W, COL_BORDER_H);
+    ctx.beginPath();
+    ctx.moveTo(colX, COL_BORDER_TOP);
+    ctx.lineTo(colX + COL_W, COL_BORDER_TOP);
+    ctx.stroke();
 
-    // Heading — strong
+    // Heading — strong, no inner padding
     ctx.font      = `500 ${HEAD_SIZE}px "DM Mono", "Courier New", monospace`;
     ctx.fillStyle = strong;
     ctx.textAlign = 'left';
-    ctx.fillText(heading.toUpperCase(), textX, LEGEND_HEAD_Y);
+    ctx.fillText(heading.toUpperCase(), colX, LEGEND_HEAD_Y);
 
     // Blurb — muted
     ctx.font      = `${BLURB_SIZE}px "DM Mono", "Courier New", monospace`;
     ctx.fillStyle = muted;
-    wrapText(ctx, blurb, textX, LEGEND_BLURB_Y, TEXT_W, BLURB_LINE_H);
+    wrapText(ctx, blurb, colX, LEGEND_BLURB_Y, COL_W, BLURB_LINE_H);
 
-    // Graphic — pinned to bottom of border
+    // Graphic — pinned to poster bottom, left-aligned to colX
     if (graphic) {
       const { flowers, labels, size: fSize, gap } = graphic;
       for (let i = 0; i < flowers.length; i++) {
-        const fx = textX + i * (fSize + gap);
+        const fx = colX + i * (fSize + gap);
         ctx.drawImage(flowers[i], fx, LEGEND_GRAPHIC_TOP, fSize, fSize);
         ctx.font      = `${LABEL_SIZE}px "DM Mono", "Courier New", monospace`;
         ctx.fillStyle = muted;
