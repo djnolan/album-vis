@@ -241,10 +241,10 @@ async function exportPoster(svgEl, album, palette) {
   const TITLE_BASELINE  = BOTTOM_SECTION_TOP + TITLE_SIZE;
   const ARTIST_BASELINE = TITLE_BASELINE + Math.round(ARTIST_SIZE * 1.6);  // +37
 
-  // Legend block — bottom-right, right edge flush with W − MARGIN
-  const COL_GAP         = 32;
-  const COL_W           = 245;
-  const LEGEND_LEFT     = W - MARGIN - (5 * COL_W + 4 * COL_GAP);
+  // 12-column grid within margins — album cols 1–2, legend cols 7–11, col 12 empty
+  const COL_GAP    = 32;
+  const GRID_COL_W = (CONTENT_W - 11 * COL_GAP) / 12;  // ≈220.7px
+  const gridX      = col => MARGIN + (col - 1) * (GRID_COL_W + COL_GAP);
 
   const LEGEND_HEADING_Y = BOTTOM_SECTION_TOP + LEGEND_HEADING_SIZE;  // 4767
   const COL_BORDER_TOP   = LEGEND_HEADING_Y + 28;                     // 4795
@@ -272,11 +272,11 @@ async function exportPoster(svgEl, album, palette) {
 
   // ── Compute viz scale ─────────────────────────────────────────────────────
   const { vbW, vbH } = getVbDims(svgEl);
-  const vizScale = (CONTENT_W * 1.10) / vbW;  // 110% — bleed past margins slightly
+  const vizScale = (CONTENT_W * 1.08) / vbW;  // 108% — bleed slightly past margins
   const vizW = Math.round(vbW * vizScale);
   const vizH = Math.round(vbH * vizScale);
   const vizX = MARGIN - Math.round((vizW - CONTENT_W) / 2);  // centered
-  const vizY = VIZ_TOP + Math.round((VIZ_AVAIL_H - vizH) * 0.2);  // 20% down
+  const vizY = VIZ_TOP + Math.round((VIZ_AVAIL_H - vizH) * 0.25);  // slightly lower
 
   // ── Load all assets in parallel ───────────────────────────────────────────
   const flowerColor = resolveFlowerColor(palette.colorStart, palette.colorEnd);
@@ -312,17 +312,17 @@ async function exportPoster(svgEl, album, palette) {
   ctx.textAlign = 'left';
   ctx.font      = `${TITLE_SIZE}px "Instrument Serif", Georgia, serif`;
   ctx.fillStyle = strong;
-  ctx.fillText(album.title, MARGIN, TITLE_BASELINE);
+  ctx.fillText(album.title, gridX(1), TITLE_BASELINE);
 
   ctx.font      = `500 ${ARTIST_SIZE}px "DM Mono", "Courier New", monospace`;
   ctx.fillStyle = muted;
-  ctx.fillText(album.artist, MARGIN, ARTIST_BASELINE);
+  ctx.fillText(album.artist, gridX(1), ARTIST_BASELINE);
 
-  // ── Legend block — bottom-right, right edge flush with W − MARGIN ─────────
+  // ── Legend block — grid cols 7–11, col 12 empty ───────────────────────────
   ctx.font      = `${LEGEND_HEADING_SIZE}px "Instrument Serif", Georgia, serif`;
   ctx.fillStyle = strong;
   ctx.textAlign = 'left';
-  ctx.fillText('Each flower represents a song', LEGEND_LEFT, LEGEND_HEADING_Y);
+  ctx.fillText('Each flower represents a song', gridX(7), LEGEND_HEADING_Y);
 
   const legendItems = [
     { heading: 'Size = Duration',    blurb: "The size of the flower is based on the song's length.",              graphic: null },
@@ -333,7 +333,7 @@ async function exportPoster(svgEl, album, palette) {
   ];
 
   for (let col = 0; col < 5; col++) {
-    const colX = LEGEND_LEFT + col * (COL_W + COL_GAP);
+    const colX = gridX(7 + col);  // grid cols 7–11
     const { heading, blurb, graphic } = legendItems[col];
 
     // Top border only
@@ -341,7 +341,7 @@ async function exportPoster(svgEl, album, palette) {
     ctx.lineWidth   = 1;
     ctx.beginPath();
     ctx.moveTo(colX, COL_BORDER_TOP);
-    ctx.lineTo(colX + COL_W, COL_BORDER_TOP);
+    ctx.lineTo(colX + GRID_COL_W, COL_BORDER_TOP);
     ctx.stroke();
 
     // Heading — strong, no inner padding
@@ -353,7 +353,7 @@ async function exportPoster(svgEl, album, palette) {
     // Blurb — muted
     ctx.font      = `${BLURB_SIZE}px "DM Mono", "Courier New", monospace`;
     ctx.fillStyle = muted;
-    wrapText(ctx, blurb, colX, LEGEND_BLURB_Y, COL_W, BLURB_LINE_H);
+    wrapText(ctx, blurb, colX, LEGEND_BLURB_Y, GRID_COL_W, BLURB_LINE_H);
 
     // Graphic — pinned to poster bottom, left-aligned to colX
     if (graphic) {
