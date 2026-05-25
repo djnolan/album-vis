@@ -272,11 +272,11 @@ async function exportPoster(svgEl, album, palette) {
 
   // ── Compute viz scale ─────────────────────────────────────────────────────
   const { vbW, vbH } = getVbDims(svgEl);
-  const vizScale = Math.min(CONTENT_W / vbW, VIZ_AVAIL_H / vbH);
-  const vizW = Math.round(vbW * vizScale);
+  const vizScale = CONTENT_W / vbW;          // always fill full width
+  const vizW = CONTENT_W;
   const vizH = Math.round(vbH * vizScale);
-  const vizX = MARGIN + Math.round((CONTENT_W - vizW) / 2);
-  const vizY = VIZ_TOP + Math.round((VIZ_AVAIL_H - vizH) * 0.4);
+  const vizX = MARGIN;
+  const vizY = VIZ_TOP;                       // pin to top, not vertically centered
 
   // ── Load all assets in parallel ───────────────────────────────────────────
   const flowerColor = resolveFlowerColor(palette.colorStart, palette.colorEnd);
