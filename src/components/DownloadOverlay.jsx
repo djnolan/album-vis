@@ -216,52 +216,54 @@ async function exportPoster(svgEl, album, palette) {
   const subColor  = palette.lightBg ? '#3A3F4A' : '#8B93A1';
   const muteColor = palette.lightBg ? '#6B7280' : '#6B7A8D';
 
-  // ── Header — title + artist centered together on one line ─────────────────
-  const TITLE_SIZE      = 72;
-  const ARTIST_SIZE     = 40;
-  const HEADER_BASELINE = MARGIN + TITLE_SIZE + 4;  // 226
-  const HEADER_SEP      = 80;  // px gap between title and artist text
+  // ── Font sizes ────────────────────────────────────────────────────────────
+  const TITLE_SIZE          = 24;   // Instrument Serif
+  const ARTIST_SIZE         = 16;   // DM Mono
+  const LEGEND_HEADING_SIZE = 12;   // Instrument Serif, sentence case
+  const HEAD_SIZE           = 10;   // DM Mono
+  const BLURB_SIZE          = 8;    // DM Mono
+  const LABEL_SIZE          = 8;    // DM Mono
+
+  // ── Header — title + artist stacked, upper-left ────────────────────────────
+  const TITLE_BASELINE  = MARGIN + TITLE_SIZE + 4;
+  const ARTIST_BASELINE = TITLE_BASELINE + Math.round(ARTIST_SIZE * 1.6);
 
   // ── Legend section heading ─────────────────────────────────────────────────
-  const LEGEND_TOP          = 4580;
-  const LEGEND_HEADING_SIZE = 30;
-  const LEGEND_HEADING_Y    = LEGEND_TOP + LEGEND_HEADING_SIZE;  // 4610
-  const SEPARATOR_Y         = LEGEND_HEADING_Y + 14;             // 4624
-  const COL_START           = SEPARATOR_Y + 22;                  // 4646
+  const LEGEND_TOP       = 4750;
+  const LEGEND_HEADING_Y = LEGEND_TOP + LEGEND_HEADING_SIZE;
+  const SEPARATOR_Y      = LEGEND_HEADING_Y + 10;
+  const COL_START        = SEPARATOR_Y + 16;
 
-  // ── Legend column typography & flower sizes ───────────────────────────────
-  const HEAD_SIZE          = 28;
-  const BLURB_SIZE         = 28;
-  const BLURB_LINE_H       = 38;
-  const LABEL_SIZE         = 24;
-  const COLOR_FLOWER       = 60;
-  const SHAPE_FLOWER       = 85;
-  const CENTER_FLOWER      = 100;
+  // ── Legend column typography & flower sizes ────────────────────────────────
+  const BLURB_LINE_H  = 12;
+  const COLOR_FLOWER  = 28;
+  const SHAPE_FLOWER  = 36;
+  const CENTER_FLOWER = 44;
 
   // ── Legend fixed Y positions ──────────────────────────────────────────────
-  const LEGEND_HEAD_Y      = COL_START + HEAD_SIZE;                          // 4674
-  const LEGEND_BLURB_Y     = LEGEND_HEAD_Y + Math.round(HEAD_SIZE * 1.4);   // 4713
-  const LEGEND_GRAPHIC_TOP = LEGEND_BLURB_Y + 3*BLURB_LINE_H + 8;           // 4835 → 4797 actually: 4713+114+8=4835
+  const LEGEND_HEAD_Y      = COL_START + HEAD_SIZE;
+  const LEGEND_BLURB_Y     = LEGEND_HEAD_Y + 14;
+  const LEGEND_GRAPHIC_TOP = LEGEND_BLURB_Y + 3 * BLURB_LINE_H + 10;
 
   // ── Columns ───────────────────────────────────────────────────────────────
-  const COL_GAP = 40;
-  const COL_W   = Math.round((CONTENT_W - COL_GAP * 4) / 5);  // 568
+  const COL_GAP = 30;
+  const COL_W   = Math.round((CONTENT_W - COL_GAP * 4) / 5);
   const COL_PAD = 16;
-  const TEXT_W  = COL_W - COL_PAD;  // 552
+  const TEXT_W  = COL_W - COL_PAD;
 
   // ── Visualization geometry ─────────────────────────────────────────────────
-  const VIZ_TOP     = HEADER_BASELINE + 48;      // 274
-  const VIZ_BOTTOM  = LEGEND_TOP - 50;           // 4530
-  const VIZ_AVAIL_H = VIZ_BOTTOM - VIZ_TOP;     // 4256
+  const VIZ_TOP     = ARTIST_BASELINE + 48;
+  const VIZ_BOTTOM  = LEGEND_TOP - 30;
+  const VIZ_AVAIL_H = VIZ_BOTTOM - VIZ_TOP;
 
-  // ── Explicitly load fonts so canvas uses DM Mono, not the fallback ────────
+  // ── Explicitly load fonts ──────────────────────────────────────────────────
   await Promise.all([
     document.fonts.load(`${TITLE_SIZE}px "Instrument Serif"`),
+    document.fonts.load(`${LEGEND_HEADING_SIZE}px "Instrument Serif"`),
     document.fonts.load(`500 ${ARTIST_SIZE}px "DM Mono"`),
-    document.fonts.load(`500 ${LEGEND_HEADING_SIZE}px "DM Sans"`),
     document.fonts.load(`500 ${HEAD_SIZE}px "DM Mono"`),
+    document.fonts.load(`${BLURB_SIZE}px "DM Mono"`),
     document.fonts.load(`${LABEL_SIZE}px "DM Mono"`),
-    document.fonts.load(`${BLURB_SIZE}px "DM Sans"`),
   ]);
 
   // ── Compute viz scale ─────────────────────────────────────────────────────
@@ -303,34 +305,26 @@ async function exportPoster(svgEl, album, palette) {
   // Visualization
   ctx.drawImage(vizImg, vizX, vizY, vizW, vizH);
 
-  // ── Header: title + artist centered together on one line ──────────────────
-  ctx.font = `${TITLE_SIZE}px "Instrument Serif", Georgia, serif`;
-  const titleW = ctx.measureText(album.title).width;
-  ctx.font = `500 ${ARTIST_SIZE}px "DM Mono", "Courier New", monospace`;
-  const artistW = ctx.measureText(album.artist).width;
-
-  const groupW  = titleW + HEADER_SEP + artistW;
-  const titleX  = Math.round((W - groupW) / 2);
-  const artistX = titleX + Math.round(titleW) + HEADER_SEP;
+  // ── Header: title + artist stacked, upper-left ────────────────────────────
+  ctx.textAlign = 'left';
 
   ctx.font      = `${TITLE_SIZE}px "Instrument Serif", Georgia, serif`;
   ctx.fillStyle = textColor;
-  ctx.textAlign = 'left';
-  ctx.fillText(album.title, titleX, HEADER_BASELINE);
+  ctx.fillText(album.title, MARGIN, TITLE_BASELINE);
 
   ctx.font      = `500 ${ARTIST_SIZE}px "DM Mono", "Courier New", monospace`;
   ctx.fillStyle = subColor;
-  ctx.fillText(album.artist, artistX, HEADER_BASELINE);
+  ctx.fillText(album.artist, MARGIN, ARTIST_BASELINE);
 
   // ── Legend section heading ─────────────────────────────────────────────────
-  ctx.font      = `500 ${LEGEND_HEADING_SIZE}px "DM Sans", system-ui, sans-serif`;
+  ctx.font      = `${LEGEND_HEADING_SIZE}px "Instrument Serif", Georgia, serif`;
   ctx.fillStyle = subColor;
   ctx.textAlign = 'left';
-  ctx.fillText('EACH FLOWER REPRESENTS A SONG', MARGIN, LEGEND_HEADING_Y);
+  ctx.fillText('Each flower represents a song', MARGIN, LEGEND_HEADING_Y);
 
   // ── Legend separator line ──────────────────────────────────────────────────
   ctx.strokeStyle = palette.lightBg ? 'rgba(0,0,0,0.15)' : 'rgba(255,255,255,0.12)';
-  ctx.lineWidth   = 2;
+  ctx.lineWidth   = 1;
   ctx.beginPath();
   ctx.moveTo(MARGIN, SEPARATOR_Y);
   ctx.lineTo(W - MARGIN, SEPARATOR_Y);
@@ -351,12 +345,12 @@ async function exportPoster(svgEl, album, palette) {
     {
       heading: 'Color = Root Note',
       blurb:   "The color of the flower shows the root note of the song's key.",
-      graphic: { flowers: colorFlowers,  labels: NOTES,                       size: COLOR_FLOWER,  gap: 6  },
+      graphic: { flowers: colorFlowers,  labels: NOTES,                       size: COLOR_FLOWER,  gap: 4  },
     },
     {
       heading: 'Shape = Accidental',
       blurb:   'The petal shape shows whether the key is natural, sharp, or flat.',
-      graphic: { flowers: shapeFlowers,  labels: ['natural', 'sharp', 'flat'], size: SHAPE_FLOWER,  gap: 24 },
+      graphic: { flowers: shapeFlowers,  labels: ['natural', 'sharp', 'flat'], size: SHAPE_FLOWER,  gap: 16 },
     },
     {
       heading: 'Center = Key Type',
@@ -377,7 +371,7 @@ async function exportPoster(svgEl, album, palette) {
     ctx.fillText(heading.toUpperCase(), textX, LEGEND_HEAD_Y);
 
     // Blurb
-    ctx.font      = `${BLURB_SIZE}px "DM Sans", system-ui, sans-serif`;
+    ctx.font      = `${BLURB_SIZE}px "DM Mono", "Courier New", monospace`;
     ctx.fillStyle = muteColor;
     wrapText(ctx, blurb, textX, LEGEND_BLURB_Y, TEXT_W, BLURB_LINE_H);
 
