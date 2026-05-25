@@ -221,7 +221,7 @@ async function exportPoster(svgEl, album, palette) {
 
   // ── Font sizes ────────────────────────────────────────────────────────────
   const TITLE_SIZE          = 32;
-  const ARTIST_SIZE         = 23;
+  const ARTIST_SIZE         = 17;
   const LEGEND_HEADING_SIZE = 23;
   const HEAD_SIZE           = 13;
   const BLURB_SIZE          = 10;
@@ -229,7 +229,7 @@ async function exportPoster(svgEl, album, palette) {
 
   // ── Flower sizes ──────────────────────────────────────────────────────────
   const COLOR_FLOWER  = 28;
-  const SHAPE_FLOWER  = 36;
+  const SHAPE_FLOWER  = 44;
   const CENTER_FLOWER = 44;
   const BLURB_LINE_H  = 14;
 
@@ -251,9 +251,9 @@ async function exportPoster(svgEl, album, palette) {
 
   // No inner padding — text starts at colX
   const LEGEND_HEAD_Y      = COL_BORDER_TOP + 8 + HEAD_SIZE;          // 4816
-  const LEGEND_BLURB_Y     = LEGEND_HEAD_Y + 14;                      // 4830
-  // Graphics pinned from poster bottom so they align across columns
-  const LEGEND_GRAPHIC_TOP = H - MARGIN - CENTER_FLOWER - LABEL_SIZE - 14;  // 4872
+  const LEGEND_BLURB_Y     = LEGEND_HEAD_Y + 18;
+  // Graphics relative to blurb (tight gap after ~2 lines)
+  const LEGEND_GRAPHIC_TOP = LEGEND_BLURB_Y + 2 * BLURB_LINE_H + 10;
 
   // ── Visualization — no top header, so starts near top of poster ───────────
   const VIZ_TOP     = MARGIN + 30;             // 180
