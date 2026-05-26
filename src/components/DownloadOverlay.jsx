@@ -124,7 +124,7 @@ function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
 const FORMATS = [
   { id: 'wallpaper', Icon: Smartphone, label: 'Phone Wallpaper' },
   { id: 'watch',     Icon: Watch,       label: 'Watch Face' },
-  { id: 'poster',    Icon: ImageIcon,   label: 'Poster',    secondary: '11 × 17"' },
+  { id: 'poster',    Icon: ImageIcon,   label: 'Poster',    secondary: '13 × 19"' },
   { id: 'tshirt',    Icon: Shirt,       label: 'T-Shirt',   getSecondary: p => `get this printed on a ${p.shirtLabel} t-shirt` },
 ];
 
@@ -208,56 +208,69 @@ async function exportWatch(svgEl, album, palette) {
 }
 
 async function exportPoster(svgEl, album, palette) {
-  // ── DPI — change this one number to scale the entire poster ───────────────
+  // ── DPI & points conversion ────────────────────────────────────────────────
   const DPI = 300;
-  const S   = DPI / 300;  // scale factor (1 at 300 DPI, 4/3 at 400 DPI, etc.)
+  const P   = DPI / 72;  // 1 typographic point in canvas pixels (~4.167 at 300 DPI)
 
-  // ── Canvas & margin ────────────────────────────────────────────────────────
-  const W = Math.round(3300 * S), H = Math.round(5100 * S);
-  const MARGIN    = Math.round(150 * S);
-  const CONTENT_W = W - 2 * MARGIN;
+  // ── Canvas: 13×19", ¾" margin ─────────────────────────────────────────────
+  const W = 13 * DPI, H = 19 * DPI;  // 3900 × 5700
+  const MARGIN    = Math.round(0.75 * DPI);  // 225px
+  const CONTENT_W = W - 2 * MARGIN;          // 3450px
 
-  // ── Colors: rgba 0.9 (strong) or 0.6 (muted) ──────────────────────────────
+  // ── Colors ────────────────────────────────────────────────────────────────
   const isLight = !!palette.lightBg;
   const strong = isLight ? 'rgba(0,0,0,0.9)' : 'rgba(255,255,255,0.9)';
   const muted  = isLight ? 'rgba(0,0,0,0.6)' : 'rgba(255,255,255,0.6)';
   const border = isLight ? 'rgba(0,0,0,0.2)'  : 'rgba(255,255,255,0.2)';
 
-  // ── Font sizes ────────────────────────────────────────────────────────────
-  const TITLE_SIZE          = Math.round(32 * S);
-  const ARTIST_SIZE         = Math.round(17 * S);
-  const LEGEND_HEADING_SIZE = Math.round(23 * S);
-  const HEAD_SIZE           = Math.round(13 * S);
-  const BLURB_SIZE          = Math.round(10 * S);
-  const LABEL_SIZE          = Math.round(10 * S);
+  // ── Font sizes (pt → canvas px) ───────────────────────────────────────────
+  const TITLE_SIZE          = Math.round(28 * P);  // ~117px — album title
+  const LEGEND_HEADING_SIZE = Math.round(18 * P);  //  ~75px — "Each flower…"
+  const ARTIST_SIZE         = Math.round(12 * P);  //  ~50px — artist name
+  const HEAD_SIZE           = Math.round(12 * P);  //  ~50px — legend item headings
+  const BLURB_SIZE          = Math.round(9  * P);  //  ~38px — blurb text
+  const LABEL_SIZE          = Math.round(7  * P);  //  ~29px — flower labels
 
-  // ── Flower sizes ──────────────────────────────────────────────────────────
-  const COLOR_FLOWER  = Math.round(28 * S);
-  const SHAPE_FLOWER  = Math.round(44 * S);
-  const CENTER_FLOWER = Math.round(44 * S);
-  const BLURB_LINE_H  = Math.round(14 * S);
+  // ── Flower sizes (pt → canvas px) ─────────────────────────────────────────
+  const COLOR_FLOWER  = Math.round(10 * P);  // ~42px
+  const SHAPE_FLOWER  = Math.round(15 * P);  // ~63px
+  const CENTER_FLOWER = Math.round(15 * P);  // ~63px
+  const BLURB_LINE_H  = Math.round(BLURB_SIZE * 1.4);
 
-  // ── Bottom two-column section (album left, legend right) ──────────────────
-  const BOTTOM_SECTION_TOP = Math.round(4750 * S);
+  // ── 8-column grid — album cols 1–3, legend cols 4–8 ──────────────────────
+  const COL_GAP    = Math.round(8 * P);
+  const GRID_COL_W = Math.round((CONTENT_W - 7 * COL_GAP) / 8);
+  const gridX      = col => MARGIN + (col - 1) * (GRID_COL_W + COL_GAP);
+
+  // ── Layout gaps (pt → canvas px) ──────────────────────────────────────────
+  const G_TITLE_TO_BORDER  = Math.round(14 * P);  // legend heading baseline → border line
+  const G_BORDER_TO_HEAD   = Math.round(6  * P);  // border line → item heading baseline
+  const G_HEAD_TO_BLURB    = Math.round(6  * P);  // item heading baseline → blurb start
+  const G_BLURB_TO_GRAPHIC = Math.round(4  * P);  // blurb end → graphic top
+  const G_LABEL_GAP        = Math.round(2  * P);  // flower bottom → label baseline
+  const G_BOTTOM_PAD       = Math.round(8  * P);  // label baseline → section bottom
+
+  // ── Bottom section: height computed from content, pinned to bottom margin ─
+  const SECTION_H =
+    LEGEND_HEADING_SIZE + G_TITLE_TO_BORDER + G_BORDER_TO_HEAD +
+    HEAD_SIZE + G_HEAD_TO_BLURB +
+    2 * BLURB_LINE_H + G_BLURB_TO_GRAPHIC +
+    CENTER_FLOWER + G_LABEL_GAP + LABEL_SIZE + G_BOTTOM_PAD;
+
+  const BOTTOM_SECTION_TOP = H - MARGIN - SECTION_H;
 
   const TITLE_BASELINE  = BOTTOM_SECTION_TOP + TITLE_SIZE;
   const ARTIST_BASELINE = TITLE_BASELINE + Math.round(ARTIST_SIZE * 1.6);
 
-  // ── 12-column grid within margins — album cols 1–2, legend cols 7–11, col 12 empty
-  const COL_GAP    = Math.round(32 * S);
-  const GRID_COL_W = (CONTENT_W - 11 * COL_GAP) / 12;
-  const gridX      = col => MARGIN + (col - 1) * (GRID_COL_W + COL_GAP);
-
   const LEGEND_HEADING_Y = BOTTOM_SECTION_TOP + LEGEND_HEADING_SIZE;
-  const COL_BORDER_TOP   = LEGEND_HEADING_Y + Math.round(28 * S);
-
-  const LEGEND_HEAD_Y      = COL_BORDER_TOP + Math.round(8 * S) + HEAD_SIZE;
-  const LEGEND_BLURB_Y     = LEGEND_HEAD_Y + Math.round(18 * S);
-  const LEGEND_GRAPHIC_TOP = LEGEND_BLURB_Y + 2 * BLURB_LINE_H + Math.round(10 * S);
+  const COL_BORDER_TOP   = LEGEND_HEADING_Y + G_TITLE_TO_BORDER;
+  const LEGEND_HEAD_Y    = COL_BORDER_TOP + G_BORDER_TO_HEAD + HEAD_SIZE;
+  const LEGEND_BLURB_Y   = LEGEND_HEAD_Y + G_HEAD_TO_BLURB;
+  const LEGEND_GRAPHIC_TOP = LEGEND_BLURB_Y + 2 * BLURB_LINE_H + G_BLURB_TO_GRAPHIC;
 
   // ── Visualization ─────────────────────────────────────────────────────────
-  const VIZ_TOP     = MARGIN + Math.round(30 * S);
-  const VIZ_BOTTOM  = BOTTOM_SECTION_TOP - Math.round(40 * S);
+  const VIZ_TOP     = MARGIN + Math.round(0.15 * DPI);
+  const VIZ_BOTTOM  = BOTTOM_SECTION_TOP - Math.round(0.15 * DPI);
   const VIZ_AVAIL_H = VIZ_BOTTOM - VIZ_TOP;
 
   // ── Load fonts ────────────────────────────────────────────────────────────
@@ -308,7 +321,7 @@ async function exportPoster(svgEl, album, palette) {
 
   ctx.drawImage(vizImg, vizX, vizY, vizW, vizH);
 
-  // ── Album block — bottom-left ─────────────────────────────────────────────
+  // ── Album block — grid cols 1–3 ───────────────────────────────────────────
   ctx.textAlign = 'left';
   ctx.font      = `${TITLE_SIZE}px "Instrument Serif", Georgia, serif`;
   ctx.fillStyle = strong;
@@ -318,27 +331,27 @@ async function exportPoster(svgEl, album, palette) {
   ctx.fillStyle = muted;
   ctx.fillText(album.artist, gridX(1), ARTIST_BASELINE);
 
-  // ── Legend block — grid cols 7–11, col 12 empty ───────────────────────────
+  // ── Legend block — grid cols 4–8 ─────────────────────────────────────────
   ctx.font      = `${LEGEND_HEADING_SIZE}px "Instrument Serif", Georgia, serif`;
   ctx.fillStyle = strong;
   ctx.textAlign = 'left';
-  ctx.fillText('Each flower represents a song', gridX(7), LEGEND_HEADING_Y);
+  ctx.fillText('Each flower represents a song', gridX(4), LEGEND_HEADING_Y);
 
   const legendItems = [
     { heading: 'Size = duration',         blurb: "The size of the flower is based on the song's length.",                      graphic: null },
     { heading: 'Petals = tempo',          blurb: "The number of petals reflects the song's beats per minute.",                graphic: null },
-    { heading: 'Color = base note',       blurb: "The color of the flower shows the root note of the song's key.",            graphic: { flowers: colorFlowers,  labels: NOTES,                       size: COLOR_FLOWER,  gap: Math.round(4  * S) } },
-    { heading: 'Shape = note change',     blurb: "The shape of the petals shows whether the key is natural, sharp, or flat.", graphic: { flowers: shapeFlowers,  labels: ['natural', 'sharp', 'flat'], size: SHAPE_FLOWER,  gap: Math.round(14 * S) } },
-    { heading: 'Center shape = key type', blurb: "The center cutout shows whether the song is in a major or minor key.",      graphic: { flowers: centerFlowers, labels: ['major', 'minor'],           size: CENTER_FLOWER, gap: Math.round(14 * S) } },
+    { heading: 'Color = base note',       blurb: "The color of the flower shows the root note of the song's key.",            graphic: { flowers: colorFlowers,  labels: NOTES,                       size: COLOR_FLOWER,  gap: Math.round(2 * P) } },
+    { heading: 'Shape = note change',     blurb: "The shape of the petals shows whether the key is natural, sharp, or flat.", graphic: { flowers: shapeFlowers,  labels: ['natural', 'sharp', 'flat'], size: SHAPE_FLOWER,  gap: Math.round(5 * P) } },
+    { heading: 'Center shape = key type', blurb: "The center cutout shows whether the song is in a major or minor key.",      graphic: { flowers: centerFlowers, labels: ['major', 'minor'],           size: CENTER_FLOWER, gap: Math.round(5 * P) } },
   ];
 
   for (let col = 0; col < 5; col++) {
-    const colX = gridX(7 + col);
+    const colX = gridX(4 + col);
     const { heading, blurb, graphic } = legendItems[col];
 
     // Top border only
     ctx.strokeStyle = border;
-    ctx.lineWidth   = S;
+    ctx.lineWidth   = P;
     ctx.beginPath();
     ctx.moveTo(colX, COL_BORDER_TOP);
     ctx.lineTo(colX + GRID_COL_W, COL_BORDER_TOP);
@@ -364,7 +377,7 @@ async function exportPoster(svgEl, album, palette) {
         ctx.font      = `${LABEL_SIZE}px "DM Mono", "Courier New", monospace`;
         ctx.fillStyle = muted;
         ctx.textAlign = 'center';
-        ctx.fillText(labels[i], fx + fSize / 2, LEGEND_GRAPHIC_TOP + fSize + LABEL_SIZE + Math.round(4 * S));
+        ctx.fillText(labels[i], fx + fSize / 2, LEGEND_GRAPHIC_TOP + fSize + G_LABEL_GAP + LABEL_SIZE);
       }
     }
   }
