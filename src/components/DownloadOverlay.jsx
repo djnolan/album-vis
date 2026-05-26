@@ -224,11 +224,11 @@ async function exportPoster(svgEl, album, palette) {
   const border = isLight ? 'rgba(0,0,0,0.2)'  : 'rgba(255,255,255,0.2)';
 
   // ── Font sizes (pt → canvas px) ───────────────────────────────────────────
-  const TITLE_SIZE          = Math.round(28 * P);  // ~117px — album title
-  const LEGEND_HEADING_SIZE = Math.round(18 * P);  //  ~75px — "Each flower…"
-  const ARTIST_SIZE         = Math.round(12 * P);  //  ~50px — artist name
-  const HEAD_SIZE           = Math.round(12 * P);  //  ~50px — legend item headings
-  const BLURB_SIZE          = Math.round(9  * P);  //  ~38px — blurb text
+  const TITLE_SIZE          = Math.round(20 * P);  //  ~83px — album title
+  const LEGEND_HEADING_SIZE = Math.round(13 * P);  //  ~54px — "Each flower…"
+  const ARTIST_SIZE         = Math.round(10 * P);  //  ~42px — artist name
+  const HEAD_SIZE           = Math.round(10 * P);  //  ~42px — legend item headings
+  const BLURB_SIZE          = Math.round(8  * P);  //  ~33px — blurb text
   const LABEL_SIZE          = Math.round(7  * P);  //  ~29px — flower labels
 
   // ── Flower sizes (pt → canvas px) ─────────────────────────────────────────
@@ -237,18 +237,18 @@ async function exportPoster(svgEl, album, palette) {
   const CENTER_FLOWER = Math.round(15 * P);  // ~63px
   const BLURB_LINE_H  = Math.round(BLURB_SIZE * 1.4);
 
-  // ── 8-column grid — album cols 1–3, legend cols 4–8 ──────────────────────
+  // ── 5-column grid spanning full content width ─────────────────────────────
   const COL_GAP    = Math.round(8 * P);
-  const GRID_COL_W = Math.round((CONTENT_W - 7 * COL_GAP) / 8);
+  const GRID_COL_W = Math.round((CONTENT_W - 4 * COL_GAP) / 5);
   const gridX      = col => MARGIN + (col - 1) * (GRID_COL_W + COL_GAP);
 
   // ── Layout gaps (pt → canvas px) ──────────────────────────────────────────
-  const G_TITLE_TO_BORDER  = Math.round(14 * P);  // legend heading baseline → border line
-  const G_BORDER_TO_HEAD   = Math.round(6  * P);  // border line → item heading baseline
-  const G_HEAD_TO_BLURB    = Math.round(6  * P);  // item heading baseline → blurb start
-  const G_BLURB_TO_GRAPHIC = Math.round(4  * P);  // blurb end → graphic top
-  const G_LABEL_GAP        = Math.round(2  * P);  // flower bottom → label baseline
-  const G_BOTTOM_PAD       = Math.round(8  * P);  // label baseline → section bottom
+  const G_TITLE_TO_BORDER  = Math.round(14 * P);
+  const G_BORDER_TO_HEAD   = Math.round(6  * P);
+  const G_HEAD_TO_BLURB    = Math.round(6  * P);
+  const G_BLURB_TO_GRAPHIC = Math.round(4  * P);
+  const G_LABEL_GAP        = Math.round(2  * P);
+  const G_BOTTOM_PAD       = Math.round(8  * P);
 
   // ── Bottom section: height computed from content, pinned to bottom margin ─
   const SECTION_H =
@@ -259,7 +259,8 @@ async function exportPoster(svgEl, album, palette) {
 
   const BOTTOM_SECTION_TOP = H - MARGIN - SECTION_H;
 
-  const TITLE_BASELINE  = BOTTOM_SECTION_TOP + TITLE_SIZE;
+  // Album/artist — top-right
+  const TITLE_BASELINE  = MARGIN + TITLE_SIZE;
   const ARTIST_BASELINE = TITLE_BASELINE + Math.round(ARTIST_SIZE * 1.6);
 
   const LEGEND_HEADING_Y = BOTTOM_SECTION_TOP + LEGEND_HEADING_SIZE;
@@ -268,8 +269,8 @@ async function exportPoster(svgEl, album, palette) {
   const LEGEND_BLURB_Y   = LEGEND_HEAD_Y + G_HEAD_TO_BLURB;
   const LEGEND_GRAPHIC_TOP = LEGEND_BLURB_Y + 2 * BLURB_LINE_H + G_BLURB_TO_GRAPHIC;
 
-  // ── Visualization ─────────────────────────────────────────────────────────
-  const VIZ_TOP     = MARGIN + Math.round(0.15 * DPI);
+  // ── Visualization — starts below album/artist text ────────────────────────
+  const VIZ_TOP     = ARTIST_BASELINE + Math.round(0.3 * DPI);
   const VIZ_BOTTOM  = BOTTOM_SECTION_TOP - Math.round(0.15 * DPI);
   const VIZ_AVAIL_H = VIZ_BOTTOM - VIZ_TOP;
 
@@ -321,21 +322,21 @@ async function exportPoster(svgEl, album, palette) {
 
   ctx.drawImage(vizImg, vizX, vizY, vizW, vizH);
 
-  // ── Album block — grid cols 1–3 ───────────────────────────────────────────
-  ctx.textAlign = 'left';
+  // ── Album/artist — top-right ──────────────────────────────────────────────
+  ctx.textAlign = 'right';
   ctx.font      = `${TITLE_SIZE}px "Instrument Serif", Georgia, serif`;
   ctx.fillStyle = strong;
-  ctx.fillText(album.title, gridX(1), TITLE_BASELINE);
+  ctx.fillText(album.title, W - MARGIN, TITLE_BASELINE);
 
   ctx.font      = `500 ${ARTIST_SIZE}px "DM Mono", "Courier New", monospace`;
   ctx.fillStyle = muted;
-  ctx.fillText(album.artist, gridX(1), ARTIST_BASELINE);
+  ctx.fillText(album.artist, W - MARGIN, ARTIST_BASELINE);
 
-  // ── Legend block — grid cols 4–8 ─────────────────────────────────────────
+  // ── Legend — 5 columns spanning full content width ───────────────────────
   ctx.font      = `${LEGEND_HEADING_SIZE}px "Instrument Serif", Georgia, serif`;
   ctx.fillStyle = strong;
   ctx.textAlign = 'left';
-  ctx.fillText('Each flower represents a song', gridX(4), LEGEND_HEADING_Y);
+  ctx.fillText('Each flower represents a song', MARGIN, LEGEND_HEADING_Y);
 
   const legendItems = [
     { heading: 'Size = duration',         blurb: "The size of the flower is based on the song's length.",                      graphic: null },
@@ -346,10 +347,9 @@ async function exportPoster(svgEl, album, palette) {
   ];
 
   for (let col = 0; col < 5; col++) {
-    const colX = gridX(4 + col);
+    const colX = gridX(1 + col);
     const { heading, blurb, graphic } = legendItems[col];
 
-    // Top border only
     ctx.strokeStyle = border;
     ctx.lineWidth   = P;
     ctx.beginPath();
@@ -357,18 +357,15 @@ async function exportPoster(svgEl, album, palette) {
     ctx.lineTo(colX + GRID_COL_W, COL_BORDER_TOP);
     ctx.stroke();
 
-    // Heading — strong
     ctx.font      = `500 ${HEAD_SIZE}px "DM Mono", "Courier New", monospace`;
     ctx.fillStyle = strong;
     ctx.textAlign = 'left';
     ctx.fillText(heading.toUpperCase(), colX, LEGEND_HEAD_Y);
 
-    // Blurb — muted
     ctx.font      = `${BLURB_SIZE}px "DM Mono", "Courier New", monospace`;
     ctx.fillStyle = muted;
     wrapText(ctx, blurb, colX, LEGEND_BLURB_Y, GRID_COL_W, BLURB_LINE_H);
 
-    // Graphic
     if (graphic) {
       const { flowers, labels, size: fSize, gap } = graphic;
       for (let i = 0; i < flowers.length; i++) {
