@@ -350,13 +350,6 @@ async function exportPoster(svgEl, album, palette) {
     const colX = gridX(1 + col);
     const { heading, blurb, graphic } = legendItems[col];
 
-    ctx.strokeStyle = border;
-    ctx.lineWidth   = P;
-    ctx.beginPath();
-    ctx.moveTo(colX, COL_BORDER_TOP);
-    ctx.lineTo(colX + GRID_COL_W, COL_BORDER_TOP);
-    ctx.stroke();
-
     ctx.font      = `${HEAD_SIZE}px "DM Mono", "Courier New", monospace`;
     ctx.fillStyle = strong;
     ctx.textAlign = 'left';
