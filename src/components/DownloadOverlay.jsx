@@ -245,7 +245,7 @@ async function exportPoster(svgEl, album, palette) {
   // ── Layout gaps (pt → canvas px) ──────────────────────────────────────────
   const G_TITLE_TO_BORDER  = Math.round(20 * P);  // more space under legend title
   const G_BORDER_TO_HEAD   = Math.round(6  * P);
-  const G_HEAD_TO_BLURB    = Math.round(20 * P);  // doubled margin under item headings
+  const G_HEAD_TO_BLURB    = Math.round(15 * P);  // margin under item headings
   const G_BLURB_TO_GRAPHIC = Math.round(14 * P);  // more space above flower groups
   const G_LABEL_GAP        = Math.round(2  * P);
   const G_BOTTOM_PAD       = Math.round(8  * P);
