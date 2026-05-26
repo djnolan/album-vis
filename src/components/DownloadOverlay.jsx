@@ -238,15 +238,15 @@ async function exportPoster(svgEl, album, palette) {
   const BLURB_LINE_H  = Math.round(BLURB_SIZE * 1.2);  // tighter line height
 
   // ── 5-column grid spanning full content width ─────────────────────────────
-  const COL_GAP    = Math.round(16 * P);  // doubled gutters
+  const COL_GAP    = Math.round(24 * P);  // 1.5× previous
   const GRID_COL_W = Math.round((CONTENT_W - 4 * COL_GAP) / 5);
   const gridX      = col => MARGIN + (col - 1) * (GRID_COL_W + COL_GAP);
 
   // ── Layout gaps (pt → canvas px) ──────────────────────────────────────────
   const G_TITLE_TO_BORDER  = Math.round(20 * P);  // more space under legend title
   const G_BORDER_TO_HEAD   = Math.round(6  * P);
-  const G_HEAD_TO_BLURB    = Math.round(10 * P);  // margin under item headings
-  const G_BLURB_TO_GRAPHIC = Math.round(4  * P);
+  const G_HEAD_TO_BLURB    = Math.round(20 * P);  // doubled margin under item headings
+  const G_BLURB_TO_GRAPHIC = Math.round(14 * P);  // more space above flower groups
   const G_LABEL_GAP        = Math.round(2  * P);
   const G_BOTTOM_PAD       = Math.round(8  * P);
 
