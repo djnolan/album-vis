@@ -17,9 +17,12 @@ GitHub Pages (`gh-pages` branch) is used as a **staging site** for mobile review
 
 Deploy command (run from repo root after changes are committed):
 ```bash
-npm run build && cd dist && git init && git add -A && git commit -m "Deploy to gh-pages" && git push -f $(git -C .. remote get-url origin) HEAD:gh-pages && cd ..
+npm run build && touch dist/.nojekyll && cd dist && git init && git add -A && git commit -m "Deploy to gh-pages" && git push -f $(git -C .. remote get-url origin) HEAD:gh-pages && cd ..
 ```
 
 Note: `dist/` is gitignored, so `git subtree push` does not work. Instead, init a throwaway repo
 inside dist and force-push directly to the gh-pages branch. This is the same thing the
 `gh-pages` npm package does internally.
+
+The `.nojekyll` file is required — without it, GitHub Actions tries to run Jekyll on the pre-built
+Vite output and the Pages deployment fails.
