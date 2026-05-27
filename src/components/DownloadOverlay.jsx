@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { X, Smartphone, Watch, Image as ImageIcon, Shirt } from 'lucide-react';
+import { X, Smartphone, Watch, Scroll, Shirt } from 'lucide-react';
 import { NATURAL_PETALS, SHARP_PETALS, FLAT_PETALS, MAJOR_PATH, MINOR_PATH } from '../data/petalPaths';
 import { useScrollLock } from '../hooks/useScrollLock';
 import { useSheetAnimation } from '../hooks/useSheetAnimation';
@@ -123,9 +123,9 @@ function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
 
 const FORMATS = [
   { id: 'wallpaper', Icon: Smartphone, label: 'Phone Wallpaper' },
-  { id: 'watch',     Icon: Watch,       label: 'Watch Face' },
-  { id: 'poster',    Icon: ImageIcon,   label: 'Poster',    secondary: '13 × 19"' },
-  { id: 'tshirt',    Icon: Shirt,       label: 'T-Shirt',   getSecondary: p => `get this printed on a ${p.shirtLabel} t-shirt` },
+  { id: 'watch',     Icon: Watch,      label: 'Watch Face' },
+  { id: 'poster',    Icon: Scroll,     label: 'Poster',    secondary: '13″ × 19″' },
+  { id: 'tshirt',    Icon: Shirt,      label: 'T-Shirt',   getSecondary: p => `Print this on a ${p.shirtLabel} t-shirt` },
 ];
 
 function safeFilename(title) {
@@ -505,14 +505,14 @@ function FormatButton({ fmt, palette, selected, onSelect }) {
   return (
     <button
       onClick={() => onSelect(fmt.id)}
-      className="flex items-center gap-4 w-full px-5 py-4 rounded-md transition-colors"
+      className="flex flex-col items-center gap-3 w-full px-4 py-5 rounded-md transition-colors"
       style={{
-        background: isSelected ? 'rgba(123,159,212,0.15)' : 'transparent',
+        background: isSelected ? '#0E1117' : 'transparent',
         border: `1.5px solid ${isSelected ? '#7B9FD4' : 'rgba(42,49,64,0.8)'}`,
       }}
     >
-      <Icon size={22} style={{ color: isSelected ? '#7B9FD4' : '#8B93A1', flexShrink: 0 }} />
-      <div className="flex flex-col items-start text-left">
+      <Icon size={30} strokeWidth={1.25} style={{ color: isSelected ? '#7B9FD4' : '#8B93A1' }} />
+      <div className="flex flex-col items-center text-center">
         <span
           className="font-sans text-body font-medium leading-snug"
           style={{ color: isSelected ? '#F0F2F5' : '#8B93A1' }}
@@ -555,7 +555,7 @@ export default function DownloadOverlay({ onClose, vizRef, album, palette }) {
       >
         <div className="shrink-0 flex items-center justify-between px-6 pt-5 pb-4">
           <h2 className="font-sans text-ui font-medium uppercase tracking-wider text-text-primary">
-            Download
+            Save Your Album Art
           </h2>
           <button
             onClick={close}
@@ -566,21 +566,21 @@ export default function DownloadOverlay({ onClose, vizRef, album, palette }) {
           </button>
         </div>
 
-        <div className="px-5 pb-6 flex flex-col gap-2">
-          {FORMATS.map(fmt => (
-            <FormatButton
-              key={fmt.id}
-              fmt={fmt}
-              palette={palette}
-              selected={selected}
-              onSelect={setSelected}
-            />
-          ))}
-          <div className="mt-3">
-            <PrimaryButton onClick={handleDownload} className={isDownloading ? 'opacity-40' : ''}>
-              {isDownloading ? 'Exporting…' : 'Download'}
-            </PrimaryButton>
+        <div className="px-5 pb-6 flex flex-col gap-4">
+          <div className="grid grid-cols-2 gap-2">
+            {FORMATS.map(fmt => (
+              <FormatButton
+                key={fmt.id}
+                fmt={fmt}
+                palette={palette}
+                selected={selected}
+                onSelect={setSelected}
+              />
+            ))}
           </div>
+          <PrimaryButton onClick={handleDownload} className={isDownloading ? 'opacity-40' : ''}>
+            {isDownloading ? 'Exporting…' : 'Download'}
+          </PrimaryButton>
         </div>
       </div>
     </div>
