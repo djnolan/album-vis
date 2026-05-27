@@ -429,9 +429,9 @@ async function exportTShirt(svgEl, album, palette) {
   // No margins — the image is cropped tightly against the artwork.
   const W = 12 * DPI;   // 4800px
 
-  // ── Font sizes (matching poster) ─────────────────────────────────────────
-  const TITLE_SIZE  = Math.round(20 * P);   // ~111px — album title
-  const ARTIST_SIZE = Math.round(10 * P);   // ~56px  — artist name
+  // ── Font sizes ────────────────────────────────────────────────────────────
+  const TITLE_SIZE  = Math.round(24 * P);   // ~133px — album title
+  const ARTIST_SIZE = Math.round(12 * P);   // ~67px  — artist name
 
   await Promise.all([
     document.fonts.load(`${TITLE_SIZE}px "Instrument Serif"`),
