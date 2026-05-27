@@ -191,10 +191,14 @@ Tapping the download icon on the Visualization Screen opens a **Download overlay
 - Colors: `rgba(0,0,0,0.9)` / `rgba(255,255,255,0.9)` for strong text and `0.6` opacity for muted text, depending on `palette.lightBg`
 
 **T-Shirt** (`{album-title}-tshirt.png`)
-- Output: 4500 × 5400px
-- Visualization (no background) fills the top 62% of the canvas
-- Album title (130px Instrument Serif) and artist (80px DM Mono) centered in the lower area
+- Output: 12" × 400 DPI = 4800px wide; height computed from content (no fixed canvas height)
+- All sizing uses typographic points: `P = DPI / 72` (1pt ≈ 5.556 canvas px at 400 DPI)
+- Visualization scaled to full canvas width, height proportional — no margins, tightly cropped
+- Album title (24pt Instrument Serif) and artist (12pt DM Mono 400) centered below visualization
+- Text colors: pure `#FFFFFF` on dark palettes, `#000000` on light palettes (`palette.lightBg`)
 - Transparent background — ready for print-on-demand services
+- Flower centre cutouts are genuinely transparent (not filled with `palette.bg`): a cutout mask
+  is rendered via `buildCutoutMask()` and applied with `destination-out` canvas compositing
 - Each palette specifies a `shirtColor` and `shirtLabel` to suggest a matching shirt color
 
 ---

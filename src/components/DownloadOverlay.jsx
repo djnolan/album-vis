@@ -167,6 +167,51 @@ function getVbDims(svgEl) {
   return { vbW: parts[2], vbH: parts[3] };
 }
 
+// ── Cutout mask — for punching transparent holes in the t-shirt export ────────
+//
+// Identifies flower-centre cutout paths by their fill colour (palette.bg) and
+// renders them as solid black on a transparent field.  Everything else is set
+// to fill="none".  The resulting image is then drawn onto the main canvas with
+// globalCompositeOperation='destination-out' to erase those pixels to true
+// transparency — without changing Flower.jsx or any live rendering logic.
+
+async function buildCutoutMask(svgEl, renderW, renderH, bgHex) {
+  const clone = svgEl.cloneNode(true);
+  clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+  clone.setAttribute('width', renderW);
+  clone.setAttribute('height', renderH);
+
+  // Remove background rect
+  const bgRect = clone.querySelector('rect');
+  if (bgRect) bgRect.remove();
+
+  // Strip CSS animation/transition styles (SVG transform attrs are unaffected)
+  clone.querySelectorAll('[style]').forEach(el => el.removeAttribute('style'));
+
+  // Cutout paths carry fill === palette.bg; petal/circle fills come from d3
+  // as rgb() strings so the comparison is precise with zero false positives.
+  const bgLower = bgHex.toLowerCase();
+  clone.querySelectorAll('[fill]').forEach(el => {
+    const fill = el.getAttribute('fill');
+    if (fill && fill.toLowerCase() === bgLower) {
+      el.setAttribute('fill', '#000000');
+    } else {
+      el.setAttribute('fill', 'none');
+      el.removeAttribute('stroke');
+    }
+  });
+
+  const svgString = new XMLSerializer().serializeToString(clone);
+  const blob      = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
+  const url       = URL.createObjectURL(blob);
+  return new Promise((resolve, reject) => {
+    const img   = new Image();
+    img.onload  = () => { URL.revokeObjectURL(url); resolve(img); };
+    img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('cutout mask failed')); };
+    img.src = url;
+  });
+}
+
 // ── Format export functions ────────────────────────────────────────────────────
 
 async function exportWallpaper(svgEl, album, palette) {
@@ -376,39 +421,67 @@ async function exportPoster(svgEl, album, palette) {
 }
 
 async function exportTShirt(svgEl, album, palette) {
-  await document.fonts.ready;
-  const W = 4500, H = 5400;
-  const textColor = palette.lightBg ? '#0E1117' : '#F0F2F5';
-  const subColor  = palette.lightBg ? '#3A3F4A' : '#8B93A1';
+  // ── Resolution & units ────────────────────────────────────────────────────
+  const DPI = 400;
+  const P   = DPI / 72;   // 1 typographic point in canvas pixels (~5.556)
 
-  const VIZ_AREA_H = Math.round(H * 0.62);
-  const H_MARGIN = 350, V_MARGIN = 200;
-  const availW = W - H_MARGIN * 2;
-  const availH = VIZ_AREA_H - V_MARGIN * 2;
+  // ── Canvas width = 12" at 400 DPI; height computed from content ───────────
+  // No margins — the image is cropped tightly against the artwork.
+  const W = 12 * DPI;   // 4800px
 
+  // ── Font sizes ────────────────────────────────────────────────────────────
+  const TITLE_SIZE  = Math.round(24 * P);   // ~133px — album title
+  const ARTIST_SIZE = Math.round(12 * P);   // ~67px  — artist name
+
+  await Promise.all([
+    document.fonts.load(`${TITLE_SIZE}px "Instrument Serif"`),
+    document.fonts.load(`400 ${ARTIST_SIZE}px "DM Mono"`),
+  ]);
+
+  // ── Visualisation: scale to full canvas width, preserve aspect ratio ──────
   const { vbW, vbH } = getVbDims(svgEl);
-  const scale = Math.min(availW / vbW, availH / vbH);
-  const vizW  = Math.round(vbW * scale);
-  const vizH  = Math.round(vbH * scale);
-  const vizX  = Math.round((W - vizW) / 2);
-  const vizY  = V_MARGIN + Math.round((availH - vizH) / 2);
+  const vizScale = W / vbW;
+  const vizW     = W;
+  const vizH     = Math.round(vbH * vizScale);
 
-  const img    = await svgToImage(svgEl, vizW, vizH, { removeBg: true });
+  // ── Text layout — flush below viz, minimal spacing ────────────────────────
+  const TITLE_BASELINE  = vizH + TITLE_SIZE;
+  const ARTIST_BASELINE = TITLE_BASELINE + Math.round(ARTIST_SIZE * 1.6);
+  const H               = ARTIST_BASELINE + Math.round(ARTIST_SIZE * 0.6);
+
+  // ── Text colours: pure white or black for clean print-on-demand output ────
+  const textColor = palette.lightBg ? '#000000' : '#FFFFFF';
+
+  // ── Load viz image and cutout mask in parallel ────────────────────────────
+  const [img, maskImg] = await Promise.all([
+    svgToImage(svgEl, vizW, vizH, { removeBg: true }),
+    buildCutoutMask(svgEl, vizW, vizH, palette.bg),
+  ]);
+
+  // ── Draw ──────────────────────────────────────────────────────────────────
   const canvas = document.createElement('canvas');
   canvas.width = W; canvas.height = H;
   const ctx = canvas.getContext('2d');
-  ctx.drawImage(img, vizX, vizY, vizW, vizH);
+  ctx.textBaseline = 'alphabetic';
 
-  const textY = VIZ_AREA_H + 220;
-  ctx.textAlign = 'center';
+  // Pass 1: draw visualisation (bg rect already removed, centres still filled)
+  ctx.drawImage(img, 0, 0, vizW, vizH);
 
-  ctx.font = '130px "Instrument Serif", Georgia, serif';
+  // Pass 2: punch transparent holes through the flower centres
+  ctx.globalCompositeOperation = 'destination-out';
+  ctx.drawImage(maskImg, 0, 0, vizW, vizH);
+  ctx.globalCompositeOperation = 'source-over';
+
+  // Album title
+  ctx.font      = `${TITLE_SIZE}px "Instrument Serif", Georgia, serif`;
   ctx.fillStyle = textColor;
-  ctx.fillText(album.title, W / 2, textY);
+  ctx.textAlign = 'center';
+  ctx.fillText(album.title, W / 2, TITLE_BASELINE);
 
-  ctx.font = '500 80px "DM Mono", "Courier New", monospace';
-  ctx.fillStyle = subColor;
-  ctx.fillText(album.artist, W / 2, textY + 150);
+  // Artist name
+  ctx.font      = `400 ${ARTIST_SIZE}px "DM Mono", "Courier New", monospace`;
+  ctx.fillStyle = textColor;
+  ctx.fillText(album.artist, W / 2, ARTIST_BASELINE);
 
   triggerDownload(canvas, `${safeFilename(album.title)}-tshirt.png`);
 }
