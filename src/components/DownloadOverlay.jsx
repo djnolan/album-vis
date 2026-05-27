@@ -124,8 +124,8 @@ function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
 const FORMATS = [
   { id: 'wallpaper', Icon: Smartphone, label: 'Phone Wallpaper' },
   { id: 'watch',     Icon: Watch,      label: 'Watch Face' },
-  { id: 'poster',    Icon: Scroll,     label: 'Poster',    secondary: '13″ × 19″' },
-  { id: 'tshirt',    Icon: Shirt,      label: 'T-Shirt',   getSecondary: p => `Print this on a ${p.shirtLabel} t-shirt` },
+  { id: 'poster',    Icon: Scroll,     label: 'Poster',    blurb: '13 × 19 inch poster' },
+  { id: 'tshirt',    Icon: Shirt,      label: 'T-Shirt',   getBlurb: p => `Print this on a ${p.shirtLabel} t-shirt` },
 ];
 
 function safeFilename(title) {
@@ -497,34 +497,26 @@ async function runExport(format, svgEl, album, palette) {
 
 // ── UI components ──────────────────────────────────────────────────────────────
 
-function FormatButton({ fmt, palette, selected, onSelect }) {
-  const { Icon, label, secondary, getSecondary } = fmt;
-  const secondaryText = getSecondary ? getSecondary(palette) : secondary;
-  const isSelected    = selected === fmt.id;
+function FormatButton({ fmt, selected, onSelect }) {
+  const { Icon, label } = fmt;
+  const isSelected = selected === fmt.id;
 
   return (
     <button
       onClick={() => onSelect(fmt.id)}
-      className="flex flex-col items-center gap-3 w-full px-4 py-5 rounded-md transition-colors"
+      className="flex flex-col items-center justify-center gap-3 w-full h-full px-4 py-5 rounded-md transition-colors"
       style={{
         background: isSelected ? '#0E1117' : 'transparent',
         border: `1.5px solid ${isSelected ? '#7B9FD4' : 'rgba(42,49,64,0.8)'}`,
       }}
     >
       <Icon size={30} strokeWidth={1.25} style={{ color: isSelected ? '#7B9FD4' : '#8B93A1' }} />
-      <div className="flex flex-col items-center text-center">
-        <span
-          className="font-sans text-body font-medium leading-snug"
-          style={{ color: isSelected ? '#F0F2F5' : '#8B93A1' }}
-        >
-          {label}
-        </span>
-        {secondaryText && (
-          <span className="font-mono text-caption mt-0.5" style={{ color: '#525A68' }}>
-            {secondaryText}
-          </span>
-        )}
-      </div>
+      <span
+        className="font-sans text-body font-medium leading-snug text-center"
+        style={{ color: isSelected ? '#F0F2F5' : '#8B93A1' }}
+      >
+        {label}
+      </span>
     </button>
   );
 }
@@ -532,8 +524,11 @@ function FormatButton({ fmt, palette, selected, onSelect }) {
 export default function DownloadOverlay({ onClose, vizRef, album, palette }) {
   useScrollLock(true);
   const { close, backdropStyle, sheetStyle } = useSheetAnimation(onClose, 'up');
-  const [selected, setSelected]         = useState('wallpaper');
+  const [selected, setSelected]           = useState('wallpaper');
   const [isDownloading, setIsDownloading] = useState(false);
+
+  const selectedFmt = FORMATS.find(f => f.id === selected);
+  const blurbText   = selectedFmt?.getBlurb ? selectedFmt.getBlurb(palette) : selectedFmt?.blurb;
 
   async function handleDownload() {
     const svgEl = vizRef.current;
@@ -567,18 +562,26 @@ export default function DownloadOverlay({ onClose, vizRef, album, palette }) {
         </div>
 
         <div className="px-5 pb-6 flex flex-col gap-4">
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-2 gap-4" style={{ gridAutoRows: '1fr' }}>
             {FORMATS.map(fmt => (
               <FormatButton
                 key={fmt.id}
                 fmt={fmt}
-                palette={palette}
                 selected={selected}
                 onSelect={setSelected}
               />
             ))}
           </div>
-          <PrimaryButton onClick={handleDownload} className={isDownloading ? 'opacity-40' : ''}>
+
+          {/* Reserved blurb row — always occupies its height so the sheet doesn't resize */}
+          <p className="font-mono text-caption text-text-tertiary px-1" style={{ opacity: blurbText ? 1 : 0 }}>
+            {blurbText || ' '}
+          </p>
+
+          <PrimaryButton
+            onClick={handleDownload}
+            className={`uppercase tracking-wider${isDownloading ? ' opacity-40' : ''}`}
+          >
             {isDownloading ? 'Exporting…' : 'Download'}
           </PrimaryButton>
         </div>
