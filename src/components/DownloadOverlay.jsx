@@ -574,7 +574,7 @@ export default function DownloadOverlay({ onClose, vizRef, album, palette }) {
           </div>
 
           {/* Reserved blurb row — always occupies its height so the sheet doesn't resize */}
-          <p className="font-mono text-caption text-text-tertiary px-1" style={{ opacity: blurbText ? 1 : 0 }}>
+          <p className="font-mono text-caption text-text-secondary text-center px-1" style={{ opacity: blurbText ? 1 : 0 }}>
             {blurbText || ' '}
           </p>
 
