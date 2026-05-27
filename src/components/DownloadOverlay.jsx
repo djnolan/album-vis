@@ -290,7 +290,7 @@ async function exportPoster(svgEl, album, palette) {
   const vizW = Math.round(vbW * vizScale);
   const vizH = Math.round(vbH * vizScale);
   const vizX = MARGIN - Math.round((vizW - CONTENT_W) / 2);
-  const vizY = VIZ_TOP + Math.round((VIZ_AVAIL_H - vizH) * 0.2);
+  const vizY = VIZ_TOP + Math.round((VIZ_AVAIL_H - vizH) * 0.15);
 
   // ── Load all assets in parallel ───────────────────────────────────────────
   const flowerColor = resolveFlowerColor(palette.colorStart, palette.colorEnd);
