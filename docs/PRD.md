@@ -167,14 +167,35 @@ Card fields: Song name (prominent), Duration, BPM, Key + accidental, Major/Minor
 
 ### 5.7 Download
 
-Tapping the download button (↓) on the Visualization Screen generates and saves a high-resolution PNG wallpaper — no overlay or options dialog.
+Tapping the download icon on the Visualization Screen opens a **Download overlay** (bottom sheet) with four format options. The user selects a format and taps Download to export a PNG.
 
-- **Output size**: 1170 × 2532px (iPhone 14 native resolution — scales well on any modern phone).
-- **Format**: Phone wallpaper (portrait).
-- **Content**: Visualization only — no text, labels, or UI chrome.
-- **Positioning**: Flower cluster rendered at 116% of wallpaper width (matching screen appearance), centered with the cluster midpoint at 55% from the top (clears the phone status bar area).
-- **Background**: Full wallpaper filled with the current palette's `bg` color.
-- **Filename**: `{album-title}-wallpaper.png`
+#### Format options
+
+**Phone Wallpaper** (`{album-title}-wallpaper.png`)
+- Output: 1170 × 2532px (iPhone 14 native resolution)
+- Visualization rendered at 116% of wallpaper width, cluster midpoint at 55% from top
+- Background filled with current palette `bg`; no text or UI chrome
+
+**Watch Face** (`{album-title}-watch-face.png`)
+- Output: 1584 × 1936px (4× the 396×484 Apple Watch screen)
+- Visualization centered at 110% of canvas width
+- Background filled with current palette `bg`; no text or UI chrome
+
+**Poster — 13 × 19"** (`{album-title}-poster.png`)
+- Output: 3900 × 5700px at 300 DPI
+- All sizing uses typographic points: `P = DPI / 72` (1pt = 4.167 canvas px at 300 DPI)
+- ¾" margin (225px) on all sides
+- **Top-left**: Album title (20pt Instrument Serif) + artist name (10pt DM Mono 400)
+- **Middle**: Visualization at 108% of content width, positioned slightly above center
+- **Bottom**: Legend section — "Each flower represents a song" heading (13pt Instrument Serif) above a 5-column grid (24pt gutters) spanning the full content width. Each column: item heading (8pt DM Mono 400, uppercased) + blurb (8pt DM Mono 400) + flower graphic with labels (7pt DM Mono 400). Three columns include inline flower graphics (color/note, petal shape, center shape).
+- Colors: `rgba(0,0,0,0.9)` / `rgba(255,255,255,0.9)` for strong text and `0.6` opacity for muted text, depending on `palette.lightBg`
+
+**T-Shirt** (`{album-title}-tshirt.png`)
+- Output: 4500 × 5400px
+- Visualization (no background) fills the top 62% of the canvas
+- Album title (130px Instrument Serif) and artist (80px DM Mono) centered in the lower area
+- Transparent background — ready for print-on-demand services
+- Each palette specifies a `shirtColor` and `shirtLabel` to suggest a matching shirt color
 
 ---
 
@@ -261,7 +282,7 @@ Display order on Home Screen:
 | Item | Status | Notes |
 |---|---|---|
 | Key/Legend overlay visual design | Open | Placeholder text in place; full visual design TBD |
-| Download — additional format options | Open | Current: wallpaper only. Future: square poster, title on/off, etc. |
+| Download — additional format options | Resolved | Four formats implemented: Phone Wallpaper, Watch Face, Poster (13×19" at 300 DPI), T-Shirt. See §5.7. |
 | iOS address bar behavior on viz screen | Resolved | `useScrollLock` hook implemented; iOS uses `position:fixed` body trick, others use `overflow:hidden` |
 | LLM prompt inline-editable fields | Resolved | Album and Artist inputs in Step 1 replace placeholders live (debounced 150ms); fields required before submit |
 | Cut-paper edge effect on petals | Open | Low priority for v1 |
@@ -280,6 +301,7 @@ src/
     Flower.jsx              — SVG flower renderer
     Visualization.jsx       — D3 layout + SVG container (forwardRef for download)
     VisualizationScreen.jsx — Full viz screen with download handler
+    DownloadOverlay.jsx     — Download format picker + all export functions (wallpaper, watch, poster, t-shirt)
     HomeScreen.jsx          — Album feed, body-scroll layout
     PaletteOverlay.jsx      — Palette picker bottom sheet
     LegendOverlay.jsx       — Key/legend bottom sheet (v1 text-only placeholder)

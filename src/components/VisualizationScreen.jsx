@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 import { ArrowLeft, Info, Palette, Download, X } from 'lucide-react';
 import Visualization from './Visualization';
 import SongCard from './SongCard';
+import DownloadOverlay from './DownloadOverlay';
 import { PALETTES } from '../data/palettes';
 import { useScrollLock } from '../hooks/useScrollLock';
 import { useIsDesktop } from '../hooks/useIsDesktop';
@@ -103,7 +104,7 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
   const [activeSongTrack, setActiveSongTrack] = useState(null);
   const [songCardMounted, setSongCardMounted] = useState(false);
   const [cardIndex, setCardIndex] = useState(0);
-  const [isDownloading, setIsDownloading] = useState(false);
+  const [showDownload, setShowDownload] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
   // Desktop click-to-reveal card state
   const [desktopClickedSong, setDesktopClickedSong] = useState(null);
@@ -166,64 +167,6 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
     songCardRef.current?.close();
   }
 
-  async function handleDownload() {
-    const svgEl = vizRef.current;
-    if (!svgEl || isDownloading) return;
-    setIsDownloading(true);
-
-    try {
-      const W = 1170;
-      const H = 2532;
-      const renderW = Math.round(W * 1.16);
-      const offsetX = -Math.round(W * 0.08);
-
-      const vbParts = svgEl.getAttribute('viewBox').split(' ').map(Number);
-      const vbW = vbParts[2];
-      const vbH = vbParts[3];
-
-      const scale = renderW / vbW;
-      const contentH = Math.round(vbH * scale);
-      const contentOffsetY = Math.round(H * 0.55) - Math.round(contentH / 2);
-
-      const clone = svgEl.cloneNode(true);
-      clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
-      clone.setAttribute('width', renderW);
-      clone.setAttribute('height', contentH);
-
-      const svgString = new XMLSerializer().serializeToString(clone);
-      const svgBlob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
-      const svgUrl = URL.createObjectURL(svgBlob);
-
-      await new Promise((resolve, reject) => {
-        const img = new Image();
-        img.onload = () => {
-          const canvas = document.createElement('canvas');
-          canvas.width = W;
-          canvas.height = H;
-          const ctx = canvas.getContext('2d');
-
-          ctx.fillStyle = palette.bg;
-          ctx.fillRect(0, 0, W, H);
-          ctx.drawImage(img, offsetX, contentOffsetY, renderW, contentH);
-          URL.revokeObjectURL(svgUrl);
-
-          canvas.toBlob(blob => {
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = `${album.title.replace(/[^a-z0-9]/gi, '-').toLowerCase()}-wallpaper.png`;
-            link.click();
-            setTimeout(() => URL.revokeObjectURL(link.href), 1000);
-            resolve();
-          }, 'image/png');
-        };
-        img.onerror = reject;
-        img.src = svgUrl;
-      });
-    } finally {
-      setIsDownloading(false);
-    }
-  }
-
   // Viz shift: left when desktop overlay open, up when mobile song card active
   let vizTransform = 'translateY(0)';
   if (isDesktop && desktopOverlayOpen) {
@@ -284,13 +227,7 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
       <div className="lg:hidden absolute bottom-0 left-0 right-0 h-16 flex items-center justify-between px-8">
         <button onClick={onInfoClick} style={{ color: vizTextPrimary }}><Info size={22} /></button>
         <button onClick={onPaletteClick} style={{ color: vizTextPrimary }}><Palette size={22} /></button>
-        <button
-          onClick={handleDownload}
-          disabled={isDownloading}
-          className="disabled:opacity-40"
-          style={{ color: vizTextPrimary }}
-          title="Download as wallpaper"
-        >
+        <button onClick={() => setShowDownload(true)} style={{ color: vizTextPrimary }}>
           <Download size={22} />
         </button>
       </div>
@@ -334,13 +271,7 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
       >
         <button onClick={onInfoClick} style={{ color: vizTextPrimary }}><Info size={22} /></button>
         <button onClick={onPaletteClick} style={{ color: vizTextPrimary }}><Palette size={22} /></button>
-        <button
-          onClick={handleDownload}
-          disabled={isDownloading}
-          className="disabled:opacity-40"
-          style={{ color: vizTextPrimary }}
-          title="Download as wallpaper"
-        >
+        <button onClick={() => setShowDownload(true)} style={{ color: vizTextPrimary }}>
           <Download size={22} />
         </button>
       </div>
@@ -363,6 +294,16 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
           onIndexChange={handleCardIndexChange}
           onDismiss={handleCardDismiss}
           onExited={handleCardExited}
+        />
+      )}
+
+      {/* ── Download format overlay ── */}
+      {showDownload && (
+        <DownloadOverlay
+          onClose={() => setShowDownload(false)}
+          vizRef={vizRef}
+          album={album}
+          palette={palette}
         />
       )}
     </div>

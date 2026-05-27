@@ -263,5 +263,5 @@ borderRadius: {
 
 - Key/Legend overlay — visual redesign (v1 is text-only placeholder)
 - Song Card — visual redesign (v1 is plain list placeholder)
-- Download overlay — format options, high-res PNG export
+- Download overlay — implemented: Phone Wallpaper, Watch Face, Poster (13×19"), T-Shirt (see PRD §5.7)
 - Desktop layout — mobile-first only in v1

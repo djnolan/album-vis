@@ -13,6 +13,8 @@ export const PALETTES = [
     bg: "#1F1F1F",
     colorStart: "#2A6F6A",
     colorEnd: "#F2FF4D",
+    shirtColor: "#1a1a1a",
+    shirtLabel: "black",
   },
 
   {
@@ -22,6 +24,8 @@ export const PALETTES = [
     colorStart: "#C49A7A",
     colorEnd: "#3A6FF2",
     lightBg: true,
+    shirtColor: "#2C3E6B",
+    shirtLabel: "navy",
   },
 
   {
@@ -30,6 +34,8 @@ export const PALETTES = [
     bg: "#222222",
     colorStart: "#3A8F2A",
     colorEnd: "#FF00C8",
+    shirtColor: "#1a1a1a",
+    shirtLabel: "black",
   },
 
   {
@@ -38,6 +44,8 @@ export const PALETTES = [
     bg: "#140F2D",
     colorStart: "#2E0F7A",
     colorEnd: "#F72585",
+    shirtColor: "#1a1a2e",
+    shirtLabel: "navy",
   },
 
   {
@@ -46,6 +54,8 @@ export const PALETTES = [
     bg: "#2A1F3D",
     colorStart: "#3F2A6B",
     colorEnd: "#00E5FF",
+    shirtColor: "#1a1a2e",
+    shirtLabel: "navy",
   },
 
   {
@@ -55,6 +65,8 @@ export const PALETTES = [
     colorStart: "#FF9F1C",
     colorEnd: "#2EC4FF",
     lightBg: true,
+    shirtColor: "#F5F0E8",
+    shirtLabel: "natural",
   },
 
   {
@@ -63,6 +75,8 @@ export const PALETTES = [
     bg: "#2B1F1A",
     colorStart: "#FF7A00",
     colorEnd: "#FFD9F7",
+    shirtColor: "#1a1a1a",
+    shirtLabel: "black",
   },
 
   {
@@ -71,6 +85,8 @@ export const PALETTES = [
     bg: "#06141F",
     colorStart: "#006D77",
     colorEnd: "#83C5BE",
+    shirtColor: "#06141F",
+    shirtLabel: "dark teal",
   },
 
   {
@@ -79,6 +95,8 @@ export const PALETTES = [
     bg: "#1E2430",
     colorStart: "#5B8CFF",
     colorEnd: "#FF8A5B",
+    shirtColor: "#1E2430",
+    shirtLabel: "slate",
   },
 
   {
@@ -87,6 +105,8 @@ export const PALETTES = [
     bg: "#2146C7",
     colorStart: "#A7C7FF",
     colorEnd: "#FFE66D",
+    shirtColor: "#2146C7",
+    shirtLabel: "royal blue",
   },
 
   {
@@ -95,6 +115,8 @@ export const PALETTES = [
     bg: "#A63A50",
     colorStart: "#FFD166",
     colorEnd: "#7BFFB7",
+    shirtColor: "#A63A50",
+    shirtLabel: "burgundy",
   },
 
   {
@@ -103,6 +125,8 @@ export const PALETTES = [
     bg: "#0B6E4F",
     colorStart: "#C2F970",
     colorEnd: "#FF6B6B",
+    shirtColor: "#0B6E4F",
+    shirtLabel: "forest green",
   },
 
 ];
