@@ -173,9 +173,12 @@ function UploadContent({
               </p>
             </div>
 
-            <PrimaryButton onClick={handleCopy}>
-              {copied ? 'Copied!' : 'COPY PROMPT'}<Copy size={18} />
-            </PrimaryButton>
+            <button
+              onClick={handleCopy}
+              className="w-full py-4 bg-surface-2 text-text-primary font-sans text-body font-bold leading-none rounded-md flex items-center justify-center gap-2"
+            >
+              {copied ? 'Copied!' : <>COPY PROMPT<Copy size={18} /></>}
+            </button>
           </AccordionStep>
 
           <AccordionStep
