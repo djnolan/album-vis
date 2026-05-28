@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import Papa from 'papaparse';
-import { X, Copy, ChevronDown } from 'lucide-react';
+import { X, Copy, ChevronDown, Flower } from 'lucide-react';
 import PrimaryButton from './PrimaryButton';
 import { useScrollLock } from '../hooks/useScrollLock';
 import { useSheetAnimation } from '../hooks/useSheetAnimation';
@@ -202,7 +202,7 @@ function UploadContent({
 
             {csvError && <p className="text-red-400 font-mono text-caption mt-2">{csvError}</p>}
 
-            <PrimaryButton onClick={handleSubmit} className="mt-4">GENERATE →</PrimaryButton>
+            <PrimaryButton onClick={handleSubmit} className="mt-4">GENERATE <Flower size={20} className="-translate-y-px" /></PrimaryButton>
           </AccordionStep>
         </div>
       </div>

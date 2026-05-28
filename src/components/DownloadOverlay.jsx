@@ -346,10 +346,10 @@ async function exportPoster(svgEl, album, palette) {
     svgToImage(svgEl, vizW, vizH),
     ...noteColors.map((c, i) => loadMiniFlower(COLOR_FLOWER,  6, 'natural', 'major', c,           palette.bg, i*3+1, i*17)),
     loadMiniFlower(SHAPE_FLOWER,  6, 'natural', 'major', flowerColor, palette.bg, 2,  20),
-    loadMiniFlower(SHAPE_FLOWER,  6, 'sharp',   'major', flowerColor, palette.bg, 6,  15),
-    loadMiniFlower(SHAPE_FLOWER,  6, 'flat',    'major', flowerColor, palette.bg, 10, 15),
-    loadMiniFlower(CENTER_FLOWER, 6, 'natural', 'major', flowerColor, palette.bg, 4,  10),
-    loadMiniFlower(CENTER_FLOWER, 6, 'natural', 'minor', flowerColor, palette.bg, 8,  10),
+    loadMiniFlower(SHAPE_FLOWER,  6, 'sharp',   'major', flowerColor, palette.bg, 6,  50),
+    loadMiniFlower(SHAPE_FLOWER,  6, 'flat',    'major', flowerColor, palette.bg, 10, 80),
+    loadMiniFlower(CENTER_FLOWER, 6, 'natural', 'major', flowerColor, palette.bg, 4,  15),
+    loadMiniFlower(CENTER_FLOWER, 6, 'natural', 'minor', flowerColor, palette.bg, 8,  55),
   ]);
 
   const colorFlowers  = legendImgs.slice(0, 7);
@@ -507,7 +507,8 @@ function FormatButton({ fmt, selected, onSelect }) {
       className="flex flex-col items-center justify-center gap-3 w-full h-full px-4 py-5 rounded-md transition-colors"
       style={{
         background: isSelected ? '#0E1117' : 'transparent',
-        border: `1.5px solid ${isSelected ? '#7B9FD4' : 'rgba(42,49,64,0.8)'}`,
+        border: isSelected ? 'none' : '1.5px solid rgba(42,49,64,0.8)',
+        boxShadow: isSelected ? '0 0 0 1px #161B24, 0 0 0 2px #7B9FD4, 0 0 10px rgba(123,159,212,0.65)' : 'none',
       }}
     >
       <Icon size={30} strokeWidth={1.25} style={{ color: isSelected ? '#7B9FD4' : '#8B93A1' }} />
