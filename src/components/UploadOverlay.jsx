@@ -63,7 +63,7 @@ function AccordionStep({ stepLabel, label, isOpen, onToggle, children }) {
       >
         <span
           className="shrink-0 px-2 py-0.5 rounded font-mono text-caption font-medium uppercase tracking-wider"
-          style={{ background: 'rgba(123,159,212,0.15)', color: '#7B9FD4' }}
+          style={{ background: '#7B9FD4', color: '#0E1117' }}
         >
           {stepLabel}
         </span>
@@ -173,14 +173,9 @@ function UploadContent({
               </p>
             </div>
 
-            <button
-              onClick={handleCopy}
-              className="w-full flex items-center justify-center gap-2 rounded-md py-3 font-sans text-ui font-bold transition-colors"
-              style={{ border: '1px solid rgba(123,159,212,0.35)', color: '#7B9FD4', background: copied ? 'rgba(123,159,212,0.08)' : 'transparent' }}
-            >
-              <Copy size={15} />
-              {copied ? 'Copied!' : 'Copy Prompt'}
-            </button>
+            <PrimaryButton onClick={handleCopy}>
+              {copied ? 'Copied!' : 'COPY PROMPT'}<Copy size={18} />
+            </PrimaryButton>
           </AccordionStep>
 
           <AccordionStep

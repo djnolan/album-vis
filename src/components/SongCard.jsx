@@ -113,7 +113,7 @@ const SongCard = forwardRef(function SongCard({ songs, activeIndex, onIndexChang
             <button
               onClick={() => activeIndex > 0 && onIndexChange(activeIndex - 1)}
               aria-label="Previous song"
-              className={`flex items-center justify-center w-9 h-9 rounded-md ${activeIndex === 0 ? 'invisible' : ''}`}
+              className={`flex items-center justify-center px-5 h-9 rounded-md ${activeIndex === 0 ? 'invisible' : ''}`}
               style={{ background: 'rgba(0,0,0,0.08)', color: TEXT_PRIMARY }}
             >
               <MoveLeft size={18} />
@@ -124,7 +124,7 @@ const SongCard = forwardRef(function SongCard({ songs, activeIndex, onIndexChang
             <button
               onClick={() => activeIndex < songs.length - 1 && onIndexChange(activeIndex + 1)}
               aria-label="Next song"
-              className={`flex items-center justify-center w-9 h-9 rounded-md ${activeIndex === songs.length - 1 ? 'invisible' : ''}`}
+              className={`flex items-center justify-center px-5 h-9 rounded-md ${activeIndex === songs.length - 1 ? 'invisible' : ''}`}
               style={{ background: 'rgba(0,0,0,0.08)', color: TEXT_PRIMARY }}
             >
               <MoveRight size={18} />

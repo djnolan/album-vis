@@ -583,7 +583,7 @@ export default function DownloadOverlay({ onClose, vizRef, album, palette }) {
             onClick={handleDownload}
             className={`uppercase tracking-wider${isDownloading ? ' opacity-40' : ''}`}
           >
-            {isDownloading ? 'Exporting…' : <><Download size={18} />Download</>}
+            {isDownloading ? 'Exporting…' : <>Download<Download size={18} /></>}
           </PrimaryButton>
         </div>
       </div>

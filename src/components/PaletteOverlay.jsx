@@ -6,9 +6,8 @@ import { useScrollLock } from '../hooks/useScrollLock';
 import { useSheetAnimation } from '../hooks/useSheetAnimation';
 import { useIsDesktop } from '../hooks/useIsDesktop';
 
-// Ratio of flower size to container height, calibrated to mobile layout.
-// Mobile (~390px): col ~155px, container height ~87px (16/9), flower ~112px → 80/62 ≈ 1.29
-const FLOWER_RATIO = 80 / 62;
+// Calibrated so flowers are ~80px at mobile thumbnail size (col ~155px → container ~87px tall at 16/9)
+const FLOWER_RATIO = 80 / 87;
 
 const FLOWER_CONFIGS = [
   [
