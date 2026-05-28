@@ -191,7 +191,7 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
           height: '100%',
           marginLeft: '-8%',
           transform: vizTransform,
-          transition: 'transform 0.4s ease',
+          transition: 'transform 460ms cubic-bezier(0.32, 0.72, 0, 1)',
         }}>
           <Visualization
             ref={vizRef}

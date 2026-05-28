@@ -55,7 +55,7 @@ function AccordionStep({ stepLabel, label, isOpen, onToggle, children }) {
   return (
     <div
       className="rounded-lg overflow-hidden"
-      style={{ background: isOpen ? 'rgba(31,38,51,0.8)' : '#1F2633', outline: '1px solid rgba(255,255,255,0.06)' }}
+      style={{ background: '#161B24', border: `1.5px solid ${isOpen ? 'rgba(123,159,212,0.35)' : '#2A3140'}` }}
     >
       <button
         onClick={onToggle}
@@ -135,7 +135,7 @@ function UploadContent({
                   ref={albumInputRef}
                   value={albumTitle}
                   onChange={e => { setAlbumTitle(e.target.value); if (e.target.value.trim()) setTitleError(''); }}
-                  className="w-full bg-surface-1 text-text-primary font-sans text-body rounded-md px-4 py-3 outline-none border border-border focus:ring-1 focus:ring-accent"
+                  className="w-full bg-surface-2 text-text-primary font-sans text-body rounded-md px-4 py-3 outline-none border border-border focus:ring-1 focus:ring-accent"
                   placeholder="Album name"
                 />
                 {titleError && <p className="text-red-400 font-mono text-caption mt-1.5">{titleError}</p>}
@@ -146,7 +146,7 @@ function UploadContent({
                   ref={artistInputRef}
                   value={artistName}
                   onChange={e => { setArtistName(e.target.value); if (e.target.value.trim()) setArtistError(''); }}
-                  className="w-full bg-surface-1 text-text-primary font-sans text-body rounded-md px-4 py-3 outline-none border border-border focus:ring-1 focus:ring-accent"
+                  className="w-full bg-surface-2 text-text-primary font-sans text-body rounded-md px-4 py-3 outline-none border border-border focus:ring-1 focus:ring-accent"
                   placeholder="Artist name"
                 />
                 {artistError && <p className="text-red-400 font-mono text-caption mt-1.5">{artistError}</p>}
