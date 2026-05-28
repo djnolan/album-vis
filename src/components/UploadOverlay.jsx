@@ -175,9 +175,10 @@ function UploadContent({
 
             <button
               onClick={handleCopy}
-              className="w-full py-4 bg-surface-2 text-text-primary font-sans text-body font-bold leading-none rounded-md flex items-center justify-center gap-2"
+              className="w-full py-4 bg-surface-2 font-sans text-body font-bold leading-none rounded-md flex items-center justify-center gap-2"
+              style={{ color: '#7B9FD4' }}
             >
-              {copied ? 'Copied!' : <>COPY PROMPT<Copy size={18} /></>}
+              {copied ? 'COPIED!' : <>COPY PROMPT<Copy size={18} /></>}
             </button>
           </AccordionStep>
 
