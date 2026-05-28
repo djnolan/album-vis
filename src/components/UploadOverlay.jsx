@@ -202,7 +202,7 @@ function UploadContent({
 
             {csvError && <p className="text-red-400 font-mono text-caption mt-2">{csvError}</p>}
 
-            <PrimaryButton onClick={handleSubmit} className="mt-4">GENERATE <Flower size={16} /></PrimaryButton>
+            <PrimaryButton onClick={handleSubmit} className="mt-4">GENERATE <Flower size={20} className="-translate-y-px" /></PrimaryButton>
           </AccordionStep>
         </div>
       </div>

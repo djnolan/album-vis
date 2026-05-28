@@ -98,7 +98,7 @@ export default function HomeScreen({ userAlbums = [], paletteOverrides = {}, onS
           A music visualization experiment.<br />Browse album artwork or create your own.
         </p>
         <div className="mt-10">
-          <PrimaryButton compact onClick={onCreateClick}>CREATE <SquarePlus size={18} /></PrimaryButton>
+          <PrimaryButton compact onClick={onCreateClick}>CREATE <SquarePlus size={22} className="-translate-y-px" /></PrimaryButton>
         </div>
       </aside>
 
@@ -184,7 +184,7 @@ export default function HomeScreen({ userAlbums = [], paletteOverrides = {}, onS
 
       {/* ── MOBILE fixed bottom bar ── */}
       <div className="lg:hidden fixed bottom-0 left-0 right-0 flex items-end px-6 pt-20 pb-5 bg-gradient-to-t from-surface-0 to-transparent pointer-events-none">
-        <PrimaryButton onClick={onCreateClick}>CREATE <SquarePlus size={18} /></PrimaryButton>
+        <PrimaryButton onClick={onCreateClick}>CREATE <SquarePlus size={22} className="-translate-y-px" /></PrimaryButton>
       </div>
 
       {albumToRemove && (
