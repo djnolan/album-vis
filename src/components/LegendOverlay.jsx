@@ -205,9 +205,9 @@ function LegendContent({ close, flowerColor, noteColors, bgColor }) {
               description="The shape of the petals shows whether the key is natural, sharp, or flat."
             />
             <div style={{ display: "flex", gap: 6, alignItems: "flex-start" }}>
-              {[{ a: "natural", l: "natural", seed: 2 }, { a: "sharp", l: "sharp", seed: 6 }, { a: "flat", l: "flat", seed: 10 }].map(({ a, l, seed }) => (
+              {[{ a: "natural", l: "natural", seed: 2, rot: 20 }, { a: "sharp", l: "sharp", seed: 6, rot: 50 }, { a: "flat", l: "flat", seed: 10, rot: 80 }].map(({ a, l, seed, rot }) => (
                 <div key={a} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 5 }}>
-                  <MiniFlower size={50} petalCount={6} accidental={a} mode="major" color={flowerColor} bgColor={SHEET_BG} seed={seed} globalRotation={15} />
+                  <MiniFlower size={50} petalCount={6} accidental={a} mode="major" color={flowerColor} bgColor={SHEET_BG} seed={seed} globalRotation={rot} />
                   <span style={{ fontFamily: mono, fontSize: 11, color: "#8B93A1", fontWeight: 500 }}>{l}</span>
                 </div>
               ))}
@@ -222,9 +222,9 @@ function LegendContent({ close, flowerColor, noteColors, bgColor }) {
               description="The center cutout shows whether the song is in a major or minor key."
             />
             <div style={{ display: "flex", gap: 6, alignItems: "flex-start" }}>
-              {[{ m: "major", l: "major", seed: 4 }, { m: "minor", l: "minor", seed: 8 }].map(({ m, l, seed }) => (
+              {[{ m: "major", l: "major", seed: 4, rot: 15 }, { m: "minor", l: "minor", seed: 8, rot: 55 }].map(({ m, l, seed, rot }) => (
                 <div key={m} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 5 }}>
-                  <MiniFlower size={58} petalCount={6} accidental="natural" mode={m} color={flowerColor} bgColor={SHEET_BG} seed={seed} globalRotation={10} />
+                  <MiniFlower size={58} petalCount={6} accidental="natural" mode={m} color={flowerColor} bgColor={SHEET_BG} seed={seed} globalRotation={rot} />
                   <span style={{ fontFamily: mono, fontSize: 11, color: "#8B93A1", fontWeight: 500 }}>{l}</span>
                 </div>
               ))}
