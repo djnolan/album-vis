@@ -154,9 +154,9 @@ function LegendContent({ close, flowerColor, noteColors, bgColor }) {
               description="The size of the flower is based on the song’s length."
             />
             <div style={{ display: "flex", alignItems: "flex-end", gap: 4 }}>
-              {[{ s: 26, seed: 3 }, { s: 42, seed: 7 }, { s: 60, seed: 11 }].map(({ s, seed }) => (
+              {[{ s: 26, seed: 3, rot: 15 }, { s: 42, seed: 7, rot: 50 }, { s: 60, seed: 11, rot: 80 }].map(({ s, seed, rot }) => (
                 <div key={s}>
-                  <MiniFlower size={s} petalCount={6} accidental="natural" mode="major" color={flowerColor} bgColor={SHEET_BG} seed={seed} globalRotation={20} />
+                  <MiniFlower size={s} petalCount={6} accidental="natural" mode="major" color={flowerColor} bgColor={SHEET_BG} seed={seed} globalRotation={rot} />
                 </div>
               ))}
             </div>
