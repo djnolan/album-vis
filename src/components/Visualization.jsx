@@ -2,7 +2,6 @@ import { useEffect, useState, useMemo, forwardRef } from 'react';
 import * as d3 from 'd3';
 import Flower, { seededRand, SIZE_MIN, SIZE_MAX } from './Flower';
 import { PALETTES } from '../data/palettes';
-import grainSrc from '../assets/grain.jpg';
 
 const NOTE_ORDER = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
 
@@ -90,11 +89,6 @@ const Visualization = forwardRef(function Visualization({ album, palette, active
       viewBox={`${minX - pad} ${minY - pad} ${vbW} ${vbH}`}
       style={{ display: 'block' }}
     >
-      <defs>
-        <pattern id="viz-grain-pattern" x="0" y="0" width="300" height="300" patternUnits="userSpaceOnUse">
-          <image href={grainSrc} x="0" y="0" width="300" height="300" preserveAspectRatio="xMidYMid slice" />
-        </pattern>
-      </defs>
       <rect x={minX - pad} y={minY - pad} width={vbW} height={vbH} fill={palette.bg} />
       {nodes.map(node => {
         const isActive = activeSongTrack === node.track;
@@ -135,15 +129,6 @@ const Visualization = forwardRef(function Visualization({ album, palette, active
           </g>
         );
       })}
-      <rect
-        x={minX - pad}
-        y={minY - pad}
-        width={vbW}
-        height={vbH}
-        fill="url(#viz-grain-pattern)"
-        opacity="0.12"
-        style={{ mixBlendMode: 'overlay', pointerEvents: 'none' }}
-      />
     </svg>
   );
 });
