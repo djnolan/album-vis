@@ -91,7 +91,7 @@ const Visualization = forwardRef(function Visualization({ album, palette, active
     >
       <defs>
         <filter id="viz-grain" x="0%" y="0%" width="100%" height="100%" colorInterpolationFilters="sRGB">
-          <feTurbulence type="fractalNoise" baseFrequency="0.40" numOctaves="3" stitchTiles="stitch" result="noise" />
+          <feTurbulence type="fractalNoise" baseFrequency="0.60" numOctaves="3" stitchTiles="stitch" result="noise" />
           <feColorMatrix type="saturate" values="0" in="noise" />
         </filter>
       </defs>
