@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import Papa from 'papaparse';
-import { X, Copy, ChevronDown, Flower } from 'lucide-react';
+import { X, Copy, Check, ChevronDown, Flower } from 'lucide-react';
 import PrimaryButton from './PrimaryButton';
 import { useScrollLock } from '../hooks/useScrollLock';
 import { useSheetAnimation } from '../hooks/useSheetAnimation';
@@ -178,7 +178,7 @@ function UploadContent({
               className="w-full py-4 bg-surface-2 font-sans text-body font-bold leading-none rounded-md flex items-center justify-center gap-2"
               style={{ color: '#7B9FD4' }}
             >
-              {copied ? 'COPIED!' : <>COPY PROMPT<Copy size={18} /></>}
+              {copied ? <>Copied<Check size={18} /></> : <>COPY PROMPT<Copy size={18} /></>}
             </button>
           </AccordionStep>
 
