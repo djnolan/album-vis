@@ -2,7 +2,7 @@ import { useEffect, useState, useMemo, forwardRef } from 'react';
 import * as d3 from 'd3';
 import Flower, { seededRand, SIZE_MIN, SIZE_MAX } from './Flower';
 import { PALETTES } from '../data/palettes';
-import grainSrc from '../assets/grain.png';
+import grainSrc from '../assets/grain.jpg';
 
 const NOTE_ORDER = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
 
