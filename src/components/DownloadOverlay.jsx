@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { X, Smartphone, Watch, Scroll, Shirt } from 'lucide-react';
+import { X, Smartphone, Watch, Scroll, Shirt, Download } from 'lucide-react';
 import { NATURAL_PETALS, SHARP_PETALS, FLAT_PETALS, MAJOR_PATH, MINOR_PATH } from '../data/petalPaths';
 import { useScrollLock } from '../hooks/useScrollLock';
 import { useSheetAnimation } from '../hooks/useSheetAnimation';
@@ -583,7 +583,7 @@ export default function DownloadOverlay({ onClose, vizRef, album, palette }) {
             onClick={handleDownload}
             className={`uppercase tracking-wider${isDownloading ? ' opacity-40' : ''}`}
           >
-            {isDownloading ? 'Exporting…' : 'Download'}
+            {isDownloading ? 'Exporting…' : <>Download<Download size={18} /></>}
           </PrimaryButton>
         </div>
       </div>

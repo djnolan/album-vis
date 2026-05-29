@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-const DURATION = 340;
+const DURATION = 460;
 const EASING = 'cubic-bezier(0.32, 0.72, 0, 1)';
 
 export function useSheetAnimation(onClose, direction = 'up', onClosingStart) {

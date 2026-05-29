@@ -1,5 +1,5 @@
 import { forwardRef, useImperativeHandle, useRef, useState } from 'react';
-import { X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { X, MoveLeft, MoveRight } from 'lucide-react';
 import { useScrollLock } from '../hooks/useScrollLock';
 import { useSheetAnimation } from '../hooks/useSheetAnimation';
 import { noOrphan } from '../utils/typography';
@@ -112,20 +112,22 @@ const SongCard = forwardRef(function SongCard({ songs, activeIndex, onIndexChang
           <div className="flex items-center justify-between px-4 py-3">
             <button
               onClick={() => activeIndex > 0 && onIndexChange(activeIndex - 1)}
-              className={`flex items-center gap-0.5 font-sans text-ui px-3 py-1.5 rounded-md ${activeIndex === 0 ? 'invisible' : ''}`}
+              aria-label="Previous song"
+              className={`flex items-center justify-center px-5 h-9 rounded-md ${activeIndex === 0 ? 'invisible' : ''}`}
               style={{ background: 'rgba(0,0,0,0.08)', color: TEXT_PRIMARY }}
             >
-              <ChevronLeft size={16} /> prev
+              <MoveLeft size={18} />
             </button>
             <span className="font-mono text-caption" style={{ color: TEXT_SECONDARY }}>
               {activeIndex + 1} / {songs.length}
             </span>
             <button
               onClick={() => activeIndex < songs.length - 1 && onIndexChange(activeIndex + 1)}
-              className={`flex items-center gap-0.5 font-sans text-ui px-3 py-1.5 rounded-md ${activeIndex === songs.length - 1 ? 'invisible' : ''}`}
+              aria-label="Next song"
+              className={`flex items-center justify-center px-5 h-9 rounded-md ${activeIndex === songs.length - 1 ? 'invisible' : ''}`}
               style={{ background: 'rgba(0,0,0,0.08)', color: TEXT_PRIMARY }}
             >
-              next <ChevronRight size={16} />
+              <MoveRight size={18} />
             </button>
           </div>
         </div>

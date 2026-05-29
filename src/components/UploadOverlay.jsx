@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import Papa from 'papaparse';
-import { X, Copy, ChevronDown, Flower } from 'lucide-react';
+import { X, Copy, Check, ChevronDown, Flower } from 'lucide-react';
 import PrimaryButton from './PrimaryButton';
 import { useScrollLock } from '../hooks/useScrollLock';
 import { useSheetAnimation } from '../hooks/useSheetAnimation';
@@ -55,7 +55,7 @@ function AccordionStep({ stepLabel, label, isOpen, onToggle, children }) {
   return (
     <div
       className="rounded-lg overflow-hidden"
-      style={{ background: isOpen ? 'rgba(31,38,51,0.8)' : '#1F2633', outline: '1px solid rgba(255,255,255,0.06)' }}
+      style={{ background: '#161B24', border: `1.5px solid ${isOpen ? 'rgba(123,159,212,0.35)' : '#2A3140'}` }}
     >
       <button
         onClick={onToggle}
@@ -63,7 +63,7 @@ function AccordionStep({ stepLabel, label, isOpen, onToggle, children }) {
       >
         <span
           className="shrink-0 px-2 py-0.5 rounded font-mono text-caption font-medium uppercase tracking-wider"
-          style={{ background: 'rgba(123,159,212,0.15)', color: '#7B9FD4' }}
+          style={{ background: '#7B9FD4', color: '#0E1117' }}
         >
           {stepLabel}
         </span>
@@ -135,7 +135,7 @@ function UploadContent({
                   ref={albumInputRef}
                   value={albumTitle}
                   onChange={e => { setAlbumTitle(e.target.value); if (e.target.value.trim()) setTitleError(''); }}
-                  className="w-full bg-surface-1 text-text-primary font-sans text-body rounded-md px-4 py-3 outline-none border border-border focus:ring-1 focus:ring-accent"
+                  className="w-full bg-surface-2 text-text-primary font-sans text-body rounded-md px-4 py-3 outline-none border border-border focus:ring-1 focus:ring-accent"
                   placeholder="Album name"
                 />
                 {titleError && <p className="text-red-400 font-mono text-caption mt-1.5">{titleError}</p>}
@@ -146,7 +146,7 @@ function UploadContent({
                   ref={artistInputRef}
                   value={artistName}
                   onChange={e => { setArtistName(e.target.value); if (e.target.value.trim()) setArtistError(''); }}
-                  className="w-full bg-surface-1 text-text-primary font-sans text-body rounded-md px-4 py-3 outline-none border border-border focus:ring-1 focus:ring-accent"
+                  className="w-full bg-surface-2 text-text-primary font-sans text-body rounded-md px-4 py-3 outline-none border border-border focus:ring-1 focus:ring-accent"
                   placeholder="Artist name"
                 />
                 {artistError && <p className="text-red-400 font-mono text-caption mt-1.5">{artistError}</p>}
@@ -175,11 +175,10 @@ function UploadContent({
 
             <button
               onClick={handleCopy}
-              className="w-full flex items-center justify-center gap-2 rounded-md py-3 font-sans text-ui font-bold transition-colors"
-              style={{ border: '1px solid rgba(123,159,212,0.35)', color: '#7B9FD4', background: copied ? 'rgba(123,159,212,0.08)' : 'transparent' }}
+              className="w-full py-4 bg-surface-2 font-sans text-body font-bold leading-none rounded-md flex items-center justify-center gap-2"
+              style={{ color: '#7B9FD4' }}
             >
-              <Copy size={15} />
-              {copied ? 'Copied!' : 'Copy Prompt'}
+              {copied ? <>Copied<Check size={18} /></> : <>COPY PROMPT<Copy size={18} /></>}
             </button>
           </AccordionStep>
 

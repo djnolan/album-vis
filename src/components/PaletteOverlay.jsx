@@ -6,9 +6,8 @@ import { useScrollLock } from '../hooks/useScrollLock';
 import { useSheetAnimation } from '../hooks/useSheetAnimation';
 import { useIsDesktop } from '../hooks/useIsDesktop';
 
-// Ratio of flower size to container height, calibrated to mobile layout.
-// Mobile (~390px): col ~155px, container height ~62px, flower 80px → 80/62 ≈ 1.29
-const FLOWER_RATIO = 80 / 62;
+// Calibrated so flowers are ~80px at mobile thumbnail size (col ~155px → container ~87px tall at 16/9)
+const FLOWER_RATIO = 80 / 87;
 
 const FLOWER_CONFIGS = [
   [
@@ -69,7 +68,7 @@ function PaletteThumbnail({ palette, active, onClick, index, flowerSize }) {
       <div
         className="w-full rounded-md overflow-hidden"
         style={{
-          aspectRatio: '5 / 2',
+          aspectRatio: '16 / 9',
           position: 'relative',
           background: palette.bg,
           boxShadow: active
@@ -117,7 +116,7 @@ function PaletteContent({ activePaletteId, onSelect, close }) {
     const ro = new ResizeObserver(([entry]) => {
       const gridWidth = entry.contentRect.width;
       const colWidth = (gridWidth - 32) / 2; // gap-x-8 = 32px
-      const containerHeight = colWidth * (2 / 5); // aspect-ratio 5/2
+      const containerHeight = colWidth * (9 / 16); // aspect-ratio 16/9
       setFlowerSize(Math.round(containerHeight * FLOWER_RATIO));
     });
     ro.observe(el);
@@ -137,7 +136,7 @@ function PaletteContent({ activePaletteId, onSelect, close }) {
         </button>
       </div>
       <div className="overflow-y-auto flex-1 px-6 pt-2 pb-10">
-        <div ref={gridRef} className="grid grid-cols-2 gap-x-8 gap-y-5">
+        <div ref={gridRef} className="grid grid-cols-2 gap-x-8 gap-y-8">
           {PALETTES.map((p, i) => (
             <PaletteThumbnail
               key={p.id}
