@@ -142,7 +142,7 @@ const Visualization = forwardRef(function Visualization({ album, palette, active
         height={vbH}
         fill="white"
         filter="url(#viz-grain)"
-        opacity="0.06"
+        opacity="0.35"
         style={{ mixBlendMode: 'overlay', pointerEvents: 'none' }}
       />
     </svg>
