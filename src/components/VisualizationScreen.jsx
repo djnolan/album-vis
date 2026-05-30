@@ -316,7 +316,7 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
           backgroundImage: `url(${lightBg ? grainLightSrc : grainDarkSrc})`,
           backgroundSize: '400px 400px',
           mixBlendMode: lightBg ? 'multiply' : 'screen',
-          opacity: 0.35,
+          opacity: lightBg ? 0.55 : 0.40,
         }}
       />
     </div>
