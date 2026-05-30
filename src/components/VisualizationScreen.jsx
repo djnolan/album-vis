@@ -310,23 +310,13 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
       )}
 
       {/* ── Grain texture overlay ── */}
-      {/* screen+light grain: visible on dark areas; multiply+dark rotated 180°: visible on light areas, spatially offset so specks don't stack */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          backgroundImage: `url(${grainLightSrc})`,
+          backgroundImage: `url(${lightBg ? grainDarkSrc : grainLightSrc})`,
           backgroundSize: '400px 400px',
-          mixBlendMode: 'screen',
-          opacity: 0.25,
-        }}
-      />
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          backgroundImage: `url(${grainDarkSrc})`,
-          backgroundSize: '400px 400px',
-          mixBlendMode: 'multiply',
-          opacity: 0.25,
+          mixBlendMode: lightBg ? 'multiply' : 'screen',
+          opacity: 0.35,
         }}
       />
     </div>
