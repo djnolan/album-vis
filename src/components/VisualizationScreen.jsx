@@ -7,7 +7,8 @@ import { PALETTES } from '../data/palettes';
 import { useScrollLock } from '../hooks/useScrollLock';
 import { useIsDesktop } from '../hooks/useIsDesktop';
 import { noOrphan } from '../utils/typography';
-import grainSrc from '../assets/grain.webp';
+import grainLightSrc from '../assets/grain-light.webp';
+import grainDarkSrc from '../assets/grain-dark.webp';
 
 const CARD_BG = '#DDE2EE';
 const TOOLTIP_TEXT_PRIMARY = '#1A2030';
@@ -312,8 +313,8 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          backgroundImage: `url(${grainSrc})`,
-          backgroundSize: 'cover',
+          backgroundImage: `url(${lightBg ? grainLightSrc : grainDarkSrc})`,
+          backgroundSize: '600px 600px',
           mixBlendMode: lightBg ? 'multiply' : 'screen',
           opacity: 0.12,
         }}
