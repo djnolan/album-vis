@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import { SquarePlus } from 'lucide-react';
 import Visualization from './Visualization';
+import GrainOverlay from './GrainOverlay';
 import { PALETTES } from '../data/palettes';
 import { PRELOADED_ALBUMS } from '../data/albums';
 import PrimaryButton from './PrimaryButton';
@@ -55,6 +56,7 @@ function AlbumCard({ album, onSelect, isUserAlbum, onLongPress }) {
         <div style={{ position: 'absolute', width: '125%', height: '125%', top: '-12.5%', left: '-12.5%' }}>
           <Visualization album={album} palette={palette} activeSongTrack={null} />
         </div>
+        <GrainOverlay lightBg={!!palette.lightBg} />
       </div>
       <div className="mt-3 text-center w-full">
         <p className="font-serif text-[1.5rem] leading-[1.1] text-text-primary">{noOrphan(album.title)}</p>

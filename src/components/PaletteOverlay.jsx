@@ -2,6 +2,7 @@ import { X } from 'lucide-react';
 import { useRef, useEffect, useState } from 'react';
 import { PALETTES } from '../data/palettes';
 import Flower from './Flower';
+import GrainOverlay from './GrainOverlay';
 import { useScrollLock } from '../hooks/useScrollLock';
 import { useSheetAnimation } from '../hooks/useSheetAnimation';
 import { useIsDesktop } from '../hooks/useIsDesktop';
@@ -98,6 +99,7 @@ function PaletteThumbnail({ palette, active, onClick, index, flowerSize }) {
             </div>
           );
         })}
+        <GrainOverlay lightBg={!!palette.lightBg} />
       </div>
       <p className="font-mono text-caption text-text-secondary text-center">
         {palette.name}

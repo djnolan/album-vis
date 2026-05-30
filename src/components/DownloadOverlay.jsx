@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { X, Smartphone, Watch, Scroll, Shirt, Download } from 'lucide-react';
+import grainLightSrc from '../assets/grain-light.webp';
+import grainDarkSrc from '../assets/grain-dark.webp';
 import { NATURAL_PETALS, SHARP_PETALS, FLAT_PETALS, MAJOR_PATH, MINOR_PATH } from '../data/petalPaths';
 import { useScrollLock } from '../hooks/useScrollLock';
 import { useSheetAnimation } from '../hooks/useSheetAnimation';
@@ -212,6 +214,30 @@ async function buildCutoutMask(svgEl, renderW, renderH, bgHex) {
   });
 }
 
+// ── Grain texture helper ───────────────────────────────────────────────────────
+
+function loadImg(src) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = reject;
+    img.src = src;
+  });
+}
+
+function applyGrain(ctx, W, H, grainImg, lightBg) {
+  const TILE = 800;
+  ctx.save();
+  ctx.globalAlpha = lightBg ? 0.55 : 0.40;
+  ctx.globalCompositeOperation = lightBg ? 'multiply' : 'screen';
+  for (let x = 0; x < W; x += TILE) {
+    for (let y = 0; y < H; y += TILE) {
+      ctx.drawImage(grainImg, x, y, TILE, TILE);
+    }
+  }
+  ctx.restore();
+}
+
 // ── Format export functions ────────────────────────────────────────────────────
 
 async function exportWallpaper(svgEl, album, palette) {
@@ -223,13 +249,17 @@ async function exportWallpaper(svgEl, album, palette) {
   const renderH = Math.round(vbH * scale);
   const offsetY = Math.round(H * 0.55) - Math.round(renderH / 2);
 
-  const img    = await svgToImage(svgEl, renderW, renderH);
+  const [img, grainImg] = await Promise.all([
+    svgToImage(svgEl, renderW, renderH),
+    loadImg(palette.lightBg ? grainLightSrc : grainDarkSrc),
+  ]);
   const canvas = document.createElement('canvas');
   canvas.width = W; canvas.height = H;
   const ctx = canvas.getContext('2d');
   ctx.fillStyle = palette.bg;
   ctx.fillRect(0, 0, W, H);
   ctx.drawImage(img, offsetX, offsetY, renderW, renderH);
+  applyGrain(ctx, W, H, grainImg, !!palette.lightBg);
   triggerDownload(canvas, `${safeFilename(album.title)}-wallpaper.png`);
 }
 
@@ -242,13 +272,17 @@ async function exportWatch(svgEl, album, palette) {
   const offsetX = Math.round((W - renderW) / 2);
   const offsetY = Math.round((H - renderH) / 2);
 
-  const img    = await svgToImage(svgEl, renderW, renderH);
+  const [img, grainImg] = await Promise.all([
+    svgToImage(svgEl, renderW, renderH),
+    loadImg(palette.lightBg ? grainLightSrc : grainDarkSrc),
+  ]);
   const canvas = document.createElement('canvas');
   canvas.width = W; canvas.height = H;
   const ctx = canvas.getContext('2d');
   ctx.fillStyle = palette.bg;
   ctx.fillRect(0, 0, W, H);
   ctx.drawImage(img, offsetX, offsetY, renderW, renderH);
+  applyGrain(ctx, W, H, grainImg, !!palette.lightBg);
   triggerDownload(canvas, `${safeFilename(album.title)}-watch-face.png`);
 }
 
