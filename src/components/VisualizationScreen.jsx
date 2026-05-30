@@ -7,7 +7,8 @@ import { PALETTES } from '../data/palettes';
 import { useScrollLock } from '../hooks/useScrollLock';
 import { useIsDesktop } from '../hooks/useIsDesktop';
 import { noOrphan } from '../utils/typography';
-import grainSrc from '../assets/grain-mid.webp';
+import grainLightSrc from '../assets/grain-light.webp';
+import grainDarkSrc from '../assets/grain-dark.webp';
 
 const CARD_BG = '#DDE2EE';
 const TOOLTIP_TEXT_PRIMARY = '#1A2030';
@@ -309,13 +310,23 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
       )}
 
       {/* ── Grain texture overlay ── */}
+      {/* screen+light grain: visible on dark areas; multiply+dark rotated 180°: visible on light areas, spatially offset so specks don't stack */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          backgroundImage: `url(${grainSrc})`,
+          backgroundImage: `url(${grainLightSrc})`,
           backgroundSize: '400px 400px',
-          mixBlendMode: 'overlay',
-          opacity: 0.35,
+          mixBlendMode: 'screen',
+          opacity: 0.25,
+        }}
+      />
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage: `url(${grainDarkSrc})`,
+          backgroundSize: '400px 400px',
+          mixBlendMode: 'multiply',
+          opacity: 0.25,
         }}
       />
     </div>
