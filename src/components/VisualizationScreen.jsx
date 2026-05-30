@@ -314,9 +314,9 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
         className="absolute inset-0 pointer-events-none"
         style={{
           backgroundImage: `url(${lightBg ? grainLightSrc : grainDarkSrc})`,
-          backgroundSize: '600px 600px',
+          backgroundSize: '400px 400px',
           mixBlendMode: lightBg ? 'multiply' : 'screen',
-          opacity: 0.25,
+          opacity: 0.35,
         }}
       />
     </div>
