@@ -100,16 +100,6 @@ export const PALETTES = [
   },
 
   {
-    id: "blue-screen-life",
-    name: "Blue Screen Life",
-    bg: "#2146C7",
-    colorStart: "#A7C7FF",
-    colorEnd: "#FFE66D",
-    shirtColor: "#2146C7",
-    shirtLabel: "royal blue",
-  },
-
-  {
     id: "lava-lamp",
     name: "Lava Lamp",
     bg: "#A63A50",
@@ -127,6 +117,100 @@ export const PALETTES = [
     colorEnd: "#FF6B6B",
     shirtColor: "#0B6E4F",
     shirtLabel: "forest green",
+  },
+
+  {
+    id: "golden-hour",
+    name: "Golden Hour",
+    bg: "#F4E8D5",
+    colorStart: "#D97B29",
+    colorEnd: "#F5C242",
+    lightBg: true,
+    shirtColor: "#F4E8D5",
+    shirtLabel: "natural",
+  },
+
+  {
+    id: "moonlit-garden",
+    name: "Moonlit Garden",
+    bg: "#1A1C24",
+    colorStart: "#5C7C5C",
+    colorEnd: "#D6C7A1",
+    shirtColor: "#1A1C24",
+    shirtLabel: "black",
+  },
+
+  {
+    id: "dust-and-vinyl",
+    name: "Dust & Vinyl",
+    bg: "#E6DED2",
+    colorStart: "#6E5C4D",
+    colorEnd: "#C46A3D",
+    lightBg: true,
+    shirtColor: "#F5F0E8",
+    shirtLabel: "natural",
+  },
+
+  {
+    id: "frozen-echo",
+    name: "Frozen Echo",
+    bg: "#0F1A24",
+    colorStart: "#6BAED6",
+    colorEnd: "#E0F4FF",
+    shirtColor: "#0F1A24",
+    shirtLabel: "navy",
+  },
+
+  {
+    id: "midnight-jazz",
+    name: "Midnight Jazz",
+    bg: "#111111",
+    colorStart: "#8B5E34",
+    colorEnd: "#F0D48A",
+    shirtColor: "#111111",
+    shirtLabel: "black",
+  },
+
+  {
+    id: "rosewater",
+    name: "Rosewater",
+    bg: "#FFF1F3",
+    colorStart: "#F29CB2",
+    colorEnd: "#A0C4FF",
+    lightBg: true,
+    shirtColor: "#FFF1F3",
+    shirtLabel: "natural",
+  },
+
+  {
+    id: "harvest-moon",
+    name: "Harvest Moon",
+    bg: "#46352A",
+    colorStart: "#D9A441",
+    colorEnd: "#C96A2D",
+    shirtColor: "#46352A",
+    shirtLabel: "brown",
+  },
+
+  {
+    id: "obsidian-bloom",
+    name: "Obsidian Bloom",
+    bg: "#080808",
+    colorStart: "#6A0DAD",
+    colorEnd: "#E5E5E5",
+    shirtColor: "#080808",
+    shirtLabel: "black",
+  },
+
+  {
+    id: "faded-polaroid",
+    name: "Faded Polaroid",
+    bg: "#E8E1D4",
+    colorStart: "#8A9A8A",
+    colorEnd: "#C97B63",
+    lightBg: true,
+    shirtColor: "#F5F0E8",
+    shirtLabel: "natural",
   },
 
 ];
