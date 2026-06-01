@@ -152,13 +152,13 @@ export const PALETTES = [
   },
 
   {
-    id: "frozen-echo",
-    name: "Frozen Echo",
-    bg: "#0F1A24",
-    colorStart: "#355C7A",
-    colorEnd: "#E0F4FF",
-    shirtColor: "#0F1A24",
-    shirtLabel: "navy",
+    id: "velvet-dusk",
+    name: "Velvet Dusk",
+    bg: "#241D24",
+    colorStart: "#69455A",
+    colorEnd: "#E2A4C8",
+    shirtColor: "#241D24",
+    shirtLabel: "black",
   },
 
   {
