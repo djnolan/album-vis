@@ -39,6 +39,16 @@ export const PALETTES = [
   },
 
   {
+    id: "ultraviolet-clash",
+    name: "Ultraviolet Clash",
+    bg: "#140F2D",
+    colorStart: "#2E0F7A",
+    colorEnd: "#F72585",
+    shirtColor: "#1a1a2e",
+    shirtLabel: "navy",
+  },
+
+  {
     id: "rosewater",
     name: "Rosewater",
     bg: "#FFF1F3",
@@ -60,6 +70,17 @@ export const PALETTES = [
   },
 
   {
+    id: "terracotta-punch",
+    name: "Terracotta Punch",
+    bg: "#DAD2C3",
+    colorStart: "#C49A7A",
+    colorEnd: "#3A6FF2",
+    lightBg: true,
+    shirtColor: "#2C3E6B",
+    shirtLabel: "navy",
+  },
+
+  {
     id: "moonlit-garden",
     name: "Moonlit Garden",
     bg: "#1A1C24",
@@ -70,13 +91,23 @@ export const PALETTES = [
   },
 
   {
-    id: "ultraviolet-clash",
-    name: "Ultraviolet Clash",
-    bg: "#140F2D",
-    colorStart: "#2E0F7A",
-    colorEnd: "#F72585",
-    shirtColor: "#1a1a2e",
-    shirtLabel: "navy",
+    id: "burnt-hologram",
+    name: "Burnt Hologram",
+    bg: "#2B1F1A",
+    colorStart: "#FF7A00",
+    colorEnd: "#FFD9F7",
+    shirtColor: "#1a1a1a",
+    shirtLabel: "black",
+  },
+
+  {
+    id: "midnight-jazz",
+    name: "Midnight Jazz",
+    bg: "#111111",
+    colorStart: "#8B5E34",
+    colorEnd: "#F0D48A",
+    shirtColor: "#111111",
+    shirtLabel: "black",
   },
 
   {
@@ -91,24 +122,13 @@ export const PALETTES = [
   },
 
   {
-    id: "burnt-hologram",
-    name: "Burnt Hologram",
-    bg: "#2B1F1A",
-    colorStart: "#FF7A00",
-    colorEnd: "#FFD9F7",
-    shirtColor: "#1a1a1a",
-    shirtLabel: "black",
-  },
-
-  {
-    id: "faded-polaroid",
-    name: "Faded Polaroid",
-    bg: "#E8E1D4",
-    colorStart: "#CFC7B9",
-    colorEnd: "#C97B63",
-    lightBg: true,
-    shirtColor: "#F5F0E8",
-    shirtLabel: "natural",
+    id: "signal-decay",
+    name: "Signal Decay",
+    bg: "#1E2430",
+    colorStart: "#5B8CFF",
+    colorEnd: "#FF8A5B",
+    shirtColor: "#1E2430",
+    shirtLabel: "slate",
   },
 
   {
@@ -122,14 +142,24 @@ export const PALETTES = [
   },
 
   {
-    id: "terracotta-punch",
-    name: "Terracotta Punch",
-    bg: "#DAD2C3",
-    colorStart: "#C49A7A",
-    colorEnd: "#3A6FF2",
+    id: "velvet-dusk",
+    name: "Velvet Dusk",
+    bg: "#241D24",
+    colorStart: "#69455A",
+    colorEnd: "#E2A4C8",
+    shirtColor: "#241D24",
+    shirtLabel: "black",
+  },
+
+  {
+    id: "faded-polaroid",
+    name: "Faded Polaroid",
+    bg: "#E8E1D4",
+    colorStart: "#CFC7B9",
+    colorEnd: "#C97B63",
     lightBg: true,
-    shirtColor: "#2C3E6B",
-    shirtLabel: "navy",
+    shirtColor: "#F5F0E8",
+    shirtLabel: "natural",
   },
 
   {
@@ -153,22 +183,12 @@ export const PALETTES = [
   },
 
   {
-    id: "signal-decay",
-    name: "Signal Decay",
-    bg: "#1E2430",
-    colorStart: "#5B8CFF",
-    colorEnd: "#FF8A5B",
-    shirtColor: "#1E2430",
-    shirtLabel: "slate",
-  },
-
-  {
-    id: "velvet-dusk",
-    name: "Velvet Dusk",
-    bg: "#241D24",
-    colorStart: "#69455A",
-    colorEnd: "#E2A4C8",
-    shirtColor: "#241D24",
+    id: "obsidian-bloom",
+    name: "Obsidian Bloom",
+    bg: "#080808",
+    colorStart: "#6A0DAD",
+    colorEnd: "#E5E5E5",
+    shirtColor: "#080808",
     shirtLabel: "black",
   },
 
@@ -181,26 +201,6 @@ export const PALETTES = [
     lightBg: true,
     shirtColor: "#F5F0E8",
     shirtLabel: "natural",
-  },
-
-  {
-    id: "midnight-jazz",
-    name: "Midnight Jazz",
-    bg: "#111111",
-    colorStart: "#8B5E34",
-    colorEnd: "#F0D48A",
-    shirtColor: "#111111",
-    shirtLabel: "black",
-  },
-
-  {
-    id: "obsidian-bloom",
-    name: "Obsidian Bloom",
-    bg: "#080808",
-    colorStart: "#6A0DAD",
-    colorEnd: "#E5E5E5",
-    shirtColor: "#080808",
-    shirtLabel: "black",
   },
 
   {

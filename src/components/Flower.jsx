@@ -57,13 +57,13 @@ export default function Flower({ song, size, color, bg, globalRotation, dimmed =
           const baseY = accidental === 'sharp' ? bb.maxY + bb.h * 0.06 : bb.maxY;
           return (
             <g key={i} transform={`translate(${cx},${cy}) rotate(${angleDeg}) scale(${scaleX},${scaleY}) translate(${-bb.cx},${-baseY})`}>
-              <path d={d} fill={color} />
+              <path d={d} style={{ fill: color, transition: 'fill 0.65s ease' }} />
             </g>
           );
         })}
-        <circle cx={cx} cy={cy} r={centerR} fill={color} />
+        <circle cx={cx} cy={cy} r={centerR} style={{ fill: color, transition: 'fill 0.65s ease' }} />
         <g transform={`translate(${cx},${cy}) rotate(${cutRotation}) scale(${cutScale}) translate(${-cbb.cx},${-cbb.cy})`}>
-          <path d={cutoutD} fill={bg} />
+          <path d={cutoutD} style={{ fill: bg, transition: 'fill 0.65s ease' }} />
         </g>
       </g>
     </svg>

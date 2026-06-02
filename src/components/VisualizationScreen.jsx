@@ -183,7 +183,7 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
       {/* Visualization — full bleed */}
       <div
         className="absolute inset-0"
-        style={{ background: palette.bg }}
+        style={{ background: palette.bg, transition: 'background-color 0.65s ease' }}
         onClick={handleVizClick}
       >
         <div style={{
