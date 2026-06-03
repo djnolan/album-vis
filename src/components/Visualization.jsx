@@ -47,7 +47,7 @@ function computeLayout(songs) {
   return nodes;
 }
 
-const Visualization = forwardRef(function Visualization({ album, palette, activeSongTrack, onFlowerClick, animate = false }, ref) {
+const Visualization = forwardRef(function Visualization({ album, palette, activeSongTrack, onFlowerClick, animate = false, transitionKey = 0, staggerMs = 50 }, ref) {
   const [nodes, setNodes] = useState([]);
 
   const colorRamp = useMemo(() => (
@@ -96,7 +96,7 @@ const Visualization = forwardRef(function Visualization({ album, palette, active
         const trackOrder = trackOrderMap.get(node.track) ?? 0;
         return (
           <g
-            key={`${album.id}-${node.track}`}
+            key={`${album.id}-${node.track}-${transitionKey}`}
             transform={`translate(${node.x - node.r}, ${node.y - node.r})`}
             onClick={(e) => {
               if (onFlowerClick) {
@@ -115,7 +115,7 @@ const Visualization = forwardRef(function Visualization({ album, palette, active
             <g style={animate ? {
               transformOrigin: `${node.r}px ${node.r}px`,
               animation: `growFlower 0.75s cubic-bezier(0.34, 1.2, 0.64, 1) both`,
-              animationDelay: `${trackOrder * 50}ms`,
+              animationDelay: `${trackOrder * staggerMs}ms`,
             } : undefined}>
               <Flower
                 song={node}

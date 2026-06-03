@@ -37,3 +37,8 @@ html, body {
   from { opacity: 1; }
   to   { opacity: 0; }
 }
+
+@keyframes paletteWipeIn {
+  from { clip-path: inset(0 0 100% 0); }
+  to   { clip-path: inset(0 0 0% 0); }
+}

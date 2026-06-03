@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { ArrowLeft, Info, Palette, Download, X } from 'lucide-react';
 import Visualization from './Visualization';
 import SongCard from './SongCard';
@@ -99,8 +99,31 @@ function DesktopSongCard({ song, pos, onClose }) {
 export default function VisualizationScreen({ album, paletteId, onBack, onPaletteClick, onInfoClick, onEditClick, desktopOverlayOpen = false, onCloseOverlay }) {
   useScrollLock(true);
   const isDesktop = useIsDesktop();
+
+  // Palette wipe transition state
+  const [displayedPaletteId, setDisplayedPaletteId] = useState(paletteId);
+  const [transitionPhase, setTransitionPhase] = useState('idle'); // 'idle' | 'wiping' | 'appearing'
+  const [transitionKey, setTransitionKey] = useState(0);
+  const isFirstPaletteRender = useRef(true);
+
+  useEffect(() => {
+    if (isFirstPaletteRender.current) {
+      isFirstPaletteRender.current = false;
+      return;
+    }
+    setTransitionPhase('wiping');
+    const t1 = setTimeout(() => {
+      setDisplayedPaletteId(paletteId);
+      setTransitionKey(k => k + 1);
+      setTransitionPhase('appearing');
+    }, 380);
+    const t2 = setTimeout(() => setTransitionPhase('idle'), 380 + 800);
+    return () => { clearTimeout(t1); clearTimeout(t2); };
+  }, [paletteId]);
+
   const palette = PALETTES.find(p => p.id === paletteId) ?? PALETTES[0];
-  const lightBg = !!palette.lightBg;
+  const displayedPalette = PALETTES.find(p => p.id === displayedPaletteId) ?? PALETTES[0];
+  const lightBg = !!displayedPalette.lightBg;
   const [activeSongTrack, setActiveSongTrack] = useState(null);
   const [songCardMounted, setSongCardMounted] = useState(false);
   const [cardIndex, setCardIndex] = useState(0);
@@ -183,7 +206,7 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
       {/* Visualization — full bleed */}
       <div
         className="absolute inset-0"
-        style={{ background: palette.bg, transition: 'background-color 0.65s ease' }}
+        style={{ background: displayedPalette.bg }}
         onClick={handleVizClick}
       >
         <div style={{
@@ -191,17 +214,32 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
           height: '100%',
           marginLeft: '-8%',
           transform: vizTransform,
-          transition: 'transform 460ms cubic-bezier(0.32, 0.72, 0, 1)',
+          transition: `transform 460ms cubic-bezier(0.32, 0.72, 0, 1)${transitionPhase === 'wiping' ? ', opacity 0.2s ease' : ''}`,
+          opacity: transitionPhase === 'wiping' ? 0 : 1,
         }}>
           <Visualization
             ref={vizRef}
             album={album}
-            palette={palette}
+            palette={displayedPalette}
             activeSongTrack={isDesktop ? (desktopClickedSong?.track ?? null) : activeSongTrack}
             onFlowerClick={handleFlowerClick}
             animate
+            transitionKey={transitionKey}
+            staggerMs={transitionPhase === 'appearing' ? 20 : 50}
           />
         </div>
+
+        {/* Palette wipe overlay — new bg color slides in from top */}
+        {transitionPhase === 'wiping' && (
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background: palette.bg,
+              animation: 'paletteWipeIn 0.4s cubic-bezier(0.76, 0, 0.24, 1) both',
+              zIndex: 5,
+            }}
+          />
+        )}
       </div>
 
       {/* ── MOBILE header ── */}
