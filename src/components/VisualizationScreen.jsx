@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { ArrowLeft, Info, Palette, Download, X } from 'lucide-react';
 import Visualization from './Visualization';
 import SongCard from './SongCard';
@@ -96,9 +96,17 @@ function DesktopSongCard({ song, pos, onClose }) {
   );
 }
 
-export default function VisualizationScreen({ album, paletteId, onBack, onPaletteClick, onInfoClick, onEditClick, desktopOverlayOpen = false, onCloseOverlay }) {
+export default function VisualizationScreen({ album, paletteId, onBack, onPaletteClick, onInfoClick, onEditClick, desktopOverlayOpen = false, onCloseOverlay, paletteTransitionTrigger = 0 }) {
   useScrollLock(true);
   const isDesktop = useIsDesktop();
+
+  const [transitionKey, setTransitionKey] = useState(0);
+  const isFirstTrigger = useRef(true);
+  useEffect(() => {
+    if (isFirstTrigger.current) { isFirstTrigger.current = false; return; }
+    setTransitionKey(k => k + 1);
+  }, [paletteTransitionTrigger]);
+
   const palette = PALETTES.find(p => p.id === paletteId) ?? PALETTES[0];
   const lightBg = !!palette.lightBg;
   const [activeSongTrack, setActiveSongTrack] = useState(null);
@@ -200,6 +208,8 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
             activeSongTrack={isDesktop ? (desktopClickedSong?.track ?? null) : activeSongTrack}
             onFlowerClick={handleFlowerClick}
             animate
+            transitionKey={transitionKey}
+            staggerMs={transitionKey > 0 ? 20 : 50}
           />
         </div>
       </div>

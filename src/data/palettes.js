@@ -18,14 +18,14 @@ export const PALETTES = [
   },
 
   {
-    id: "terracotta-punch",
-    name: "Terracotta Punch",
-    bg: "#DAD2C3",
-    colorStart: "#C49A7A",
-    colorEnd: "#3A6FF2",
+    id: "golden-hour",
+    name: "Golden Hour",
+    bg: "#F4E8D5",
+    colorStart: "#E6CFA8",
+    colorEnd: "#D97B29",
     lightBg: true,
-    shirtColor: "#2C3E6B",
-    shirtLabel: "navy",
+    shirtColor: "#F4E8D5",
+    shirtLabel: "natural",
   },
 
   {
@@ -49,6 +49,89 @@ export const PALETTES = [
   },
 
   {
+    id: "rosewater",
+    name: "Rosewater",
+    bg: "#FFF1F3",
+    colorStart: "#F7D6DF",
+    colorEnd: "#6E9EFF",
+    lightBg: true,
+    shirtColor: "#FFF1F3",
+    shirtLabel: "natural",
+  },
+
+  {
+    id: "lava-lamp",
+    name: "Lava Lamp",
+    bg: "#A63A50",
+    colorStart: "#FFD166",
+    colorEnd: "#7BFFB7",
+    shirtColor: "#A63A50",
+    shirtLabel: "burgundy",
+  },
+
+  {
+    id: "terracotta-punch",
+    name: "Terracotta Punch",
+    bg: "#DAD2C3",
+    colorStart: "#C49A7A",
+    colorEnd: "#3A6FF2",
+    lightBg: true,
+    shirtColor: "#2C3E6B",
+    shirtLabel: "navy",
+  },
+
+  {
+    id: "moonlit-garden",
+    name: "Moonlit Garden",
+    bg: "#1A1C24",
+    colorStart: "#3F5A45",
+    colorEnd: "#CFC3D9",
+    shirtColor: "#1A1C24",
+    shirtLabel: "black",
+  },
+
+  {
+    id: "burnt-hologram",
+    name: "Burnt Hologram",
+    bg: "#2B1F1A",
+    colorStart: "#FF7A00",
+    colorEnd: "#FFD9F7",
+    shirtColor: "#1a1a1a",
+    shirtLabel: "black",
+  },
+
+  {
+    id: "midnight-jazz",
+    name: "Midnight Jazz",
+    bg: "#111111",
+    colorStart: "#8B5E34",
+    colorEnd: "#F0D48A",
+    shirtColor: "#111111",
+    shirtLabel: "black",
+  },
+
+  {
+    id: "sagebrush",
+    name: "Sagebrush",
+    bg: "#F1EFE7",
+    colorStart: "#D9D3C4",
+    colorEnd: "#648A8C",
+    lightBg: true,
+    shirtColor: "#F5F0E8",
+    shirtLabel: "natural",
+  },
+
+  {
+    id: "signal-decay",
+    name: "Signal Decay",
+    bg: "#1E2430",
+    colorStart: "#5B8CFF",
+    colorEnd: "#FF8A5B",
+    shirtColor: "#1E2430",
+    shirtLabel: "slate",
+  },
+
+  {
     id: "electric-orchid",
     name: "Electric Orchid",
     bg: "#2A1F3D",
@@ -56,6 +139,57 @@ export const PALETTES = [
     colorEnd: "#00E5FF",
     shirtColor: "#1a1a2e",
     shirtLabel: "navy",
+  },
+
+  {
+    id: "velvet-dusk",
+    name: "Velvet Dusk",
+    bg: "#241D24",
+    colorStart: "#69455A",
+    colorEnd: "#E2A4C8",
+    shirtColor: "#241D24",
+    shirtLabel: "black",
+  },
+
+  {
+    id: "faded-polaroid",
+    name: "Faded Polaroid",
+    bg: "#E8E1D4",
+    colorStart: "#CFC7B9",
+    colorEnd: "#C97B63",
+    lightBg: true,
+    shirtColor: "#F5F0E8",
+    shirtLabel: "natural",
+  },
+
+  {
+    id: "green-room",
+    name: "Green Room",
+    bg: "#0B6E4F",
+    colorStart: "#C2F970",
+    colorEnd: "#FF6B6B",
+    shirtColor: "#0B6E4F",
+    shirtLabel: "forest green",
+  },
+
+  {
+    id: "harvest-moon",
+    name: "Harvest Moon",
+    bg: "#46352A",
+    colorStart: "#7A4B38",
+    colorEnd: "#E0C05A",
+    shirtColor: "#46352A",
+    shirtLabel: "brown",
+  },
+
+  {
+    id: "obsidian-bloom",
+    name: "Obsidian Bloom",
+    bg: "#080808",
+    colorStart: "#6A0DAD",
+    colorEnd: "#E5E5E5",
+    shirtColor: "#080808",
+    shirtLabel: "black",
   },
 
   {
@@ -70,16 +204,6 @@ export const PALETTES = [
   },
 
   {
-    id: "burnt-hologram",
-    name: "Burnt Hologram",
-    bg: "#2B1F1A",
-    colorStart: "#FF7A00",
-    colorEnd: "#FFD9F7",
-    shirtColor: "#1a1a1a",
-    shirtLabel: "black",
-  },
-
-  {
     id: "deep-sea-tape",
     name: "Deep Sea Tape",
     bg: "#06141F",
@@ -87,46 +211,6 @@ export const PALETTES = [
     colorEnd: "#83C5BE",
     shirtColor: "#06141F",
     shirtLabel: "dark teal",
-  },
-
-  {
-    id: "signal-decay",
-    name: "Signal Decay",
-    bg: "#1E2430",
-    colorStart: "#5B8CFF",
-    colorEnd: "#FF8A5B",
-    shirtColor: "#1E2430",
-    shirtLabel: "slate",
-  },
-
-  {
-    id: "blue-screen-life",
-    name: "Blue Screen Life",
-    bg: "#2146C7",
-    colorStart: "#A7C7FF",
-    colorEnd: "#FFE66D",
-    shirtColor: "#2146C7",
-    shirtLabel: "royal blue",
-  },
-
-  {
-    id: "lava-lamp",
-    name: "Lava Lamp",
-    bg: "#A63A50",
-    colorStart: "#FFD166",
-    colorEnd: "#7BFFB7",
-    shirtColor: "#A63A50",
-    shirtLabel: "burgundy",
-  },
-
-  {
-    id: "green-room",
-    name: "Green Room",
-    bg: "#0B6E4F",
-    colorStart: "#C2F970",
-    colorEnd: "#FF6B6B",
-    shirtColor: "#0B6E4F",
-    shirtLabel: "forest green",
   },
 
 ];
