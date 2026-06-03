@@ -113,6 +113,7 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
   const [songCardMounted, setSongCardMounted] = useState(false);
   const [cardIndex, setCardIndex] = useState(0);
   const [showDownload, setShowDownload] = useState(false);
+  const [downloadSlideActive, setDownloadSlideActive] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
   // Desktop click-to-reveal card state
   const [desktopClickedSong, setDesktopClickedSong] = useState(null);
@@ -162,6 +163,11 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
   }
 
   function handleVizClick() {
+    if (isDesktop && showDownload) {
+      setDownloadSlideActive(false);
+      setShowDownload(false);
+      return;
+    }
     if (isDesktop && desktopOverlayOpen) {
       onCloseOverlay?.();
       return;
@@ -177,13 +183,13 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
 
   // Viz shift: left when desktop overlay open, up when mobile song card active
   let vizTransform = 'translateY(0)';
-  if (isDesktop && desktopOverlayOpen) {
+  if (isDesktop && (desktopOverlayOpen || downloadSlideActive)) {
     vizTransform = 'translateX(-15%)';
   } else if (!isDesktop && activeSongTrack != null) {
     vizTransform = 'translateY(-10%)';
   }
 
-  const chromeHidden = isDesktop && desktopOverlayOpen;
+  const chromeHidden = isDesktop && (desktopOverlayOpen || downloadSlideActive);
 
   return (
     <div className="fixed inset-0 overflow-hidden bg-surface-0" style={{ animation: `${isExiting ? 'vizFadeOut' : 'vizFadeIn'} 0.2s ease both` }}>
@@ -237,7 +243,7 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
       <div className="lg:hidden absolute bottom-0 left-0 right-0 h-16 flex items-center justify-between px-8">
         <button onClick={onInfoClick} style={{ color: vizTextPrimary }}><Info size={22} /></button>
         <button onClick={onPaletteClick} style={{ color: vizTextPrimary }}><Palette size={22} /></button>
-        <button onClick={() => setShowDownload(true)} style={{ color: vizTextPrimary }}>
+        <button onClick={() => { setShowDownload(true); setDownloadSlideActive(true); }} style={{ color: vizTextPrimary }}>
           <Download size={22} />
         </button>
       </div>
@@ -281,7 +287,7 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
       >
         <button onClick={onInfoClick} style={{ color: vizTextPrimary }}><Info size={22} /></button>
         <button onClick={onPaletteClick} style={{ color: vizTextPrimary }}><Palette size={22} /></button>
-        <button onClick={() => setShowDownload(true)} style={{ color: vizTextPrimary }}>
+        <button onClick={() => { setShowDownload(true); setDownloadSlideActive(true); }} style={{ color: vizTextPrimary }}>
           <Download size={22} />
         </button>
       </div>
@@ -311,6 +317,7 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
       {showDownload && (
         <DownloadOverlay
           onClose={() => setShowDownload(false)}
+          onClosingStart={() => setDownloadSlideActive(false)}
           vizRef={vizRef}
           album={album}
           palette={palette}

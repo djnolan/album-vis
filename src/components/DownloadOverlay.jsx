@@ -3,6 +3,7 @@ import { X, Smartphone, Watch, Scroll, Shirt, Download } from 'lucide-react';
 import { NATURAL_PETALS, SHARP_PETALS, FLAT_PETALS, MAJOR_PATH, MINOR_PATH } from '../data/petalPaths';
 import { useScrollLock } from '../hooks/useScrollLock';
 import { useSheetAnimation } from '../hooks/useSheetAnimation';
+import { useIsDesktop } from '../hooks/useIsDesktop';
 import PrimaryButton from './PrimaryButton';
 
 // ── Flower rendering utilities (mirrors LegendOverlay logic for canvas export) ──
@@ -522,9 +523,51 @@ function FormatButton({ fmt, selected, onSelect }) {
   );
 }
 
-export default function DownloadOverlay({ onClose, vizRef, album, palette }) {
+function DownloadContent({ selected, setSelected, blurbText, isDownloading, handleDownload, close }) {
+  return (
+    <>
+      <div className="shrink-0 flex items-center justify-between px-6 pt-5 pb-4">
+        <h2 className="font-sans text-ui font-medium uppercase tracking-wider text-text-primary">
+          Save Your Album Art
+        </h2>
+        <button
+          onClick={close}
+          className="w-9 h-9 rounded-full flex items-center justify-center text-text-secondary"
+          style={{ background: 'rgba(0,0,0,0.3)' }}
+        >
+          <X size={18} />
+        </button>
+      </div>
+      <div className="px-5 pb-6 flex flex-col gap-4">
+        <div className="grid grid-cols-2 gap-4" style={{ gridAutoRows: '1fr' }}>
+          {FORMATS.map(fmt => (
+            <FormatButton
+              key={fmt.id}
+              fmt={fmt}
+              selected={selected}
+              onSelect={setSelected}
+            />
+          ))}
+        </div>
+        {/* Reserved blurb row — always occupies its height so the sheet doesn't resize */}
+        <p className="font-mono text-caption text-text-secondary text-center px-1" style={{ opacity: blurbText ? 1 : 0 }}>
+          {blurbText || ' '}
+        </p>
+        <PrimaryButton
+          onClick={handleDownload}
+          className={`uppercase tracking-wider${isDownloading ? ' opacity-40' : ''}`}
+        >
+          {isDownloading ? 'Exporting…' : <>Download<Download size={18} /></>}
+        </PrimaryButton>
+      </div>
+    </>
+  );
+}
+
+export default function DownloadOverlay({ onClose, onClosingStart, vizRef, album, palette }) {
   useScrollLock(true);
-  const { close, backdropStyle, sheetStyle } = useSheetAnimation(onClose, 'up');
+  const isDesktop = useIsDesktop();
+  const { close, backdropStyle, sheetStyle } = useSheetAnimation(onClose, isDesktop ? 'right' : 'up', onClosingStart);
   const [selected, setSelected]           = useState('wallpaper');
   const [isDownloading, setIsDownloading] = useState(false);
 
@@ -542,6 +585,31 @@ export default function DownloadOverlay({ onClose, vizRef, album, palette }) {
     }
   }
 
+  if (isDesktop) {
+    return (
+      <div className="fixed inset-0 z-50 flex pointer-events-none">
+        <div
+          className="relative ml-auto h-full bg-surface-1 flex flex-col rounded-tl-lg rounded-bl-lg pointer-events-auto"
+          style={{
+            width: '36%',
+            minWidth: '320px',
+            boxShadow: '-8px 0 32px rgba(0,0,0,0.5)',
+            ...sheetStyle,
+          }}
+        >
+          <DownloadContent
+            selected={selected}
+            setSelected={setSelected}
+            blurbText={blurbText}
+            isDownloading={isDownloading}
+            handleDownload={handleDownload}
+            close={close}
+          />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="fixed inset-0 z-50 flex flex-col justify-end">
       <div className="absolute inset-0 bg-black/75" style={backdropStyle} onClick={close} />
@@ -549,43 +617,14 @@ export default function DownloadOverlay({ onClose, vizRef, album, palette }) {
         className="relative bg-surface-1 rounded-t-lg flex flex-col"
         style={{ boxShadow: '0 -8px 32px rgba(0,0,0,0.5)', ...sheetStyle }}
       >
-        <div className="shrink-0 flex items-center justify-between px-6 pt-5 pb-4">
-          <h2 className="font-sans text-ui font-medium uppercase tracking-wider text-text-primary">
-            Save Your Album Art
-          </h2>
-          <button
-            onClick={close}
-            className="w-9 h-9 rounded-full flex items-center justify-center text-text-secondary"
-            style={{ background: 'rgba(0,0,0,0.3)' }}
-          >
-            <X size={18} />
-          </button>
-        </div>
-
-        <div className="px-5 pb-6 flex flex-col gap-4">
-          <div className="grid grid-cols-2 gap-4" style={{ gridAutoRows: '1fr' }}>
-            {FORMATS.map(fmt => (
-              <FormatButton
-                key={fmt.id}
-                fmt={fmt}
-                selected={selected}
-                onSelect={setSelected}
-              />
-            ))}
-          </div>
-
-          {/* Reserved blurb row — always occupies its height so the sheet doesn't resize */}
-          <p className="font-mono text-caption text-text-secondary text-center px-1" style={{ opacity: blurbText ? 1 : 0 }}>
-            {blurbText || ' '}
-          </p>
-
-          <PrimaryButton
-            onClick={handleDownload}
-            className={`uppercase tracking-wider${isDownloading ? ' opacity-40' : ''}`}
-          >
-            {isDownloading ? 'Exporting…' : <>Download<Download size={18} /></>}
-          </PrimaryButton>
-        </div>
+        <DownloadContent
+          selected={selected}
+          setSelected={setSelected}
+          blurbText={blurbText}
+          isDownloading={isDownloading}
+          handleDownload={handleDownload}
+          close={close}
+        />
       </div>
     </div>
   );
