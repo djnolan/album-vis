@@ -254,25 +254,25 @@ export const songsInTheKeyOfLife = {
   ],
 };
 
-export const billyBreathes = {
-  id: 'billybreathes',
-  title: 'Billy Breathes',
-  artist: 'Phish',
-  paletteId: 'green-room',
+export const nevermind = {
+  id: 'nevermind',
+  title: 'Nevermind',
+  artist: 'Nirvana',
+  paletteId: 'signal-decay',
   songs: [
-    { track: 1,  name: "Free",                duration: 229, bpm: 86,  key: "G", accidental: "sharp",   mode: "major" },
-    { track: 2,  name: "Character Zero",      duration: 240, bpm: 166, key: "D", accidental: "natural", mode: "major" },
-    { track: 3,  name: "Waste",               duration: 290, bpm: 144, key: "F", accidental: "natural", mode: "major" },
-    { track: 4,  name: "Taste",               duration: 247, bpm: 150, key: "D", accidental: "natural", mode: "major" },
-    { track: 5,  name: "Cars Trucks Buses",   duration: 145, bpm: 111, key: "D", accidental: "natural", mode: "major" },
-    { track: 6,  name: "Talk",                duration: 189, bpm: 168, key: "C", accidental: "natural", mode: "major" },
-    { track: 7,  name: "Theme From The Bottom", duration: 382, bpm: 80, key: "D", accidental: "natural", mode: "major" },
-    { track: 8,  name: "Train Song",          duration: 153, bpm: 178, key: "G", accidental: "natural", mode: "major" },
-    { track: 9,  name: "Bliss",               duration: 123, bpm: 149, key: "F", accidental: "natural", mode: "major" },
-    { track: 10, name: "Billy Breathes",      duration: 331, bpm: 140, key: "F", accidental: "natural", mode: "major" },
-    { track: 11, name: "Swept Away",          duration: 76,  bpm: 132, key: "D", accidental: "natural", mode: "major" },
-    { track: 12, name: "Steep",               duration: 97,  bpm: 136, key: "D", accidental: "natural", mode: "major" },
-    { track: 13, name: "Prince Caspian",      duration: 319, bpm: 158, key: "G", accidental: "natural", mode: "major" },
+    { track: 1,  name: "Smells Like Teen Spirit", duration: 301, bpm: 117, key: "C", accidental: "sharp",   mode: "major" },
+    { track: 2,  name: "In Bloom",                duration: 255, bpm: 157, key: "A", accidental: "sharp",   mode: "minor" },
+    { track: 3,  name: "Come As You Are",         duration: 218, bpm: 120, key: "E", accidental: "natural", mode: "minor" },
+    { track: 4,  name: "Breed",                   duration: 184, bpm: 158, key: "E", accidental: "natural", mode: "major" },
+    { track: 5,  name: "Lithium",                 duration: 257, bpm: 123, key: "G", accidental: "natural", mode: "major" },
+    { track: 6,  name: "Polly",                   duration: 173, bpm: 121, key: "D", accidental: "natural", mode: "minor" },
+    { track: 7,  name: "Territorial Pissings",    duration: 142, bpm: 184, key: "D", accidental: "natural", mode: "major" },
+    { track: 8,  name: "Drain You",               duration: 223, bpm: 133, key: "B", accidental: "natural", mode: "minor" },
+    { track: 9,  name: "Lounge Act",              duration: 156, bpm: 152, key: "B", accidental: "natural", mode: "minor" },
+    { track: 10, name: "Stay Away",               duration: 211, bpm: 165, key: "B", accidental: "natural", mode: "minor" },
+    { track: 11, name: "On A Plain",              duration: 194, bpm: 133, key: "D", accidental: "natural", mode: "major" },
+    { track: 12, name: "Something In The Way",    duration: 232, bpm: 105, key: "G", accidental: "sharp",   mode: "major" },
+    { track: 13, name: "Endless Nameless",        duration: 404, bpm: 132, key: "E", accidental: "natural", mode: "minor" },
   ],
 };
 
@@ -476,6 +476,6 @@ export const PRELOADED_ALBUMS = [
   momentOfTruth,
   rumours,
   boc,
-  billyBreathes,
+  nevermind,
   normanFuckingRockwell,
 ];
