@@ -455,24 +455,24 @@ export const brilliantCorners = {
 };
 
 export const PRELOADED_ALBUMS = [
-  blonde,
-  hurryUpWereDreaming,
-  theMiseducationOfLaurynHill,
-  speakNow,
-  brilliantCorners,
-  illmatic,
-  americanBeauty,
-  ctrl,
-  timeOut,
-  sometimesIMightBeIntrovert,
-  inRainbows,
-  songsInTheKeyOfLife,
-  pistols,
-  syro,
-  carrieAndLowell,
-  momentOfTruth,
-  rumours,
-  boc,
-  nevermind,
-  normanFuckingRockwell,
+  nevermind,                   // Ultraviolet Clash    — near-black, deep purple → hot pink
+  inRainbows,                  // Prism Bloom          — light cream, warm orange → cool blue
+  ctrl,                        // Green Room           — deep vivid green, lime → coral
+  normanFuckingRockwell,       // Obsidian Bloom       — pure black, purple → silver
+  speakNow,                    // Rosewater            — light pale pink, pink → periwinkle
+  boc,                         // Burnt Hologram       — dark warm brown, orange → pink glow
+  pistols,                     // Acid Bloom           — near-black, neon green → pink
+  theMiseducationOfLaurynHill, // Golden Hour          — light warm cream, cream → amber
+  songsInTheKeyOfLife,         // Lava Lamp            — deep crimson, yellow → mint
+  illmatic,                    // Signal Decay         — dark blue-grey, blue → orange
+  carrieAndLowell,             // Sagebrush            — light off-white, grey → sage teal
+  syro,                        // Neon Citrus          — near-black, electric teal → yellow
+  timeOut,                     // Terracotta Punch     — light warm, terracotta → blue
+  americanBeauty,              // Harvest Moon         — dark warm brown, brown → gold
+  hurryUpWereDreaming,         // Electric Orchid      — dark purple, deep purple → cyan
+  blonde,                      // Faded Polaroid       — light vintage beige, warm → terracotta
+  brilliantCorners,            // Midnight Jazz        — pure black, warm brown → gold
+  rumours,                     // Moonlit Garden       — dark charcoal, forest green → lavender
+  sometimesIMightBeIntrovert,  // Velvet Dusk          — near-black, dusty mauve → soft pink
+  momentOfTruth,               // Deep Sea Tape        — very dark navy, teal → mist
 ];
