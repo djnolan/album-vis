@@ -155,7 +155,7 @@ export const PALETTES = [
     id: "faded-polaroid",
     name: "Faded Polaroid",
     bg: "#E8E1D4",
-    colorStart: "#CFC7B9",
+    colorStart: "#C8CEC0",
     colorEnd: "#C97B63",
     lightBg: true,
     shirtColor: "#F5F0E8",
