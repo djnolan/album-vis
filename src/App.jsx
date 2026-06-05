@@ -29,6 +29,7 @@ export default function App() {
   // Tracks viz slide separately — flips false immediately when overlay starts closing
   const [vizSlideActive, setVizSlideActive] = useState(false);
   const [paletteTransitionTrigger, setPaletteTransitionTrigger] = useState(0);
+  const [flowersHidden, setFlowersHidden] = useState(false);
 
   useEffect(() => {
     try { localStorage.setItem('userAlbums', JSON.stringify(userAlbums)); } catch {}
@@ -101,6 +102,7 @@ export default function App() {
           desktopOverlayOpen={vizSlideActive}
           onCloseOverlay={() => { setVizSlideActive(false); setShowPalette(false); setShowLegend(false); }}
           paletteTransitionTrigger={paletteTransitionTrigger}
+          flowersHidden={flowersHidden}
         />
       )}
 
@@ -114,8 +116,8 @@ export default function App() {
         <PaletteOverlay
           activePaletteId={currentPaletteId}
           onSelect={handlePaletteSelect}
-          onClose={() => { setShowPalette(false); setPaletteTransitionTrigger(n => n + 1); }}
-          onClosingStart={() => setVizSlideActive(false)}
+          onClose={() => { setShowPalette(false); setFlowersHidden(false); setPaletteTransitionTrigger(n => n + 1); }}
+          onClosingStart={() => { setVizSlideActive(false); setFlowersHidden(true); }}
         />
       )}
       {showLegend && (() => {
