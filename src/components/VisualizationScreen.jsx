@@ -208,7 +208,7 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
             onFlowerClick={handleFlowerClick}
             animate
             transitionKey={paletteTransitionTrigger}
-            staggerMs={paletteTransitionTrigger > 0 ? 20 : 50}
+            staggerMs={paletteTransitionTrigger > 0 ? 20 : 80}
             flowersHidden={flowersHidden}
           />
         </div>
