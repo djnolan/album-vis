@@ -277,7 +277,7 @@ export const americanBeauty = {
   id: 'americanbeauty',
   title: 'American Beauty',
   artist: 'Grateful Dead',
-  paletteId: 'harvest-moon',
+  paletteId: 'golden-hour',
   songs: [
     { track: 1,  name: "Box of Rain",          duration: 316, bpm: 118, key: "D", accidental: "natural", mode: "major" },
     { track: 2,  name: "Friend of the Devil",  duration: 200, bpm: 153, key: "G", accidental: "natural", mode: "major" },
@@ -419,7 +419,7 @@ export const theMiseducationOfLaurynHill = {
   id: 'miseducation',
   title: 'The Miseducation of Lauryn Hill',
   artist: 'Lauryn Hill',
-  paletteId: 'golden-hour',
+  paletteId: 'harvest-moon',
   songs: [
     { track: 1,  name: "Intro",                                    duration: 47,  bpm: 80,  key: "D", accidental: "natural", mode: "major" },
     { track: 2,  name: "Lost Ones",                                duration: 334, bpm: 95,  key: "D", accidental: "natural", mode: "major" },

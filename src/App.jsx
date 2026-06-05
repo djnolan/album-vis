@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { PALETTES } from './data/palettes';
 import HomeScreen from './components/HomeScreen';
 import VisualizationScreen from './components/VisualizationScreen';
@@ -30,6 +30,7 @@ export default function App() {
   const [vizSlideActive, setVizSlideActive] = useState(false);
   const [paletteTransitionTrigger, setPaletteTransitionTrigger] = useState(0);
   const [flowersHidden, setFlowersHidden] = useState(false);
+  const paletteChangedRef = useRef(false);
 
   useEffect(() => {
     try { localStorage.setItem('userAlbums', JSON.stringify(userAlbums)); } catch {}
@@ -67,6 +68,7 @@ export default function App() {
   }
 
   function handlePaletteSelect(paletteId) {
+    paletteChangedRef.current = true;
     setCurrentPaletteId(paletteId);
     if (currentAlbum) {
       const updated = { ...currentAlbum, paletteId };
@@ -96,7 +98,7 @@ export default function App() {
           album={currentAlbum}
           paletteId={currentPaletteId}
           onBack={() => setScreen('home')}
-          onPaletteClick={() => { setShowPalette(true); setVizSlideActive(true); }}
+          onPaletteClick={() => { paletteChangedRef.current = false; setShowPalette(true); setVizSlideActive(true); }}
           onInfoClick={() => { setShowLegend(true); setVizSlideActive(true); }}
           onEditClick={() => setShowEdit(true)}
           desktopOverlayOpen={vizSlideActive}
@@ -116,8 +118,8 @@ export default function App() {
         <PaletteOverlay
           activePaletteId={currentPaletteId}
           onSelect={handlePaletteSelect}
-          onClose={() => { setShowPalette(false); setFlowersHidden(false); setPaletteTransitionTrigger(n => n + 1); }}
-          onClosingStart={() => { setVizSlideActive(false); setFlowersHidden(true); }}
+          onClose={() => { setShowPalette(false); setFlowersHidden(false); if (paletteChangedRef.current) setPaletteTransitionTrigger(n => n + 1); }}
+          onClosingStart={() => { setVizSlideActive(false); if (paletteChangedRef.current) setFlowersHidden(true); }}
         />
       )}
       {showLegend && (() => {
