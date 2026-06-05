@@ -114,8 +114,8 @@ export default function App() {
         <PaletteOverlay
           activePaletteId={currentPaletteId}
           onSelect={handlePaletteSelect}
-          onClose={() => setShowPalette(false)}
-          onClosingStart={() => { setVizSlideActive(false); setPaletteTransitionTrigger(n => n + 1); }}
+          onClose={() => { setShowPalette(false); setPaletteTransitionTrigger(n => n + 1); }}
+          onClosingStart={() => setVizSlideActive(false)}
         />
       )}
       {showLegend && (() => {
