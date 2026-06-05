@@ -21,7 +21,7 @@ export const PALETTES = [
     id: "golden-hour",
     name: "Golden Hour",
     bg: "#F4E8D5",
-    colorStart: "#EBCBB5",
+    colorStart: "#DDBCAD",
     colorEnd: "#D6A11D",
     lightBg: true,
     shirtColor: "#F4E8D5",
