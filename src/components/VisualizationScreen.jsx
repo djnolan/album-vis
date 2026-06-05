@@ -113,6 +113,7 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
   const [desktopCardPos, setDesktopCardPos] = useState(null);
   const vizRef = useRef(null);
   const songCardRef = useRef(null);
+  const initialTrigger = useRef(paletteTransitionTrigger);
 
   function handleBack() {
     setIsExiting(true);
@@ -208,7 +209,7 @@ export default function VisualizationScreen({ album, paletteId, onBack, onPalett
             onFlowerClick={handleFlowerClick}
             animate
             transitionKey={paletteTransitionTrigger}
-            staggerMs={paletteTransitionTrigger > 0 ? 20 : 80}
+            staggerMs={paletteTransitionTrigger > initialTrigger.current ? 20 : 50}
             flowersHidden={flowersHidden}
           />
         </div>
