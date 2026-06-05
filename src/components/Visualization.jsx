@@ -47,7 +47,7 @@ function computeLayout(songs) {
   return nodes;
 }
 
-const Visualization = forwardRef(function Visualization({ album, palette, activeSongTrack, onFlowerClick, animate = false, transitionKey = 0, staggerMs = 50 }, ref) {
+const Visualization = forwardRef(function Visualization({ album, palette, activeSongTrack, onFlowerClick, animate = false, transitionKey = 0, staggerMs = 50, flowersHidden = false }, ref) {
   const [nodes, setNodes] = useState([]);
 
   const colorRamp = useMemo(() => (
@@ -90,6 +90,7 @@ const Visualization = forwardRef(function Visualization({ album, palette, active
       style={{ display: 'block' }}
     >
       <rect x={minX - pad} y={minY - pad} width={vbW} height={vbH} fill={palette.bg} />
+      <g style={flowersHidden ? { opacity: 0 } : undefined}>
       {nodes.map(node => {
         const isActive = activeSongTrack === node.track;
         const dimmed = activeSongTrack != null && !isActive;
@@ -129,6 +130,7 @@ const Visualization = forwardRef(function Visualization({ album, palette, active
           </g>
         );
       })}
+      </g>
     </svg>
   );
 });

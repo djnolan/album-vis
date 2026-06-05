@@ -2,7 +2,7 @@ export const boc = {
   id: 'boc',
   title: 'Music Has the Right to Children',
   artist: 'Boards of Canada',
-  paletteId: 'terracotta-punch',
+  paletteId: 'burnt-hologram',
   songs: [
     { track: 1,  name: "Wildlife Analysis",         bpm: 91,  duration: 75,  key: "E", accidental: "natural", mode: "minor" },
     { track: 2,  name: "An Eagle in Your Mind",      bpm: 96,  duration: 385, key: "F", accidental: "sharp",   mode: "major" },
@@ -29,7 +29,7 @@ export const blonde = {
   id: 'blonde',
   title: 'Blonde',
   artist: 'Frank Ocean',
-  paletteId: 'neon-citrus',
+  paletteId: 'faded-polaroid',
   songs: [
     { track: 1,  name: "Nikes",           bpm: 137, duration: 314, key: "G", accidental: "sharp",   mode: "major" },
     { track: 2,  name: "Ivy",             bpm: 116, duration: 249, key: "A", accidental: "natural", mode: "minor" },
@@ -55,7 +55,7 @@ export const speakNow = {
   id: 'speaknow',
   title: 'Speak Now',
   artist: 'Taylor Swift',
-  paletteId: 'ultraviolet-clash',
+  paletteId: 'rosewater',
   songs: [
     { track: 1,  name: "Mine",                bpm: 121, duration: 230, key: "G", accidental: "natural", mode: "major" },
     { track: 2,  name: "Sparks Fly",          bpm: 115, duration: 260, key: "F", accidental: "natural", mode: "major" },
@@ -118,7 +118,7 @@ export const timeOut = {
   id: 'timeout',
   title: 'Time Out',
   artist: 'The Dave Brubeck Quartet',
-  paletteId: 'deep-sea-tape',
+  paletteId: 'terracotta-punch',
   songs: [
     { track: 1, name: "Blue Rondo à la Turk", duration: 403, bpm: 113, key: "E", accidental: "flat",    mode: "minor" },
     { track: 2, name: "Strange Meadow Lark",  duration: 442, bpm: 125, key: "E", accidental: "natural", mode: "minor" },
@@ -161,25 +161,22 @@ export const hurryUpWereDreaming = {
   ],
 };
 
-export const mbdtf = {
-  id: 'mbdtf',
-  title: 'My Beautiful Dark Twisted Fantasy',
-  artist: 'Kanye West',
-  paletteId: 'ultraviolet-clash',
+export const illmatic = {
+  id: 'illmatic',
+  title: 'Illmatic',
+  artist: 'Nas',
+  paletteId: 'signal-decay',
   songs: [
-    { track: 1,  name: "Dark Fantasy",              duration: 281, bpm: 125, key: "C", accidental: "sharp",   mode: "major" },
-    { track: 2,  name: "Gorgeous",                  duration: 358, bpm: 124, key: "F", accidental: "sharp",   mode: "minor" },
-    { track: 3,  name: "POWER",                     duration: 292, bpm: 154, key: "F", accidental: "natural", mode: "minor" },
-    { track: 4,  name: "All Of The Lights (Interlude)", duration: 62,  bpm: 118, key: "B", accidental: "natural", mode: "major" },
-    { track: 5,  name: "All Of The Lights",         duration: 300, bpm: 142, key: "F", accidental: "sharp",   mode: "major" },
-    { track: 6,  name: "Monster",                   duration: 378, bpm: 125, key: "E", accidental: "natural", mode: "minor" },
-    { track: 7,  name: "So Appalled",               duration: 397, bpm: 83,  key: "D", accidental: "sharp",   mode: "minor" },
-    { track: 8,  name: "Devil In A New Dress",      duration: 352, bpm: 82,  key: "F", accidental: "natural", mode: "minor" },
-    { track: 9,  name: "Runaway",                   duration: 548, bpm: 80,  key: "E", accidental: "natural", mode: "major" },
-    { track: 10, name: "Hell Of A Life",            duration: 327, bpm: 93,  key: "A", accidental: "natural", mode: "minor" },
-    { track: 11, name: "Blame Game",                duration: 469, bpm: 74,  key: "D", accidental: "natural", mode: "minor" },
-    { track: 12, name: "Lost In The World",         duration: 256, bpm: 86,  key: "B", accidental: "natural", mode: "major" },
-    { track: 13, name: "Who Will Survive In America", duration: 98,  bpm: 83,  key: "E", accidental: "natural", mode: "minor" },
+    { track: 1,  name: "The Genesis",                      duration: 105, bpm: 98, key: "C", accidental: "sharp",   mode: "major" },
+    { track: 2,  name: "N.Y. State of Mind",               duration: 294, bpm: 84, key: "F", accidental: "sharp",   mode: "minor" },
+    { track: 3,  name: "Life's a Bitch",                   duration: 210, bpm: 90, key: "G", accidental: "natural", mode: "major" },
+    { track: 4,  name: "The World Is Yours",               duration: 290, bpm: 87, key: "A", accidental: "sharp",   mode: "minor" },
+    { track: 5,  name: "Halftime",                         duration: 260, bpm: 92, key: "E", accidental: "natural", mode: "minor" },
+    { track: 6,  name: "Memory Lane (Sittin' in da Park)", duration: 248, bpm: 90, key: "C", accidental: "natural", mode: "major" },
+    { track: 7,  name: "One Love",                         duration: 325, bpm: 93, key: "C", accidental: "natural", mode: "major" },
+    { track: 8,  name: "One Time 4 Your Mind",             duration: 198, bpm: 78, key: "E", accidental: "natural", mode: "minor" },
+    { track: 9,  name: "Represent",                        duration: 252, bpm: 93, key: "C", accidental: "sharp",   mode: "major" },
+    { track: 10, name: "It Ain't Hard to Tell",            duration: 202, bpm: 91, key: "B", accidental: "natural", mode: "minor" },
   ],
 };
 
@@ -187,7 +184,7 @@ export const carrieAndLowell = {
   id: 'carrieandlowell',
   title: 'Carrie & Lowell',
   artist: 'Sufjan Stevens',
-  paletteId: 'terracotta-punch',
+  paletteId: 'sagebrush',
   songs: [
     { track: 1,  name: "Death with Dignity",                        duration: 240, bpm: 128, key: "E", accidental: "natural", mode: "major" },
     { track: 2,  name: "Should Have Known Better",                  duration: 309, bpm: 140, key: "G", accidental: "natural", mode: "major" },
@@ -207,7 +204,7 @@ export const syro = {
   id: 'syro',
   title: 'Syro',
   artist: 'Aphex Twin',
-  paletteId: 'signal-decay',
+  paletteId: 'neon-citrus',
   songs: [
     { track: 1,  name: "minipops 67 [120.2][source field mix]",              duration: 287, bpm: 120, key: "C", accidental: "sharp", mode: "minor" },
     { track: 2,  name: "XMAS_EVET10 [120][thanaton3 mix]",                   duration: 631, bpm: 120, key: "F", accidental: "natural", mode: "minor" },
@@ -254,25 +251,25 @@ export const songsInTheKeyOfLife = {
   ],
 };
 
-export const billyBreathes = {
-  id: 'billybreathes',
-  title: 'Billy Breathes',
-  artist: 'Phish',
-  paletteId: 'green-room',
+export const nevermind = {
+  id: 'nevermind',
+  title: 'Nevermind',
+  artist: 'Nirvana',
+  paletteId: 'ultraviolet-clash',
   songs: [
-    { track: 1,  name: "Free",                duration: 229, bpm: 86,  key: "G", accidental: "sharp",   mode: "major" },
-    { track: 2,  name: "Character Zero",      duration: 240, bpm: 166, key: "D", accidental: "natural", mode: "major" },
-    { track: 3,  name: "Waste",               duration: 290, bpm: 144, key: "F", accidental: "natural", mode: "major" },
-    { track: 4,  name: "Taste",               duration: 247, bpm: 150, key: "D", accidental: "natural", mode: "major" },
-    { track: 5,  name: "Cars Trucks Buses",   duration: 145, bpm: 111, key: "D", accidental: "natural", mode: "major" },
-    { track: 6,  name: "Talk",                duration: 189, bpm: 168, key: "C", accidental: "natural", mode: "major" },
-    { track: 7,  name: "Theme From The Bottom", duration: 382, bpm: 80, key: "D", accidental: "natural", mode: "major" },
-    { track: 8,  name: "Train Song",          duration: 153, bpm: 178, key: "G", accidental: "natural", mode: "major" },
-    { track: 9,  name: "Bliss",               duration: 123, bpm: 149, key: "F", accidental: "natural", mode: "major" },
-    { track: 10, name: "Billy Breathes",      duration: 331, bpm: 140, key: "F", accidental: "natural", mode: "major" },
-    { track: 11, name: "Swept Away",          duration: 76,  bpm: 132, key: "D", accidental: "natural", mode: "major" },
-    { track: 12, name: "Steep",               duration: 97,  bpm: 136, key: "D", accidental: "natural", mode: "major" },
-    { track: 13, name: "Prince Caspian",      duration: 319, bpm: 158, key: "G", accidental: "natural", mode: "major" },
+    { track: 1,  name: "Smells Like Teen Spirit", duration: 301, bpm: 117, key: "C", accidental: "sharp",   mode: "major" },
+    { track: 2,  name: "In Bloom",                duration: 255, bpm: 157, key: "A", accidental: "sharp",   mode: "minor" },
+    { track: 3,  name: "Come As You Are",         duration: 218, bpm: 120, key: "E", accidental: "natural", mode: "minor" },
+    { track: 4,  name: "Breed",                   duration: 184, bpm: 158, key: "E", accidental: "natural", mode: "major" },
+    { track: 5,  name: "Lithium",                 duration: 257, bpm: 123, key: "G", accidental: "natural", mode: "major" },
+    { track: 6,  name: "Polly",                   duration: 173, bpm: 121, key: "D", accidental: "natural", mode: "minor" },
+    { track: 7,  name: "Territorial Pissings",    duration: 142, bpm: 184, key: "D", accidental: "natural", mode: "major" },
+    { track: 8,  name: "Drain You",               duration: 223, bpm: 133, key: "B", accidental: "natural", mode: "minor" },
+    { track: 9,  name: "Lounge Act",              duration: 156, bpm: 152, key: "B", accidental: "natural", mode: "minor" },
+    { track: 10, name: "Stay Away",               duration: 211, bpm: 165, key: "B", accidental: "natural", mode: "minor" },
+    { track: 11, name: "On A Plain",              duration: 194, bpm: 133, key: "D", accidental: "natural", mode: "major" },
+    { track: 12, name: "Something In The Way",    duration: 232, bpm: 105, key: "G", accidental: "sharp",   mode: "major" },
+    { track: 13, name: "Endless Nameless",        duration: 404, bpm: 132, key: "E", accidental: "natural", mode: "minor" },
   ],
 };
 
@@ -280,7 +277,7 @@ export const americanBeauty = {
   id: 'americanbeauty',
   title: 'American Beauty',
   artist: 'Grateful Dead',
-  paletteId: 'prism-bloom',
+  paletteId: 'golden-hour',
   songs: [
     { track: 1,  name: "Box of Rain",          duration: 316, bpm: 118, key: "D", accidental: "natural", mode: "major" },
     { track: 2,  name: "Friend of the Devil",  duration: 200, bpm: 153, key: "G", accidental: "natural", mode: "major" },
@@ -299,7 +296,7 @@ export const momentOfTruth = {
   id: 'momentoftruth',
   title: 'Moment of Truth',
   artist: 'Gang Starr',
-  paletteId: 'burnt-hologram',
+  paletteId: 'deep-sea-tape',
   songs: [
     { track: 1,  name: "You Know My Steez",       duration: 224, bpm: 180, key: "F", accidental: "sharp",   mode: "major" },
     { track: 2,  name: "Robbin Hood Theory",       duration: 186, bpm: 84,  key: "A", accidental: "sharp",   mode: "minor" },
@@ -328,7 +325,7 @@ export const sometimesIMightBeIntrovert = {
   id: 'simbi',
   title: 'Sometimes I Might Be Introvert',
   artist: 'Little Simz',
-  paletteId: 'acid-bloom',
+  paletteId: 'velvet-dusk',
   songs: [
     { track: 1,  name: "Introvert",                                duration: 362, bpm: 93,  key: "C", accidental: "sharp",   mode: "minor" },
     { track: 2,  name: "Woman",                                    duration: 269, bpm: 87,  key: "C", accidental: "sharp",   mode: "major" },
@@ -356,7 +353,7 @@ export const normanFuckingRockwell = {
   id: 'normanfuckingrockwell',
   title: 'Norman Fucking Rockwell!',
   artist: 'Lana Del Rey',
-  paletteId: 'blue-screen-life',
+  paletteId: 'obsidian-bloom',
   songs: [
     { track: 1,  name: "Norman Fucking Rockwell",                                                        duration: 248, bpm: 78,  key: "F", accidental: "natural", mode: "major" },
     { track: 2,  name: "Mariners Apartment Complex",                                                     duration: 247, bpm: 76,  key: "A", accidental: "natural", mode: "major" },
@@ -379,7 +376,7 @@ export const rumours = {
   id: 'rumours',
   title: 'Rumours',
   artist: 'Fleetwood Mac',
-  paletteId: 'neon-citrus',
+  paletteId: 'moonlit-garden',
   songs: [
     { track: 1,  name: "Second Hand News",     duration: 176, bpm: 118, key: "A", accidental: "natural", mode: "major" },
     { track: 2,  name: "Dreams",               duration: 257, bpm: 120, key: "C", accidental: "natural", mode: "major" },
@@ -399,7 +396,7 @@ export const ctrl = {
   id: 'ctrl',
   title: 'Ctrl',
   artist: 'SZA',
-  paletteId: 'electric-orchid',
+  paletteId: 'green-room',
   songs: [
     { track: 1,  name: "Supermodel",               duration: 181, bpm: 120, key: "F", accidental: "sharp",   mode: "major" },
     { track: 2,  name: "Love Galore",              duration: 275, bpm: 135, key: "C", accidental: "natural", mode: "major" },
@@ -422,7 +419,7 @@ export const theMiseducationOfLaurynHill = {
   id: 'miseducation',
   title: 'The Miseducation of Lauryn Hill',
   artist: 'Lauryn Hill',
-  paletteId: 'lava-lamp',
+  paletteId: 'harvest-moon',
   songs: [
     { track: 1,  name: "Intro",                                    duration: 47,  bpm: 80,  key: "D", accidental: "natural", mode: "major" },
     { track: 2,  name: "Lost Ones",                                duration: 334, bpm: 95,  key: "D", accidental: "natural", mode: "major" },
@@ -447,7 +444,7 @@ export const brilliantCorners = {
   id: 'brilliantcorners',
   title: 'Brilliant Corners',
   artist: 'Thelonious Monk',
-  paletteId: 'burnt-hologram',
+  paletteId: 'midnight-jazz',
   songs: [
     { track: 1, name: "Brilliant Corners",        duration: 462, bpm: 150, key: "B", accidental: "flat",    mode: "major" },
     { track: 2, name: "Ba-Lue Bolivar Ba-Lues-Are", duration: 804, bpm: 130, key: "B", accidental: "flat",    mode: "major" },
@@ -458,24 +455,24 @@ export const brilliantCorners = {
 };
 
 export const PRELOADED_ALBUMS = [
-  blonde,
-  hurryUpWereDreaming,
-  theMiseducationOfLaurynHill,
-  speakNow,
-  brilliantCorners,
-  mbdtf,
-  americanBeauty,
-  ctrl,
-  timeOut,
-  sometimesIMightBeIntrovert,
-  inRainbows,
-  songsInTheKeyOfLife,
-  pistols,
-  syro,
-  carrieAndLowell,
-  momentOfTruth,
-  rumours,
-  boc,
-  billyBreathes,
-  normanFuckingRockwell,
+  nevermind,                   // Ultraviolet Clash    — near-black, deep purple → hot pink
+  inRainbows,                  // Prism Bloom          — light cream, warm orange → cool blue
+  ctrl,                        // Green Room           — deep vivid green, lime → coral
+  normanFuckingRockwell,       // Obsidian Bloom       — pure black, purple → silver
+  speakNow,                    // Rosewater            — light pale pink, pink → periwinkle
+  boc,                         // Burnt Hologram       — dark warm brown, orange → pink glow
+  pistols,                     // Acid Bloom           — near-black, neon green → pink
+  theMiseducationOfLaurynHill, // Golden Hour          — light warm cream, cream → amber
+  songsInTheKeyOfLife,         // Lava Lamp            — deep crimson, yellow → mint
+  illmatic,                    // Signal Decay         — dark blue-grey, blue → orange
+  carrieAndLowell,             // Sagebrush            — light off-white, grey → sage teal
+  syro,                        // Neon Citrus          — near-black, electric teal → yellow
+  timeOut,                     // Terracotta Punch     — light warm, terracotta → blue
+  americanBeauty,              // Harvest Moon         — dark warm brown, brown → gold
+  hurryUpWereDreaming,         // Electric Orchid      — dark purple, deep purple → cyan
+  blonde,                      // Faded Polaroid       — light vintage beige, warm → terracotta
+  brilliantCorners,            // Midnight Jazz        — pure black, warm brown → gold
+  rumours,                     // Moonlit Garden       — dark charcoal, forest green → lavender
+  sometimesIMightBeIntrovert,  // Velvet Dusk          — near-black, dusty mauve → soft pink
+  momentOfTruth,               // Deep Sea Tape        — very dark navy, teal → mist
 ];
