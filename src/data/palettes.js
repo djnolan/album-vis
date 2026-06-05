@@ -22,7 +22,7 @@ export const PALETTES = [
     name: "Golden Hour",
     bg: "#F4E8D5",
     colorStart: "#E7DABF",
-    colorEnd: "#D8A326",
+    colorEnd: "#C98F1E",
     lightBg: true,
     shirtColor: "#F4E8D5",
     shirtLabel: "natural",
